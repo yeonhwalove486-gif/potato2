@@ -2,58 +2,49 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>주소 → 건물 보기</title>
+  <title>카카오 지도 검색</title>
 
-  <!-- 🔑 카카오 JS 키 포함 -->
   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=addcdb33e34119e1321e3b15f577f41a&libraries=services"></script>
 </head>
 
 <body>
 
-<h3>주소 입력하면 건물 보기</h3>
-
-<input type="text" id="address" placeholder="예: 서울시청">
+<input type="text" id="address" placeholder="서울시청">
 <button onclick="searchAddress()">검색</button>
 
-<div id="map" style="width:100%;height:500px;margin-top:10px;"></div>
+<div id="map" style="width:100%; height:400px; margin-top:10px;"></div>
 
 <script>
-// 지도 생성
 var map = new kakao.maps.Map(document.getElementById('map'), {
   center: new kakao.maps.LatLng(37.5665, 126.9780),
   level: 3
 });
 
-// 🔍 주소 검색 객체
-var geocoder = new kakao.maps.services.Geocoder();
+// 장소 검색
+var ps = new kakao.maps.services.Places();
 
-// 📍 마커
+// 마커
 var marker = new kakao.maps.Marker({ map: map });
 
-// 주소 검색 함수
 function searchAddress() {
-  var address = document.getElementById('address').value;
+  var keyword = document.getElementById('address').value;
 
-  geocoder.addressSearch(address, function(result, status) {
+  ps.keywordSearch(keyword, function(data, status) {
+
+    console.log(data, status);
 
     if (status === kakao.maps.services.Status.OK) {
 
-      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+      var coords = new kakao.maps.LatLng(data[0].y, data[0].x);
 
-      // 중심 이동
       map.setCenter(coords);
-
-      // 🔥 핵심: 최대 확대 (건물 형태 보이게)
       map.setLevel(1);
-
-      // 🔥 위성 + 라벨 (건물 느낌)
       map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
 
-      // 마커 이동
       marker.setPosition(coords);
 
     } else {
-      alert("주소를 찾을 수 없습니다.");
+      alert("검색 결과 없음");
     }
   });
 }
