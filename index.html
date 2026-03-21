@@ -2,20 +2,32 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>지도</title>
+  <title>카카오 지도 풀기능</title>
 
-  <!-- ✅ SDK 먼저 로드 -->
-  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=addcdb33e34119e1321e3b15f577f41a&libraries=services"></script>
+  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_APP_KEY&libraries=services"></script>
+
+  <style>
+    body { font-family: Arial; }
+    #map { width: 100%; height: 400px; margin-top: 10px; }
+    #list { margin-top: 10px; max-height: 200px; overflow-y: auto; }
+    .item { padding: 5px; border-bottom: 1px solid #ddd; cursor: pointer; }
+    .item:hover { background: #f0f0f0; }
+  </style>
 </head>
 
 <body>
 
-<input type="text" id="address" placeholder="서울시청">
+<h3>📍 지도 검색</h3>
+
+<input type="text" id="address" placeholder="예: 강남 맛집">
 <button onclick="searchAddress()">검색</button>
+<button onclick="getCurrentLocation()">📌 내 위치</button>
+<button onclick="setMapType('roadmap')">일반지도</button>
+<button onclick="setMapType('hybrid')">위성지도</button>
 
-<div id="map" style="width:100%; height:400px;"></div>
+<div id="map"></div>
+<div id="list"></div>
 
-<!-- ✅ JS 코드는 맨 아래 -->
 <script>
 var map = new kakao.maps.Map(document.getElementById('map'), {
   center: new kakao.maps.LatLng(37.5665, 126.9780),
@@ -23,22 +35,130 @@ var map = new kakao.maps.Map(document.getElementById('map'), {
 });
 
 var ps = new kakao.maps.services.Places();
-var marker = new kakao.maps.Marker({ map: map });
+var markers = [];
+var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
+/* 🔍 검색 */
 function searchAddress() {
   var keyword = document.getElementById('address').value;
 
-  ps.keywordSearch(keyword, function(data, status) {
-    if (status === kakao.maps.services.Status.OK) {
-      var coords = new kakao.maps.LatLng(data[0].y, data[0].x);
+  if (!keyword.trim()) {
+    alert("검색어를 입력하세요.");
+    return;
+  }
 
-      map.setCenter(coords);
-      map.setLevel(1);
-      map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
-      marker.setPosition(coords);
-    }
-  });
+  ps.keywordSearch(keyword, placesSearchCB);
 }
+
+/* 📌 검색 결과 */
+function placesSearchCB(data, status) {
+  if (status === kakao.maps.services.Status.OK) {
+    displayPlaces(data);
+  } else {
+    alert("검색 결과가 없습니다.");
+  }
+}
+
+/* 🗺️ 결과 표시 */
+function displayPlaces(places) {
+  var listEl = document.getElementById('list');
+  listEl.innerHTML = '';
+
+  removeMarkers();
+
+  var bounds = new kakao.maps.LatLngBounds();
+
+  places.forEach(function(place, i) {
+    var coords = new kakao.maps.LatLng(place.y, place.x);
+
+    var marker = addMarker(coords);
+
+    bounds.extend(coords);
+
+    var item = document.createElement('div');
+    item.className = 'item';
+    item.innerHTML = `<b>${place.place_name}</b><br>${place.address_name}`;
+
+    item.onclick = function() {
+      map.setCenter(coords);
+      showInfo(marker, place.place_name);
+    };
+
+    listEl.appendChild(item);
+
+    kakao.maps.event.addListener(marker, 'click', function() {
+      showInfo(marker, place.place_name);
+    });
+  });
+
+  map.setBounds(bounds);
+}
+
+/* 📍 마커 추가 */
+function addMarker(position) {
+  var marker = new kakao.maps.Marker({
+    position: position,
+    map: map
+  });
+
+  markers.push(marker);
+  return marker;
+}
+
+/* ❌ 마커 제거 */
+function removeMarkers() {
+  markers.forEach(m => m.setMap(null));
+  markers = [];
+}
+
+/* 💬 인포윈도우 */
+function showInfo(marker, title) {
+  infowindow.setContent(`<div style="padding:5px;">${title}</div>`);
+  infowindow.open(map, marker);
+}
+
+/* 🖱 지도 클릭 시 인포 닫기 */
+kakao.maps.event.addListener(map, 'click', function() {
+  infowindow.close();
+});
+
+/* 📌 현재 위치 */
+function getCurrentLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+      var loc = new kakao.maps.LatLng(lat, lon);
+
+      map.setCenter(loc);
+      map.setLevel(3);
+
+      removeMarkers();
+      var marker = addMarker(loc);
+
+      showInfo(marker, "📍 현재 위치");
+    });
+  } else {
+    alert("위치 정보를 사용할 수 없습니다.");
+  }
+}
+
+/* 🗺 지도 타입 변경 */
+function setMapType(type) {
+  if (type === 'hybrid') {
+    map.setMapTypeId(kakao.maps.MapTypeId.HYBRID);
+  } else {
+    map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
+  }
+}
+
+/* ⌨ Enter 검색 */
+document.getElementById("address").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    searchAddress();
+  }
+});
 </script>
 
 </body>
