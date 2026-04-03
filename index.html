@@ -2,28 +2,24 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>가까운 조정위원회 찾기</title>
     <style>
-        /* 지도가 보이지 않는 문제를 방지하기 위해 스타일을 명확히 잡습니다 */
-        #map {
-            width: 100%;
-            height: 400px;
-            margin-top: 20px;
-            background-color: #f0f0f0; /* 지도 로딩 전 회색 배경 */
-            border: 1px solid #ccc;
-        }
-        #result {
-            margin-top: 15px;
-            min-height: 50px;
-        }
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        #map { width: 100%; height: 400px; margin-top: 20px; background-color: #eee; border: 1px solid #ccc; }
+        #result { margin-top: 15px; }
+        .info-box { padding: 15px; border: 2px solid #007bff; border-radius: 10px; background: #f8f9fa; }
+        input { padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
-    <h1>우리집에서 가까운 조정위원회는?</h1>
-    <p>주소를 입력하면 가장 가까운 위원회를 찾아드립니다.</p>
+    <h1>우리집에서 가까운 조정위원회 찾기</h1>
+    <p>주소를 입력하면 가장 가까운 위원회를 계산해 드립니다.</p>
     
-    <input type="text" id="address" placeholder="예: 대구 동구 신서동" style="width:250px; padding:5px;">
-    <button onclick="findNearest()" style="padding:5px 10px; cursor:pointer;">찾기</button>
+    <input type="text" id="address" placeholder="예: 대구 동구 신서동" onkeypress="if(event.keyCode==13) findNearest()">
+    <button onclick="findNearest()">찾기</button>
     
     <div id="result">결과가 여기에 표시됩니다.</div>
     <div id="map"></div>
@@ -31,7 +27,7 @@
     <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e3f475deb2f0cb22908a39c1ada4af8d&libraries=services"></script>
 
     <script>
-    // 1. 위원회 데이터 (실제 정밀 좌표)
+    // 1. 위원회 데이터 (대구 지역 정밀 좌표)
     const locations = [
         {
             name: "한국부동산원 임대차 분쟁조정위원회",
@@ -47,19 +43,18 @@
         }
     ];
 
-    // 2. 거리 계산 함수 (Haversine 공식)
+    // 2. 거리 계산 함수
     function getDistance(lat1, lng1, lat2, lng2) {
-        const r = 6371; // 지구 반지름(km)
+        const r = 6371;
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLng = (lng2 - lng1) * Math.PI / 180;
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                   Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
                   Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return r * c;
+        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    // 3. 찾기 함수
+    // 3. 찾기 실행 함수
     function findNearest() {
         const address = document.getElementById('address').value;
         if (!address) {
@@ -67,9 +62,9 @@
             return;
         }
 
-        // 카카오 서비스가 로드되었는지 확인
-        if (typeof kakao === 'undefined' || !kakao.maps.services) {
-            alert("카카오 지도 라이브러리가 아직 로드되지 않았습니다. 잠시 후 다시 시도하거나 도메인 설정을 확인해주세요.");
+        // [진단] 카카오 라이브러리 로드 체크
+        if (typeof kakao === 'undefined' || !kakao.maps || !kakao.maps.services) {
+            alert("❌ 카카오 지도를 불러오지 못했습니다!\n\n원인 확인:\n1. 카카오 개발자 센터에 '도메인' 등록이 안 됨\n2. 등록한 도메인이 현재 접속 주소와 다름\n3. 사용 중인 키가 'JavaScript 키'가 아님");
             return;
         }
 
@@ -79,6 +74,7 @@
             if (status === kakao.maps.services.Status.OK) {
                 const userLat = parseFloat(result[0].y);
                 const userLng = parseFloat(result[0].x);
+                const userPos = new kakao.maps.LatLng(userLat, userLng);
 
                 let nearest = null;
                 let minDistance = Infinity;
@@ -91,41 +87,31 @@
                     }
                 });
 
-                // 결과 텍스트 표시
-                const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = `
-                    <div style="padding:15px; border:2px solid #007bff; border-radius:10px; background:#f8f9fa; margin-top:10px;">
-                        <h3 style="color:#007bff; margin-top:0;">가장 가까운 곳: ${nearest.name}</h3>
-                        <p>입력하신 주소로부터 **직선 거리 약 ${minDistance.toFixed(2)}km** 떨어져 있습니다.</p>
+                // 결과 출력
+                document.getElementById('result').innerHTML = `
+                    <div class="info-box">
+                        <h3 style="margin-top:0; color:#007bff;">✅ 가장 가까운 곳: ${nearest.name}</h3>
+                        <p>직선 거리: 약 <b>${minDistance.toFixed(2)}km</b></p>
                         <p>주소: ${nearest.address}</p>
-                        <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" style="color:blue; font-weight:bold;">[카카오맵 길찾기 바로가기]</a>
+                        <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" style="color:blue; font-weight:bold;">[카카오맵 길찾기]</a>
                     </div>
                 `;
                 
-                // 지도 표시 및 마커 생성
+                // 지도 업데이트
                 const mapContainer = document.getElementById('map');
-                const mapOption = { 
-                    center: new kakao.maps.LatLng(userLat, userLng), 
-                    level: 5 
-                };
+                const mapOption = { center: userPos, level: 6 };
                 const map = new kakao.maps.Map(mapContainer, mapOption);
                 
-                // 내 위치 마커 (파란색 기본)
-                new kakao.maps.Marker({ position: new kakao.maps.LatLng(userLat, userLng), map: map });
+                // 마커 표시
+                new kakao.maps.Marker({ position: userPos, map: map }); // 내 위치
                 
-                // 기관 위치 마커 (빨간색)
+                const targetPos = new kakao.maps.LatLng(nearest.lat, nearest.lng);
                 const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-                const imageSize = new kakao.maps.Size(24, 35); 
-                const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-                
-                new kakao.maps.Marker({ 
-                    position: new kakao.maps.LatLng(nearest.lat, nearest.lng), 
-                    map: map,
-                    image: markerImage 
-                });
+                const markerImage = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(24, 35));
+                new kakao.maps.Marker({ position: targetPos, map: map, image: markerImage }); // 위원회 위치
 
             } else {
-                alert("주소를 찾을 수 없습니다. 정확한 동네 이름이나 도로명을 입력해 주세요.");
+                alert("주소를 찾을 수 없습니다. (에러 코드: " + status + ")");
             }
         });
     }
