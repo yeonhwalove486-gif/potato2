@@ -10,5 +10,89 @@
     
     <div id="result">결과가 여기에 표시됩니다.</div>
     <div id="map" style="width:100%;height:350px;margin-top:20px;"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e3f475deb2f0cb22908a39c1ada4af8d&libraries=services"></script>
+
+<script>
+// 1. 비교 대상 기관 데이터 (위경도 좌표)
+const locations = [
+    {
+        name: "한국부동산원 임대차 분쟁조정위원회",
+        lat: 35.8778, // 실제 좌표값으로 업데이트 필요
+        lng: 128.7350,
+        address: "대구광역시 동구 혁신로 291"
+    },
+    {
+        name: "대한법률구조공단 임대차 분쟁조정위원회",
+        lat: 35.8621,
+        lng: 128.6235,
+        address: "대구광역시 수성구 동대구로 347"
+    }
+];
+
+// 2. 두 지점 사이의 거리 계산 함수 (단위: km)
+function getDistance(lat1, lng1, lat2, lng2) {
+    const r = 6371; // 지구 반지름
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return r * c;
+}
+
+// 3. 주소 검색 및 비교 메인 함수
+function findNearest() {
+    const address = document.getElementById('address').value;
+    if (!address) {
+        alert("주소를 입력해주세요!");
+        return;
+    }
+
+    // 주소-좌표 변환 객체 생성
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(address, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+            const userLat = result[0].y; // 사용자 위도
+            const userLng = result[0].x; // 사용자 경도
+
+            let nearest = null;
+            let minDistance = Infinity;
+
+            // 각 기관과의 거리 비교
+            locations.forEach(loc => {
+                const dist = getDistance(userLat, userLng, loc.lat, loc.lng);
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    nearest = loc;
+                }
+            });
+
+            // 결과 화면 표시
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div style="padding:15px; border:2px solid #007bff; border-radius:10px; background:#f8f9fa; margin-top:10px;">
+                    <h3 style="color:#007bff;">가장 가까운 곳: ${nearest.name}</h3>
+                    <p>직선 거리: 약 <b>${minDistance.toFixed(2)}km</b></p>
+                    <p>주소: ${nearest.address}</p>
+                    <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" style="color:blue;">길찾기 바로가기</a>
+                </div>
+            `;
+            
+            // 지도 중심 이동 (선택사항)
+            const mapContainer = document.getElementById('map');
+            const mapOption = { center: new kakao.maps.LatLng(userLat, userLng), level: 5 };
+            const map = new kakao.maps.Map(mapContainer, mapOption);
+            
+            // 사용자 위치와 가장 가까운 기관에 마커 표시
+            new kakao.maps.Marker({ position: new kakao.maps.LatLng(userLat, userLng), map: map });
+            new kakao.maps.Marker({ position: new kakao.maps.LatLng(nearest.lat, nearest.lng), map: map });
+        } else {
+            alert("주소를 찾을 수 없습니다. 정확히 입력해주세요.");
+        }
+    });
+}
+</script>    
 </body>
 </html>
