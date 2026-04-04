@@ -49,7 +49,7 @@
         .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
 
-        /* [우측] 법령 섹션 - 누락 없이 전체 복구 */
+        /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
         .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
         .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
@@ -59,6 +59,10 @@
         .law-list.active { display: block; }
         .law-item { border-bottom: 1px solid #f1f5f9; }
         .law-q { padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
+        
+        /* 포인트 강조 스타일 */
+        .point { color: #e53e3e; font-weight: 700; text-decoration: underline; }
+        
         .law-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; }
         .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; white-space: pre-wrap; }
         .law-item.open .law-a { max-height: 2000px; margin-bottom: 15px; }
@@ -93,32 +97,29 @@
 
                 <div id="house-law" class="law-list active">
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 주거용 건물(이하 “주택”이라 한다)의 임대차(賃貸借)에 관하여 「민법」에 대한 특례를 규정함으로써 국민 주거생활의 안정을 보장함을 목적으로 한다.</div></div>
-                    </div>
-                    <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차는 그 등기(登記)가 없는 경우에도 임차인(賃借人)이 주택의 인도(引渡)와 주민등록을 마친 때에는 그 다음 날부터 제삼자에 대하여 효력이 생긴다. 이 경우 전입신고를 한 때에 주민등록이 된 것으로 본다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 임대차는 그 등기가 없는 경우에도 임차인이 <span class="point">주택의 인도와 주민등록</span>을 마친 때에는 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">② 대항요건(對抗要件)과 임대차계약증서상의 확정일자(確定日字)를 갖춘 임차인은 「민사집행법」에 따른 경매 또는 「국세징수법」에 따른 공매(公賣)를 할 때에 임차주택의 환가대금(換價代金)에서 후순위권리자나 그 밖의 채권자보다 우선하여 보증금을 변제(辨濟)받을 권리가 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">② 대항요건과 임대차계약증서상의 <span class="point">확정일자</span>를 갖춘 임차인은 경매 또는 공매 시 임차주택의 환가대금에서 <span class="point">후순위권리자나 그 밖의 채권자보다 우선하여</span> 보증금을 변제받을 권리가 있다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 본다. 다만, 임차인은 2년 미만으로 정한 기간이 유효함을 주장할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 <span class="point">2년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">2년</span>으로 본다. 다만, 임차인은 2년 미만으로 정한 기간이 유효함을 주장할 수 있다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인이 임대차기간이 끝나기 6개월 전부터 2개월 전까지의 기간에 임차인에게 갱신거절의 통지를 하지 아니하거나 계약조건을 변경하지 아니하면 갱신하지 아니한다는 뜻의 통지를 하지 아니한 경우에는 그 기간이 끝난 때에 전 임대차와 동일한 조건으로 다시 임대차한 것으로 본다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 임대인이 임대차기간이 끝나기 <span class="point">6개월 전부터 2개월 전까지</span>의 기간에 임차인에게 갱신거절의 통지를 하지 아니하면 <span class="point">묵시적 갱신</span>이 된 것으로 본다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 임차인이 제6조제1항 전단의 기간 이내에 계약갱신을 요구할 경우 정당한 사유 없이 거절하지 못한다. 다만, 임차인이 2기의 차임액에 달하도록 차임을 연체하거나 임대인이 목적 주택에 실제 거주하려는 경우 등은 거절할 수 있다. 임차인은 계약갱신요구권을 1회에 한하여 행사할 수 있으며, 이 경우 존속기간은 2년으로 본다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 임대인은 임차인이 계약갱신을 요구할 경우 정당한 사유 없이 거절하지 못한다. 다만, <span class="point">2기의 차임액 연체</span> 또는 <span class="point">임대인(직계존비속 포함)의 실거주</span> 등은 거절 사유가 된다.
+② 임차인은 계약갱신요구권을 <span class="point">1회에 한하여</span> 행사할 수 있으며, 존속기간은 <span class="point">2년</span>으로 본다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제7조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">② 증액청구는 약정한 차임이나 보증금의 20분의 1의 금액을 초과하지 못한다. (중략) 특별시ㆍ광역시ㆍ도 및 특별자치도는 관할 구역 내의 상황을 고려하여 20분의 1의 범위에서 상한을 조례로 달리 정할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">② 증액청구는 약정한 차임이나 보증금의 <span class="point">20분의 1(5%)</span>의 금액을 초과하지 못한다.</div></div>
                     </div>
                     <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
@@ -126,28 +127,27 @@
                 <div id="store-law" class="law-list">
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차는 그 등기가 없는 경우에도 임차인이 건물의 인도와 「부가가치세법」 제8조 등에 따른 사업자등록을 신청하면 그 다음 날부터 제3자에 대하여 효력이 생긴다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 임대차는 건물의 인도와 <span class="point">사업자등록</span>을 신청하면 <span class="point">그 다음 날부터</span> 제3자에 대하여 효력이 생긴다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 기간을 1년 미만으로 정한 임대차는 그 기간을 1년으로 본다. 다만, 임차인은 1년 미만으로 정한 기간이 유효함을 주장할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 <span class="point">1년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">1년</span>으로 본다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 임차인이 임대차기간이 만료되기 6개월 전부터 1개월 전까지 사이에 계약갱신을 요구할 경우 정당한 사유 없이 거절하지 못한다.
-② 임차인의 계약갱신요구권은 최초의 임대차기간을 포함한 전체 임대차기간이 10년을 초과하지 아니하는 범위에서만 행사할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">② 임차인의 계약갱신요구권은 최초의 임대차기간을 포함한 전체 임대차기간이 <span class="point">10년을 초과하지 아니하는 범위</span>에서만 행사할 수 있다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수기회 보호 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 임대차기간이 끝나기 6개월 전부터 임대차 종료 시까지 임차인이 주선한 신규임차인이 되려는 자로부터 권리금을 지급받는 것을 방해하여서는 아니 된다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 임대인은 임대차 <span class="point">종료 6개월 전부터 종료 시까지</span> 임차인이 주선한 신규임차인으로부터 <span class="point">권리금을 지급받는 것을 방해하여서는 아니 된다.</span></div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 3기의 차임액에 달하는 때에는 임대인은 계약을 해지할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 <span class="point">3기의 차임액</span>에 달하는 때에는 임대인은 계약을 해지할 수 있다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제11조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 차임 증액청구의 경우에는 대통령령으로 정하는 기준(현행 5%)에 따른 비율을 초과하지 못한다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">① 차임 증액청구는 대통령령으로 정하는 비율인 <span class="point">100분의 5(5%)</span>를 초과하지 못한다.</div></div>
                     </div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
