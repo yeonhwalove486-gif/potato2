@@ -8,6 +8,7 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
+        /* 기본 레이아웃 설정 */
         body { 
             font-family: 'Pretendard', sans-serif; 
             padding: 20px; 
@@ -19,22 +20,44 @@
         
         .main-wrapper { 
             display: flex; 
-            max-width: 1400px; 
+            max-width: 1500px; 
             margin: 0 auto; 
-            gap: 30px; 
+            gap: 24px; 
             align-items: flex-start; 
         }
 
-        /* [좌측] 검색 및 지도 영역 */
+        /* [좌측] 한국부동산원 배너 */
+        .side-banner-left {
+            width: 170px; 
+            background: linear-gradient(135deg, #004ea2, #007aff);
+            padding: 30px 15px; 
+            border-radius: 24px; 
+            color: white; 
+            text-decoration: none;
+            position: sticky; 
+            top: 20px; 
+            flex-shrink: 0; 
+            text-align: center; 
+            box-shadow: 0 12px 30px rgba(0,78,162,0.2);
+            transition: transform 0.3s ease;
+        }
+        .side-banner-left:hover { transform: translateY(-5px); }
+        .side-banner-left i { font-size: 2.2rem; margin-bottom: 15px; display: block; }
+        .side-banner-left strong { display: block; font-size: 1.1rem; line-height: 1.4; margin-bottom: 8px; }
+        .side-banner-left span { font-size: 0.8rem; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; }
+
+        /* [중앙] 메인 검색 및 결과 영역 */
         .content-area { 
-            flex: 1.2; /* 지도를 더 넓게 */
+            flex: 1; 
             min-width: 0; 
+            max-width: 750px; 
         }
         .search-section { 
             background: #ffffff; 
             padding: 35px; 
             border-radius: 24px; 
             margin-bottom: 25px; 
+            text-align: center; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
         }
         h1 { font-size: 1.7rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
@@ -59,26 +82,46 @@
             border-radius: 16px; 
             font-weight: 700; 
             cursor: pointer; 
+            transition: background 0.2s;
         }
+        button:hover { background: #0056b3; }
 
-        #map { width: 100%; height: 500px; margin-top: 25px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        #map { width: 100%; height: 400px; margin-top: 25px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
 
+        /* 결과 카드 스타일 */
+        .result-container { margin-top: 10px; }
         .info-box { 
             padding: 24px; 
             border-radius: 20px; 
             background: #ffffff; 
             border: 1px solid #edf2f7; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
+            position: relative; 
             margin-bottom: 15px; 
-            position: relative;
+            transition: border-color 0.3s;
         }
         .info-box.best { border-left: 8px solid #007aff; }
-        .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #eaf4ff; color: #007aff; }
+        .info-box.second { border-left: 8px solid #ffcc00; }
+        .rank-tag { 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            margin-bottom: 12px; 
+            display: inline-block; 
+        }
+        .best .rank-tag { background: #eaf4ff; color: #007aff; }
+        .second .rank-tag { background: #fff9e6; color: #cc9900; }
+        .info-box h3 { margin: 5px 0 12px; font-size: 1.3rem; color: #1a202c; }
+        .details b { color: #a0aec0; width: 50px; display: inline-block; font-size: 0.9rem; }
+        .tel-link { text-decoration: none; font-weight: 700; color: #e53e3e !important; }
 
-        /* [우측] 법령 원문 섹션 */
+        /* [우측] 법령 아코디언 섹션 */
         .side-law-section { 
-            flex: 0.8;
+            width: 420px; 
             position: sticky; 
             top: 20px; 
+            flex-shrink: 0; 
         }
         .law-container { 
             background: #fff; 
@@ -97,7 +140,9 @@
             text-align: center; 
             cursor: pointer; 
             font-weight: 700; 
+            font-size: 0.95rem; 
             color: #94a3b8; 
+            transition: 0.3s;
         }
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
 
@@ -106,47 +151,62 @@
 
         .law-item { border-bottom: 1px solid #f1f5f9; }
         .law-q { 
-            padding: 18px 0; 
+            padding: 16px 0; 
             cursor: pointer; 
             display: flex; 
             justify-content: space-between; 
-            font-size: 0.95rem; 
+            align-items: center;
+            font-size: 0.92rem; 
             font-weight: 600; 
             color: #475569; 
         }
+        .law-q:hover { color: #007aff; }
         .law-a { 
             max-height: 0; 
             overflow: hidden; 
-            transition: max-height 0.4s ease; 
-            background: #fdfdfd; 
+            transition: max-height 0.3s ease-out; 
+            background: #f8fafc; 
             border-radius: 12px; 
-        }
-        .law-a-inner { 
-            padding: 20px; 
-            line-height: 1.8; 
-            border-left: 4px solid #007aff; 
             font-size: 0.88rem; 
-            color: #333;
-            white-space: pre-wrap; /* 법령 줄바꿈 유지 */
+            color: #4a5568; 
         }
-        .law-item.open .law-a { max-height: 1000px; margin-bottom: 15px; border: 1px solid #eee; }
-        .law-item.open .law-q { color: #007aff; }
+        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; }
+        .law-item.open .law-a { max-height: 500px; margin-bottom: 15px; }
+        .law-item.open .law-q { color: #007aff; font-weight: 800; }
 
         .btn-full-law {
-            display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; 
-            text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1;
+            display: block; 
+            text-align: center; 
+            padding: 15px; 
+            background: #f1f5f9; 
+            color: #64748b; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            margin: 20px 0;
+            border: 1px dashed #cbd5e1;
+            transition: 0.2s;
         }
+        .btn-full-law:hover { background: #e2e8f0; color: #334155; }
 
-        @media (max-width: 1000px) {
-            .main-wrapper { flex-direction: column; }
-            .side-law-section { width: 100%; position: static; }
-            .law-container { height: 600px; }
+        /* 반응형 */
+        @media (max-width: 1200px) {
+            .main-wrapper { flex-direction: column; align-items: center; }
+            .side-banner-left, .side-law-section { width: 100%; max-width: 750px; position: static; }
+            .law-container { height: 500px; }
         }
     </style>
 </head>
 <body>
 
     <div class="main-wrapper">
+        <a href="https://www.reb.or.kr" target="_blank" class="side-banner-left">
+            <i class="fas fa-building"></i>
+            <strong>한국부동산원</strong>
+            <span>홈페이지 이동</span>
+        </a>
+
         <div class="content-area">
             <div class="search-section">
                 <h1>🔍 분쟁조정위원회 통합 검색</h1>
@@ -157,70 +217,77 @@
                 </div>
             </div>
             
-            <div id="result-list"></div>
+            <div id="result-list" class="result-container"></div>
             <div id="map"></div>
         </div>
 
         <div class="side-law-section">
             <div class="law-container">
                 <div class="law-tabs">
-                    <div class="law-tab active" onclick="showLaw('house', event)">주택임대차보호법</div>
-                    <div class="law-tab" onclick="showLaw('store', event)">상가임대차보호법</div>
+                    <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
+                    <div class="law-tab" onclick="showLaw('store', event)">상가임대차</div>
                 </div>
 
                 <div id="house-law" class="law-list active">
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 주거용 건물의 임대차(賃貸借)에 관하여 「민법」에 대한 특례를 규정함으로써 국민 주거생활의 안정을 보장함을 목적으로 한다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 민법에 대한 특례를 규정하여 <b>국민 주거생활의 안정</b>을 보장하는 것을 목적으로 합니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">이 법은 <b>주거용 건물(주택)</b>의 전부 또는 일부 임대차에 적용됩니다. 실질적인 용도가 주거용이라면 등기 여부와 상관없이 보호받습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차는 그 등기(登記)가 없는 경우에도 임차인(賃借人)이 주택의 인도(引渡)와 주민등록을 마친 때에는 그 다음 날부터 제삼자에 대하여 효력이 생긴다. 이 경우 전입신고를 한 때에 주민등록이 된 것으로 본다.
-② 주택도시기금을 재원으로 하여 저소득층 무주택자에게 주거생활 안정을 목적으로 전세임대주택을 지원하는 법인이 주택을 임차한 후 지방자치단체의 장 또는 그 법인이 선정한 입주자가 그 주택을 인도받고 주민등록을 마쳤을 때에는 제1항을 준용한다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인이 <b>주택의 인도</b>와 <b>전입신고</b>를 마친 다음 날부터 제삼자에 대해 효력이 생기며, 집주인이 바뀌어도 거주권을 주장할 수 있습니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">대항요건과 <b>확정일자</b>를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 본다. 다만, 임차인은 2년 미만으로 정한 기간이 유효함을 주장할 수 있다.
-② 임대차기간이 끝난 경우에도 임차인이 보증금을 반환받을 때까지는 임대차관계가 존속되는 것으로 본다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 <b>2년</b>으로 봅니다. 임차인만 2년 미만 기간의 유효함을 주장할 수 있습니다.</div></div>
                     </div>
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 제6조에도 불구하고 임대인은 임차인이 제6조제1항 전단의 기간 이내에 계약갱신을 요구할 경우 정당한 사유 없이 거절하지 못한다. 다만, 다음 각 호의 어느 하나에 해당하는 경우에는 그러하지 아니하다.
-1. 임차인이 2기의 차임액에 달하도록 차임을 연체한 사실이 있는 경우
-2. 임차인이 거짓이나 그 밖의 부정한 방법으로 임차한 경우
-... (중략) ...
-⑨ 임차인은 제1항에 따른 계약갱신요구권을 1회에 한하여 행사할 수 있다. 이 경우 갱신되는 임대차의 존속기간은 2년으로 본다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임차인은 <b>1회</b>에 한해 계약갱신을 요구할 수 있으며, 갱신되는 임대차 기간은 2년입니다. 임대인은 정당한 사유 없이 거절하지 못합니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">증액 청구는 약정한 차임이나 보증금의 <b>5%</b>를 초과할 수 없으며, 증액 후 1년 이내에는 다시 하지 못합니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법에 위반된 약정(約定)으로서 임차인에게 불리한 것은 그 효력이 없다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 <b>임차인에게 불리한 것</b>은 그 효력이 없습니다.</div></div>
                     </div>
-                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">법제처 원문 전체보기</a>
+
+                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">
+                        <i class="fas fa-external-link-alt"></i> 주택임대차보호법 전문 보기
+                    </a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 상가건물 임대차에 관하여 「민법」에 대한 특례를 규정함으로써 국민 경제생활의 안정을 기함을 목적으로 한다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">건물의 인도와 <b>사업자등록</b>을 신청하면 그 다음 날부터 대항력이 발생합니다.</div></div>
                     </div>
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용범위) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 이 법은 상가건물(제3조제1항에 따른 사업자등록의 대상이 되는 건물을 말한다)의 임대차에 대하여 적용한다. 다만, 대통령령으로 정하는 보증금액을 초과하는 임대차에 대하여는 그러하지 아니하다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">최초 임대차 기간을 포함한 전체 기간이 <b>10년</b>을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div>
                     </div>
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 임차인이 임대차기간이 만료되기 6개월 전부터 1개월 전까지 사이에 계약갱신을 요구할 경우 정당한 사유 없이 거절하지 못한다.
-② 임차인의 계약갱신요구권은 최초의 임대차기간을 포함한 전체 임대차기간이 10년을 초과하지 아니하는 범위에서만 행사할 수 있다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임대인은 임차인이 권리금을 지급받는 것을 방해해서는 안 되며, 종료 6개월 전부터 보호 의무가 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 3기의 차임액에 달하는 때에는 임대인은 계약을 해지할 수 있다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 <b>3기의 차임액</b>에 달할 때 임대인은 계약을 해지할 수 있습니다.</div></div>
                     </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제15조 (강행규정) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법의 규정에 위반된 약정으로서 임차인에게 불리한 것은 효력이 없다.</div></div>
-                    </div>
-                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">법제처 원문 전체보기</a>
+
+                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">
+                        <i class="fas fa-external-link-alt"></i> 상가임대차보호법 전문 보기
+                    </a>
                 </div>
             </div>
         </div>
@@ -228,7 +295,7 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
-        /* 법령 탭 및 아코디언 */
+        /* [법령 제어] */
         function showLaw(type, event) {
             document.querySelectorAll('.law-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.law-list').forEach(l => l.classList.remove('active'));
@@ -243,14 +310,14 @@
             if (!isOpen) item.classList.add('open');
         }
 
-        /* 위원회 위치 데이터 */
+        /* [검색 로직] */
         const locations = [
             { name: "한국부동산원 성남지사(경기관할)", region: "경기도", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
             { name: "서울시청 조정위원회(서울관할)", region: "서울특별시", lat: 37.5641, lng: 126.9752, address: "서울시 중구 덕수궁길 15, 서소문 별관", tel: "02-2133-1200" },
-            { name: "대한법률구조공단 서울지부", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" }
+            { name: "대한법률구조공단 서울지부", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
+            { name: "LH 경기지역본부(경기관할)", region: "경기도", lat: 37.3501, lng: 127.1121, address: "경기도 성남시 분당구 성남대로 54번길 3", tel: "031-250-8350" }
         ];
 
-        /* 거리 계산 */
         function getDistance(lat1, lng1, lat2, lng2) {
             const r = 6371;
             const dLat = (lat2-lat1)*Math.PI/180; const dLng = (lng2-lng1)*Math.PI/180;
@@ -258,7 +325,6 @@
             return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
-        /* 주소 검색 및 결과 표시 */
         function findNearest() {
             const input = document.getElementById('address').value;
             if (!input) return;
@@ -277,15 +343,16 @@
                     
                     const resultList = document.getElementById('result-list');
                     resultList.innerHTML = '';
-                    const map = new kakao.maps.Map(document.getElementById('map'), { center: new kakao.maps.LatLng(uLat, uLng), level: 7 });
+                    const map = new kakao.maps.Map(document.getElementById('map'), { center: new kakao.maps.LatLng(uLat, uLng), level: 8 });
                     const bounds = new kakao.maps.LatLngBounds();
                     bounds.extend(new kakao.maps.LatLng(uLat, uLng));
 
                     topTwo.forEach((loc, index) => {
+                        const isFirst = index === 0;
                         const card = document.createElement('div');
-                        card.className = `info-box ${index === 0 ? 'best' : ''}`;
+                        card.className = `info-box ${isFirst ? 'best' : 'second'}`;
                         card.innerHTML = `
-                            <span class="rank-tag">${index === 0 ? '가장 가까운 곳' : '인근 기관'}</span>
+                            <span class="rank-tag">${isFirst ? 'TOP 1 - 인근 추천' : 'TOP 2 - 인근 기관'}</span>
                             <div style="position:absolute; top:24px; right:24px; font-weight:800; color:#007aff;">${loc.dist.toFixed(1)}km</div>
                             <h3>${loc.name}</h3>
                             <div class="details">
