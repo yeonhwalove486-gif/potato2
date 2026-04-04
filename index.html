@@ -16,12 +16,7 @@
             width: 170px; background: linear-gradient(135deg, #004ea2, #007aff);
             padding: 30px 15px; border-radius: 24px; color: white; text-decoration: none;
             position: sticky; top: 20px; flex-shrink: 0; text-align: center; box-shadow: 0 12px 30px rgba(0,78,162,0.2);
-            transition: transform 0.3s ease;
         }
-        .side-banner-left:hover { transform: translateY(-5px); }
-        .side-banner-left i { font-size: 2.2rem; margin-bottom: 15px; display: block; }
-        .side-banner-left strong { display: block; font-size: 1.1rem; line-height: 1.4; margin-bottom: 8px; }
-        .side-banner-left span { font-size: 0.8rem; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; }
 
         /* [중앙] 검색 영역 */
         .content-area { flex: 1; min-width: 0; max-width: 750px; }
@@ -33,51 +28,43 @@
         .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 25px; }
         
         .input-group { display: flex; gap: 10px; }
-        input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; transition: border-color 0.3s; }
-        input:focus { border-color: #007aff; }
-        button { padding: 0 30px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: #0056b3; }
+        input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; }
+        button { padding: 0 30px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; }
 
         /* 결과 카드 및 거리순 색상 */
         .result-container { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
         .info-box { 
             flex: 1 1 calc(50% - 15px); min-width: 280px; padding: 24px; border-radius: 20px; 
             background: #ffffff; border: 1px solid #edf2f7; position: relative; animation: fadeIn 0.4s ease-out;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* 왼쪽 테두리 색상 등급 */
         .border-blue { border-left: 10px solid #007aff; }
         .border-yellow { border-left: 10px solid #ffcc00; }
         .border-green { border-left: 10px solid #2ecc71; }
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #f0f2f5; color: #555; }
         .dist-tag { float: right; font-size: 0.9rem; font-weight: 800; color: #444; }
-        /* 1순위 거리 빨간색 강조 */
-        .dist-priority { color: #e53e3e !important; }
+        .dist-priority { color: #e53e3e !important; } /* 1순위 거리 빨간색 */
 
-        .info-box h3 { margin: 5px 0 12px; font-size: 1.1rem; color: #1a202c; letter-spacing: -0.5px; }
+        .info-box h3 { margin: 5px 0 12px; font-size: 1.1rem; color: #1a202c; }
         .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #e53e3e !important; }
 
-        /* [우측] 법령 섹션 - 아코디언 상세 복구 */
+        /* [우측] 법령 섹션 - 전체 복구 */
         .side-law-section { width: 420px; position: sticky; top: 20px; flex-shrink: 0; }
         .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
         .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
-        .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: #94a3b8; transition: 0.3s; }
+        .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: #94a3b8; }
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
 
         .law-list { padding: 10px 20px; overflow-y: auto; display: none; flex: 1; }
         .law-list.active { display: block; }
         .law-item { border-bottom: 1px solid #f1f5f9; }
         .law-q { padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
-        .law-q:hover { color: #007aff; }
         .law-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; }
         .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; }
         .law-item.open .law-a { max-height: 500px; margin-bottom: 15px; }
         .law-item.open .law-q { color: #007aff; font-weight: 800; }
-        .btn-full-law { display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1; transition: 0.2s; }
+        .btn-full-law { display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1; }
 
         @media (max-width: 1200px) { .main-wrapper { flex-direction: column; } .side-banner-left, .side-law-section { width: 100%; position: static; } .law-container { height: 500px; } }
     </style>
@@ -115,45 +102,57 @@
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner"><b>주택의 인도</b>와 <b>전입신고</b>를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">주택의 인도와 전입신고를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">확정일자를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받습니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">확정일자를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 <b>2년</b>으로 봅니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 봅니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임대인이 종료 6개월 전부터 2개월 전까지 거절 통지를 안 하면 동일 조건으로 묵시적 갱신됩니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인은 <b>1회</b>에 한해 계약갱신을 요구할 수 있으며, 갱신 기간은 2년입니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인은 1회에 한해 계약갱신을 요구할 수 있으며, 갱신되는 임대차의 존속기간은 2년으로 봅니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">차임 증액 청구는 약정한 금액의 <b>5%</b>를 초과할 수 없습니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">차임 등의 증액청구는 약정한 차임의 20분의 1(5%)의 금액을 초과하지 못합니다.</div></div>
                     </div>
-                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law"><i class="fas fa-external-link-alt"></i> 주택임대차보호법 전문 보기</a>
+                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">건물의 인도와 <b>사업자등록</b>을 신청하면 그 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">건물의 인도와 사업자등록을 신청하면 그 다음 날부터 제삼자에 대하여 효력이 생깁니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 1년 미만으로 정한 임대차는 그 기간을 1년으로 봅니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">전체 임대차 기간이 <b>10년</b>을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인의 계약갱신요구권은 최초의 임대차기간을 포함한 전체 임대차기간이 10년을 초과하지 아니하는 범위에서만 행사할 수 있습니다.</div></div>
                     </div>
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임대인은 종료 6개월 전부터 임차인이 권리금을 회수하는 것을 방해해서는 안 됩니다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 기회 보호) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임대인은 임대차기간이 끝나기 6개월 전부터 임대차 종료 시까지 권리금 계약에 따라 임차인이 주선한 신규임차인이 되려는 자로부터 권리금을 지급받는 것을 방해하여서는 안 됩니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">연체액이 <b>3기의 차임액</b>에 달할 때 임대인은 계약을 해지할 수 있습니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 3기의 차임액에 달하는 때에는 임대인은 계약을 해지할 수 있습니다.</div></div>
                     </div>
-                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law"><i class="fas fa-external-link-alt"></i> 상가임대차보호법 전문 보기</a>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제11조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">증액청구는 약정한 차임등의 100분의 5(5%)의 금액을 초과하지 못합니다.</div></div>
+                    </div>
+                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
             </div>
         </div>
@@ -161,7 +160,6 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
-        // 위치 데이터셋 (좌표 포함)
         const locations = [
             { name: "서울시청 임대차분쟁조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200", lat: 37.5665, lng: 126.9780 },
             { name: "대한법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430", lat: 37.4925, lng: 127.0122 },
@@ -194,10 +192,7 @@
                 if (status === kakao.maps.services.Status.OK) {
                     const uLat = parseFloat(result[0].y), uLng = parseFloat(result[0].x);
                     const sidoRaw = result[0].address.region_1depth_name;
-                    let sidoKey = "";
-                    if (sidoRaw.includes("서울")) sidoKey = "서울";
-                    else if (sidoRaw.includes("경기")) sidoKey = "경기";
-                    else if (sidoRaw.includes("인천")) sidoKey = "인천";
+                    let sidoKey = sidoRaw.includes("서울") ? "서울" : sidoRaw.includes("경기") ? "경기" : sidoRaw.includes("인천") ? "인천" : "";
                     
                     let matched = locations
                         .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
@@ -208,15 +203,13 @@
                     resList.innerHTML = '';
                     
                     matched.forEach((loc, i) => {
-                        let colorClass = "border-green"; 
-                        let distClass = "";
-                        if (i === 0) { colorClass = "border-blue"; distClass = "dist-priority"; }
-                        else if (i === 1) colorClass = "border-yellow";
+                        let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+                        let distClass = i === 0 ? "dist-priority" : "";
 
                         const card = document.createElement('div');
                         card.className = `info-box ${colorClass}`;
                         card.innerHTML = `
-                            <span class="rank-tag">${i+1}순위 관할</span>
+                            <span class="rank-tag">${i+1}순위 추천</span>
                             <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
                             <h3>${loc.name}</h3>
                             <div class="details">
