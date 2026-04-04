@@ -24,13 +24,6 @@
         input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; }
         button { padding: 0 40px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; }
 
-        /* 지도 스타일 추가 */
-        #map-container { 
-            width: 100%; height: 250px; border-radius: 20px; margin-bottom: 25px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #edf2f7; 
-            display: none; /* 검색 전에는 숨김 */
-        }
-
         /* 결과 카드 */
         .result-container { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
         .info-box { 
@@ -52,7 +45,7 @@
         .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
 
-        /* [우측] 법령 섹션 */
+        /* [우측] 법령 섹션 (누락 없이 전체 복구) */
         .side-law-section { width: 450px; position: sticky; top: 20px; flex-shrink: 0; }
         .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
         .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
@@ -79,15 +72,12 @@
         <div class="content-area">
             <div class="search-section">
                 <h1>🔍 임대차 분쟁조정위원회 관할 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 가장 가까운 위원회를 지도와 함께 찾아드립니다.</p>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 해당 지역의 관할 조정위원회를 찾아드립니다.</p>
                 <div class="input-group">
                     <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
                     <button onclick="searchJurisdiction()">검색하기</button>
                 </div>
             </div>
-
-            <div id="map-container"></div>
-
             <div id="result-list" class="result-container"></div>
         </div>
 
@@ -102,14 +92,22 @@
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 국민 주거생활의 안정을 보장함을 목적으로 합니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주택의 인도와 전입신고를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">확정일자를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대차가 끝난 후 보증금을 반환받지 못한 임차인은 법원에 임차권등기명령을 신청할 수 있습니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 봅니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">종료 6개월~2개월 전까지 거절 통지가 없으면 동일 조건으로 묵시적 갱신됩니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인은 1회에 한해 계약갱신을 요구할 수 있으며, 갱신 기간은 2년입니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임 증액 청구는 약정한 금액의 5%를 초과하지 못하며, 증액 후 1년 내에는 다시 하지 못합니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 임차인에게 불리한 것은 그 효력이 없습니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">건물의 인도와 사업자등록을 신청하면 그 다음 날부터 제삼자에 대하여 효력이 생깁니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 1년 미만으로 정한 임대차는 그 기간을 1년으로 봅니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">전체 임대차기간이 10년을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대인은 종료 6개월 전부터 권리금 회수를 방해해서는 안 되며 위반 시 손해배상 책임이 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임연체액이 3기의 차임액에 달하면 임대인은 계약을 해지할 수 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제11조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">증액청구는 약정한 차임등의 5%의 금액을 초과하지 못합니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
             </div>
@@ -118,10 +116,6 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
-        // 전역 변수 설정
-        let map;
-        let marker;
-
         const locations = [
             { name: "서울시청 임대차분쟁조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200", lat: 37.5665, lng: 126.9780 },
             { name: "대한법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430", lat: 37.4925, lng: 127.0122 },
@@ -154,28 +148,6 @@
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
-        function initMap(lat, lng) {
-            const mapContainer = document.getElementById('map-container');
-            mapContainer.style.display = 'block'; // 지도 보이기
-
-            const options = {
-                center: new kakao.maps.LatLng(lat, lng),
-                level: 4
-            };
-
-            if (!map) {
-                map = new kakao.maps.Map(mapContainer, options);
-            } else {
-                map.setCenter(new kakao.maps.LatLng(lat, lng));
-            }
-
-            if (marker) marker.setMap(null);
-            marker = new kakao.maps.Marker({
-                position: new kakao.maps.LatLng(lat, lng)
-            });
-            marker.setMap(map);
-        }
-
         function searchJurisdiction() {
             const input = document.getElementById('address').value;
             if (!input) return;
@@ -195,11 +167,6 @@
                     const resList = document.getElementById('result-list');
                     resList.innerHTML = '';
                     
-                    if (matched.length > 0) {
-                        // 1순위 위치로 지도 초기화/이동
-                        initMap(matched[0].lat, matched[0].lng);
-                    }
-
                     matched.forEach((loc, i) => {
                         let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
                         let rankClass = i === 0 ? "rank-priority" : "";
@@ -215,9 +182,6 @@
                                 <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
                             </div>
                         `;
-                        // 카드 클릭 시 해당 위치로 지도 이동
-                        card.style.cursor = 'pointer';
-                        card.onclick = () => initMap(loc.lat, loc.lng);
                         resList.appendChild(card);
                     });
                 }
