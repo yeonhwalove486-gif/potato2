@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가까운 조정위원회 찾기</title>
+    <title>가까운 임대차 조정위원회 찾기</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
-        #map { width: 100%; height: 400px; margin-top: 20px; background-color: #eee; border: 1px solid #ccc; }
-        #result { margin-top: 15px; }
-        .info-box { padding: 15px; border: 2px solid #007bff; border-radius: 10px; background: #f8f9fa; }
-        input { padding: 8px; width: 250px; border: 1px solid #ddd; border-radius: 4px; }
-        button { padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
+        .search-section { background: #f0f4f8; padding: 25px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid #d1d9e0; }
+        #map { width: 100%; height: 450px; margin-top: 20px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        #result { margin-top: 15px; min-height: 50px; }
+        
+        .info-box { 
+            padding: 20px; border: none; border-radius: 12px; background: #ffffff; 
+            box-shadow: 0 4px 15px rgba(0,123,255,0.15); border-left: 6px solid #007bff;
+            animation: slideUp 0.4s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        input { padding: 12px; width: 65%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; }
+        button { padding: 12px 25px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; }
         button:hover { background: #0056b3; }
+        .distance-tag { color: #eb4d4b; font-weight: bold; }
+        .tel-link { color: #007bff; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>우리집에서 가까운 조정위원회 찾기</h1>
-    <p>주소를 입력하면 가장 가까운 위원회를 계산해 드립니다.</p>
+
+    <div class="search-section">
+        <h1 style="margin-top:0;">📍 우리집 근처 조정위원회 찾기</h1>
+        <p>전국 18개 조정위원회 중 가장 가까운 곳을 안내해 드립니다.</p>
+        <input type="text" id="address" placeholder="예: 서울 강남구, 대구 동구 등" onkeypress="if(event.keyCode==13) findNearest()">
+        <button onclick="findNearest()">지금 찾기</button>
+    </div>
     
-    <input type="text" id="address" placeholder="예: 대구 동구 신서동" onkeypress="if(event.keyCode==13) findNearest()">
-    <button onclick="findNearest()">찾기</button>
+    <div id="result">
+        <p style="text-align:center; color:#888;">주소를 입력하시면 결과가 여기에 표시됩니다.</p>
+    </div>
     
-    <div id="result">결과가 여기에 표시됩니다.</div>
     <div id="map"></div>
 
-   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
 
     <script>
-    // 1. 위원회 데이터 (대구 지역 정밀 좌표)
-    const locations =[
+    // 통합 데이터 (부동산원/LH 12개 + 법률구조공단 6개)
+    const locations = [
         // --- 대한법률구조공단 (대법공) ---
         { name: "대한법률구조공단 서울지부", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21, 1층", tel: "02-6941-3430" },
         { name: "대한법률구조공단 수원지부", lat: 37.277502, lng: 127.049498, address: "경기도 수원시 영통구 월드컵로150번길 10, 3층", tel: "031-8007-3430" },
@@ -52,30 +67,17 @@
         { name: "LH 제주 분쟁조정위", lat: 33.505043, lng: 126.525511, address: "제주시 중앙로 150 대한항공제주사옥 3층", tel: "064-901-3802" }
     ];
 
-    // 2. 거리 계산 함수
     function getDistance(lat1, lng1, lat2, lng2) {
-        const r = 6371;
+        const r = 6371; 
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLng = (lng2 - lng1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
         return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    // 3. 찾기 실행 함수
     function findNearest() {
         const address = document.getElementById('address').value;
-        if (!address) {
-            alert("주소를 입력해주세요!");
-            return;
-        }
-
-        // [진단] 카카오 라이브러리 로드 체크
-        if (typeof kakao === 'undefined' || !kakao.maps || !kakao.maps.services) {
-            alert("❌ 카카오 지도를 불러오지 못했습니다!\n\n원인 확인:\n1. 카카오 개발자 센터에 '도메인' 등록이 안 됨\n2. 등록한 도메인이 현재 접속 주소와 다름\n3. 사용 중인 키가 'JavaScript 키'가 아님");
-            return;
-        }
+        if (!address) { alert("주소를 입력해주세요!"); return; }
 
         const geocoder = new kakao.maps.services.Geocoder();
 
@@ -99,28 +101,39 @@
                 // 결과 출력
                 document.getElementById('result').innerHTML = `
                     <div class="info-box">
-                        <h3 style="margin-top:0; color:#007bff;">✅ 가장 가까운 곳: ${nearest.name}</h3>
-                        <p>직선 거리: 약 <b>${minDistance.toFixed(2)}km</b></p>
-                        <p>주소: ${nearest.address}</p>
-                        <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" style="color:blue; font-weight:bold;">[카카오맵 길찾기]</a>
+                        <h3 style="margin:0 0 10px 0; color:#007bff;">✅ 가장 가까운 곳: ${nearest.name}</h3>
+                        <p>내 위치에서 <span class="distance-tag">약 ${minDistance.toFixed(2)}km</span> 떨어져 있습니다.</p>
+                        <p>📍 <b>주소:</b> ${nearest.address}</p>
+                        <p>📞 <b>문의:</b> <a href="tel:${nearest.tel}" class="tel-link">${nearest.tel}</a></p>
+                        <div style="margin-top:15px;">
+                            <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" 
+                               style="display:inline-block; padding:10px 18px; background:#fee500; color:#3c1e1e; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
+                               🚕 카카오맵 길찾기
+                            </a>
+                        </div>
                     </div>
                 `;
-                
+
                 // 지도 업데이트
                 const mapContainer = document.getElementById('map');
-                const mapOption = { center: userPos, level: 6 };
-                const map = new kakao.maps.Map(mapContainer, mapOption);
+                const map = new kakao.maps.Map(mapContainer, { center: userPos, level: 5 });
                 
-                // 마커 표시
-                new kakao.maps.Marker({ position: userPos, map: map }); // 내 위치
-                
+                // 내 위치 마커
+                new kakao.maps.Marker({ position: userPos, map: map });
+
+                // 기관 마커
                 const targetPos = new kakao.maps.LatLng(nearest.lat, nearest.lng);
-                const imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-                const markerImage = new kakao.maps.MarkerImage(imageSrc, new kakao.maps.Size(24, 35));
-                new kakao.maps.Marker({ position: targetPos, map: map, image: markerImage }); // 위원회 위치
+                const markerImage = new kakao.maps.MarkerImage("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", new kakao.maps.Size(24, 35));
+                new kakao.maps.Marker({ position: targetPos, map: map, image: markerImage });
+
+                // 범위 조정
+                const bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(userPos);
+                bounds.extend(targetPos);
+                map.setBounds(bounds);
 
             } else {
-                alert("주소를 찾을 수 없습니다. (에러 코드: " + status + ")");
+                alert("정확한 주소를 입력해 주세요!");
             }
         });
     }
