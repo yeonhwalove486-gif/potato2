@@ -168,4 +168,80 @@
             { name: "대한법률구조공단 수원지부", address: "경기도 수원시 영통구 월드컵로 150", tel: "031-8007-3430", lat: 37.2844, lng: 127.0444 },
             { name: "한국부동산원 동부지사", address: "서울시 광진구 천호대로 549", tel: "02-3394-9870", lat: 37.5577, lng: 127.0788 },
             { name: "한국부동산원 고양지사", address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573", lat: 37.6441, lng: 126.8325 },
-            { name: "한국부동산원 성남지사", address: "경기도 성남시 분당구 야탑로 81", tel:
+            { name: "한국부동산원 성남지사", address: "경기도 성남시 분당구 야탑로 81", tel: "031-8017-8488", lat: 37.4111, lng: 127.1288 },
+            { name: "한국부동산원 인천지사", address: "인천시 남동구 논현로 46", tel: "032-429-7041", lat: 37.4042, lng: 126.7225 }
+        ];
+
+        const jurisdictionMap = {
+            "서울": ["서울시청 임대차분쟁조정위", "대한법률구조공단 서울지부", "한국부동산원 동부지사"],
+            "경기": ["대한법률구조공단 수원지부", "한국부동산원 고양지사", "한국부동산원 성남지사"],
+            "인천": ["한국부동산원 인천지사"]
+        };
+
+        function getDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLng = (lng2 - lng1) * (Math.PI / 180);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * Math.sin(dLng/2) * Math.sin(dLng/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function searchJurisdiction() {
+            const input = document.getElementById('address').value;
+            if (!input) return;
+            const geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(input, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const uLat = parseFloat(result[0].y), uLng = parseFloat(result[0].x);
+                    const sidoRaw = result[0].address.region_1depth_name;
+                    let sidoKey = "";
+                    if (sidoRaw.includes("서울")) sidoKey = "서울";
+                    else if (sidoRaw.includes("경기")) sidoKey = "경기";
+                    else if (sidoRaw.includes("인천")) sidoKey = "인천";
+                    
+                    let matched = locations
+                        .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
+                        .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
+                        .sort((a, b) => a.distance - b.distance);
+
+                    const resList = document.getElementById('result-list');
+                    resList.innerHTML = '';
+                    
+                    matched.forEach((loc, i) => {
+                        let colorClass = "border-green"; 
+                        let distClass = "";
+                        if (i === 0) { colorClass = "border-blue"; distClass = "dist-priority"; }
+                        else if (i === 1) colorClass = "border-yellow";
+
+                        const card = document.createElement('div');
+                        card.className = `info-box ${colorClass}`;
+                        card.innerHTML = `
+                            <span class="rank-tag">${i+1}순위 관할</span>
+                            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+                            <h3>${loc.name}</h3>
+                            <div class="details">
+                                <div><b>주소</b> <span>${loc.address}</span></div>
+                                <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
+                            </div>
+                        `;
+                        resList.appendChild(card);
+                    });
+                }
+            });
+        }
+
+        function showLaw(type, event) {
+            document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(type + '-law').classList.add('active');
+        }
+
+        function toggleItem(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+    </script>
+</body>
+</html>
