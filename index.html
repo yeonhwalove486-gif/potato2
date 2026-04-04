@@ -25,7 +25,7 @@
             align-items: flex-start; 
         }
 
-        /* [좌측] 배너 */
+        /* [좌측] 한국부동산원 배너 */
         .side-banner-left {
             width: 170px; 
             background: linear-gradient(135deg, #004ea2, #007aff);
@@ -45,7 +45,7 @@
         .side-banner-left strong { display: block; font-size: 1.1rem; line-height: 1.4; margin-bottom: 8px; }
         .side-banner-left span { font-size: 0.8rem; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; }
 
-        /* [중앙] 검색 영역 */
+        /* [중앙] 메인 검색 및 결과 영역 (지도 없음) */
         .content-area { 
             flex: 1; 
             min-width: 0; 
@@ -85,7 +85,7 @@
         }
         button:hover { background: #0056b3; }
 
-        /* 결과 카드 스타일 */
+        /* 결과 카드 스타일 (2개 나란히) */
         .result-container { display: flex; gap: 15px; margin-top: 10px; }
         .info-box { 
             flex: 1;
@@ -114,7 +114,7 @@
         .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #e53e3e !important; }
 
-        /* [우측] 법령 섹션 */
+        /* [우측] 법령 아코디언 섹션 */
         .side-law-section { 
             width: 420px; 
             position: sticky; 
@@ -152,16 +152,20 @@
         }
         .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; }
         .law-item.open .law-a { max-height: 500px; margin-bottom: 15px; }
+        .law-item.open .law-q { color: #007aff; font-weight: 800; }
         .btn-full-law {
             display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; 
             text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0;
-            border: 1px dashed #cbd5e1;
+            border: 1px dashed #cbd5e1; transition: 0.2s;
         }
+        .btn-full-law:hover { background: #e2e8f0; color: #334155; }
 
+        /* 반응형 */
         @media (max-width: 1200px) {
             .main-wrapper { flex-direction: column; align-items: center; }
             .side-banner-left, .side-law-section { width: 100%; max-width: 750px; position: static; }
             .result-container { flex-direction: column; }
+            .law-container { height: 500px; }
         }
     </style>
 </head>
@@ -196,49 +200,71 @@
                 <div id="house-law" class="law-list active">
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 민법에 대한 특례를 규정하여 국민 주거생활의 안정을 보장함을 목적으로 합니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 민법에 대한 특례를 규정하여 <b>국민 주거생활의 안정</b>을 보장하는 것을 목적으로 합니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">이 법은 <b>주거용 건물(주택)</b>의 전부 또는 일부 임대차에 적용됩니다. 실질적인 용도가 주거용이라면 등기 여부와 상관없이 보호받습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인이 주택의 인도와 전입신고를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인이 <b>주택의 인도</b>와 <b>전입신고</b>를 마친 다음 날부터 제삼자에 대해 효력이 생기며, 집주인이 바뀌어도 거주권을 주장할 수 있습니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">대항요건과 <b>확정일자</b>를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 봅니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 <b>2년</b>으로 봅니다. 임차인만 2년 미만 기간의 유효함을 주장할 수 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인은 1회에 한해 계약갱신을 요구할 수 있으며, 갱신되는 임대차 기간은 2년입니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">임차인은 <b>1회</b>에 한해 계약갱신을 요구할 수 있으며, 갱신되는 임대차 기간은 2년입니다. 임대인은 정당한 사유 없이 거절하지 못합니다.</div></div>
                     </div>
-                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">증액 청구는 약정한 차임이나 보증금의 <b>5%</b>를 초과할 수 없으며, 증액 후 1년 이내에는 다시 하지 못합니다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 <b>임차인에게 불리한 것</b>은 그 효력이 없습니다.</div></div>
+                    </div>
+
+                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">
+                        <i class="fas fa-external-link-alt"></i> 주택임대차보호법 전문 보기
+                    </a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">상가건물 임대차에 관해 민법에 대한 특례를 규정하여 <b>국민 경제생활의 안정</b>을 보장함을 목적으로 합니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">상가건물 임대차에 관하여 민법에 대한 특례를 규정하여 <b>국민 경제생활의 안정</b>을 보장함을 목적으로 합니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">사업자등록의 대상이 되는 <b>상가건물</b>의 임대차에 적용됩니다. 환산보증금 기준에 따라 일부 조항 적용이 다를 수 있습니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">사업자등록의 대상이 되는 <b>상가건물</b>의 임대차에 적용됩니다. 단, 일정 금액(환산보증금)을 초과하는 경우 일부 조항 적용이 제한될 수 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">건물의 인도와 <b>사업자등록</b>을 신청하면 그 다음 날부터 제삼자에 대하여 효력이 생깁니다.</div></div>
+                        <div class="law-a"><div class="law-a-inner">건물의 인도와 <b>사업자등록</b>을 신청하면 그 다음 날부터 대항력이 발생합니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
                         <div class="law-a"><div class="law-a-inner">최초 임대차 기간을 포함한 전체 기간이 <b>10년</b>을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div>
                     </div>
                     <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 보호) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임대인은 임차인이 권리금을 지급받는 것을 방해해서는 안 되며, 위반 시 손해배상 책임이 있습니다.</div></div>
+                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임대인은 임차인이 권리금을 지급받는 것을 방해해서는 안 되며, 종료 6개월 전부터 보호 의무가 있습니다.</div></div>
                     </div>
                     <div class="law-item">
                         <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
                         <div class="law-a"><div class="law-a-inner">임차인의 차임연체액이 <b>3기의 차임액</b>에 달할 때 임대인은 계약을 해지할 수 있습니다.</div></div>
                     </div>
-                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
+
+                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">
+                        <i class="fas fa-external-link-alt"></i> 상가임대차보호법 전문 보기
+                    </a>
                 </div>
             </div>
         </div>
@@ -263,14 +289,14 @@
             { name: "서울시청 임대차분쟁조정위", lat: 37.5641, lng: 126.9752, address: "서울시 중구 덕수궁길 15, 서소문 별관", tel: "02-2133-1200" },
             { name: "대법공 서울지부", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
             { name: "대법공 수원지부", lat: 37.277502, lng: 127.049498, address: "경기도 수원시 영통구 월드컵로 150번길 10", tel: "031-8007-3430" },
-            { name: "부동산원 서울동부", lat: 37.557785, lng: 127.078888, address: "서울시 광진구 천호대로 549", tel: "02-3394-9870" },
-            { name: "부동산원 경기고양", lat: 37.652641, lng: 126.776898, address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573" },
-            { name: "부동산원 경기성남", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
-            { name: "부동산원 인천", lat: 37.400920, lng: 126.711817, address: "인천시 남동구 논현로 46번길 23", tel: "032-429-7041" },
             { name: "대법공 대전지부", lat: 36.356303, lng: 127.387912, address: "대전시 서구 둔산북로 121", tel: "042-721-3430" },
             { name: "대법공 대구지부", lat: 35.859380, lng: 128.631916, address: "대구시 수성구 달구벌대로 2461", tel: "053-710-3430" },
             { name: "대법공 부산지부", lat: 35.190796, lng: 129.074017, address: "부산시 연제구 법원남로 15번길 4", tel: "051-711-3430" },
             { name: "대법공 광주지부", lat: 35.149161, lng: 126.848903, address: "광주시 서구 상무중앙로 28번길 4", tel: "062-710-3430" },
+            { name: "부동산원 서울동부", lat: 37.557785, lng: 127.078888, address: "서울시 광진구 천호대로 549", tel: "02-3394-9870" },
+            { name: "부동산원 경기고양", lat: 37.652641, lng: 126.776898, address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573" },
+            { name: "부동산원 경기성남", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
+            { name: "부동산원 인천", lat: 37.400920, lng: 126.711817, address: "인천시 남동구 논현로 46번길 23", tel: "032-429-7041" },
             { name: "부동산원 강원", lat: 37.883457, lng: 127.728608, address: "강원도 춘천시 중앙로 16", tel: "033-244-9793" },
             { name: "부동산원 세종", lat: 36.508129, lng: 127.261088, address: "세종시 한누리대로 499", tel: "044-868-8341" },
             { name: "부동산원 전북", lat: 35.837684, lng: 127.131376, address: "전북 전주시 덕진구 기린대로 405", tel: "063-276-8022" },
