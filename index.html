@@ -4,65 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>임대차분쟁 조정위원회 간편 찾기</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; background-color: #f8f9fa; }
         .search-section { background: #ffffff; padding: 30px; border-radius: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         
-        /* 타이틀 스타일: 아이콘과 텍스트 정렬 */
+        /* 타이틀 스타일 */
         h1 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        
-        .subtitle { color: #666; font-size: 0.95rem; }
+        .subtitle { color: #666; font-size: 0.95rem; margin-bottom: 20px; }
+
+        /* 아이콘 선택 가이드 (실제 서비스시 하나만 남기고 삭제하세요) */
+        .icon-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; padding: 10px; background: #f1f3f5; border-radius: 10px; font-size: 1.2rem; }
+        .icon-item { cursor: pointer; padding: 10px; transition: 0.2s; border-radius: 8px; }
+        .icon-item:hover { background: #e9ecef; color: #007aff; }
 
         #map { width: 100%; height: 350px; margin-top: 20px; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
         .result-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .info-box { 
-            padding: 24px; border-radius: 16px; background: #ffffff; 
-            border: 1px solid #eef2f6; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            position: relative; overflow: hidden; transition: 0.3s;
-        }
+        .info-box { padding: 24px; border-radius: 16px; background: #ffffff; border: 1px solid #eef2f6; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
 
-        /* 1순위 추천기관: 파란색 포인트 */
+        /* 1순위 파랑 / 2순위 노랑 */
         .info-box.best { border-left: 8px solid #007aff; }
         .best .rank-tag { background: #eaf4ff; color: #007aff; }
-
-        /* 2순위 인근기관: 노란색 포인트 */
         .info-box.second { border-left: 8px solid #ffcc00; }
         .second .rank-tag { background: #fff9e6; color: #cc9900; }
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
-
-        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; color: #1a1a1a; word-break: keep-all; font-weight: 700; text-align: left; }
+        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; color: #1a1a1a; font-weight: 700; text-align: left; }
         
+        /* 상세 정보 정렬 */
         .details { font-size: 0.95rem; color: #444; }
-        .details div { margin-bottom: 8px; display: flex; align-items: flex-start; }
+        .details div { margin-bottom: 8px; display: flex; align-items: flex-start; text-align: left; }
+        .details b { width: 45px; color: #888; font-weight: 600; flex-shrink: 0; }
+        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; flex: 1; }
         
-        /* 주소 및 전화번호 레이블 b 태그 디자인 복원 */
-        .details b { width: 50px; color: #888; font-weight: 500; flex-shrink: 0; text-align: left; }
-        
-        /* 주소 글씨 스타일 */
-        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; text-align: left; flex: 1; }
-        
-        /* 전화번호 스타일: 빨간색 + 아이콘 느낌 */
+        /* 전화번호 빨간색 + 수화기 아이콘 */
         .tel-link { color: #e53935 !important; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: inline-flex; align-items: center; gap: 6px; }
 
         .distance-val { position: absolute; top: 20px; right: 20px; font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }
 
-        .input-group { position: relative; margin-top: 20px; display: flex; gap: 8px; }
+        /* 입력창 */
+        .input-group { position: relative; display: flex; gap: 8px; }
         input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; }
         input:focus { border-color: #007aff; }
-        button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #0056b3; transform: translateY(-2px); }
+        button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="search-section">
-        <h1><i class="fas fa-search-location" style="color: #007aff;"></i> 임대차분쟁 조정위원회 간편 찾기</h1>
-        <p class="subtitle">우리 동네 행정구역(시·도) 내 기관을 우선적으로 찾아드립니다.</p>
+        <h1 id="main-title">
+            <i class="fas fa-search-location" style="color: #007aff;"></i> 
+            임대차분쟁 조정위원회 간편 찾기
+        </h1>
+        <p class="subtitle">우리 동네 행정구역 내 기관을 우선적으로 찾아드립니다.</p>
+
+        <div class="icon-selector">
+            <div class="icon-item" onclick="changeIcon('fa-search-location')" title="지도형"><i class="fas fa-search-location"></i></div>
+            <div class="icon-item" onclick="changeIcon('fa-magnifying-glass-chart')" title="분석형"><i class="fas fa-magnifying-glass-chart"></i></div>
+            <div class="icon-item" onclick="changeIcon('fa-file-magnifying-glass')" title="서류형"><i class="fas fa-file-shield"></i></div>
+            <div class="icon-item" onclick="changeIcon('fa-house-chimney-search')" title="주택형"><i class="fas fa-house-chimney-window"></i></div>
+            <div class="icon-item" onclick="changeIcon('fa-circle-nodes')" title="연결형"><i class="fas fa-circle-nodes"></i></div>
+        </div>
+
         <div class="input-group">
             <input type="text" id="address" placeholder="주소를 입력하세요 (예: 가평군, 서초동)" onkeypress="if(event.keyCode==13) findNearest()">
             <button onclick="findNearest()">검색</button>
@@ -75,6 +81,13 @@
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
 
     <script>
+    // 아이콘 변경 실시간 확인용 함수
+    function changeIcon(iconClass) {
+        const titleHtml = `<i class="fas ${iconClass}" style="color: #007aff;"></i> 임대차분쟁 조정위원회 간편 찾기`;
+        document.getElementById('main-title').innerHTML = titleHtml;
+    }
+
+    // 기관 데이터 (기존과 동일)
     const locations = [
         { name: "서울시청 조정위원회(서울관할)", region: "서울특별시", lat: 37.5641, lng: 126.9752, address: "서울시 중구 덕수궁길 15, 서소문 별관", tel: "02-2133-1200" },
         { name: "대한법률구조공단 서울지부(서울관할)", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
@@ -140,11 +153,10 @@
                         <h3>${loc.name}</h3>
                         <div class="details">
                             <div><b>주소</b> <span class="addr-text">${loc.address}</span></div>
-                            <div><b>문의</b> <a href="tel:${loc.tel}" class="tel-link"><i class="fas fa-phone-alt"></i> ${loc.tel}</a></div>
+                            <div><b>문의</b> <a href="tel:${loc.tel}" class="tel-link"><i class="fas fa-phone-flip"></i> ${loc.tel}</a></div>
                         </div>
                     `;
                     resultList.appendChild(card);
-
                     const tPos = new kakao.maps.LatLng(loc.lat, loc.lng);
                     new kakao.maps.Marker({
                         position: tPos,
@@ -156,7 +168,6 @@
                     });
                     bounds.extend(tPos);
                 });
-
                 new kakao.maps.Marker({ position: new kakao.maps.LatLng(uLat, uLng), map: map });
                 map.setBounds(bounds);
             }
