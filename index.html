@@ -11,11 +11,10 @@
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; background-color: #f8f9fa; }
         .search-section { background: #ffffff; padding: 30px; border-radius: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         
-        /* 타이틀: 세련된 네이비 */
         h1 { font-size: 1.6rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
         .subtitle { color: #666; font-size: 0.95rem; }
 
-        #map { width: 100%; height: 350px; margin-top: 20px; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        #map { width: 100%; height: 350px; margin-top: 20px; border-radius: 20px; border: 1px solid #eee; }
         
         .result-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .info-box { 
@@ -24,30 +23,36 @@
             position: relative; overflow: hidden;
         }
 
-        /* 1순위 추천기관: 파랑 유지 */
+        /* [1순위 추천기관] 스타일: 진하고 뚜렷함 */
         .info-box.best { border-left: 8px solid #007aff; }
         .best .rank-tag { background: #eaf4ff; color: #007aff; }
+        .best h3 { color: #1a1a1a; }
+        .best .details b { color: #888; }
+        .best .addr-text { color: #222; }
+        .best .tel-link { color: #e53935 !important; }
 
-        /* 2순위 인근기관: 차콜(Charcoal) 색상으로 수정 */
-        .info-box.second { border-left: 8px solid #adb5bd; } /* 테두리도 차분하게 */
-        .second .rank-tag { 
-            background: #f1f3f5; /* 연한 회색 배경 */
-            color: #495057;      /* 차콜 글자색 */
-            border: 1px solid #dee2e6; 
-        }
+        /* [2순위 인근기관] 스타일: 글자들을 연한 회색으로 */
+        .info-box.second { border-left: 8px solid #ffcc00; }
+        .second .rank-tag { background: #fff9e6; color: #cc9900; }
+        
+        /* 인근기관 내부 텍스트 연하게 조정 */
+        .second h3 { color: #bbbbbb; } /* 기관명 연하게 */
+        .second .details b { color: #dddddd; } /* 주소/문의 레이블 더 연하게 */
+        .second .addr-text { color: #cccccc; } /* 주소 텍스트 연하게 */
+        .second .tel-link { color: #ff9999 !important; } /* 전화번호도 약간 힘을 뺌 */
+        .second .distance-val { color: #eeeeee; } /* 거리 표시 아주 연하게 */
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
-        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; color: #1a1a1a; font-weight: 700; text-align: left; }
+        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; font-weight: 700; text-align: left; }
         
-        .details { font-size: 0.95rem; color: #444; }
+        .details { font-size: 0.95rem; }
         .details div { margin-bottom: 8px; display: flex; align-items: flex-start; text-align: left; }
-        .details b { width: 50px; color: #888; font-weight: 600; flex-shrink: 0; }
-        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; flex: 1; }
+        .details b { width: 50px; font-weight: 600; flex-shrink: 0; }
+        .addr-text { font-size: 1.05rem; font-weight: 500; flex: 1; }
         
-        /* 전화번호: 빨간색 */
-        .tel-link { color: #e53935 !important; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: inline-flex; align-items: center; gap: 6px; }
+        .tel-link { text-decoration: none; font-weight: 700; font-size: 1.05rem; display: inline-flex; align-items: center; gap: 6px; }
 
-        .distance-val { position: absolute; top: 20px; right: 20px; font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }
+        .distance-val { position: absolute; top: 20px; right: 20px; font-weight: 700; font-size: 1.1rem; }
 
         .input-group { position: relative; margin-top: 20px; display: flex; gap: 8px; }
         input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; }
