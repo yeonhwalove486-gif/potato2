@@ -54,4 +54,95 @@
         { name: "대법공 대전", region: "대전광역시", lat: 36.356303, lng: 127.387912, address: "대전시 서구 둔산북로 121", tel: "042-721-3430" },
         { name: "대법공 대구", region: "대구광역시", lat: 35.859380, lng: 128.631916, address: "대구시 수성구 달구벌대로 2461", tel: "053-710-3430" },
         { name: "대법공 부산", region: "부산광역시", lat: 35.190796, lng: 129.074017, address: "부산시 연제구 법원남로 15번길 4", tel: "051-711-3430" },
-        { name: "대법공 광주", region: "광주광역시", lat: 35.149161, lng: 126.848903, address: "광주시 서구
+        { name: "대법공 광주", region: "광주광역시", lat: 35.149161, lng: 126.848903, address: "광주시 서구 상무중앙로28번길 4", tel: "062-710-3430" },
+
+        // 부동산원 및 LH
+        { name: "부동산원 서울동부", region: "서울특별시", lat: 37.557785, lng: 127.078888, address: "서울시 광진구 천호대로 549", tel: "02-3394-9870" },
+        { name: "부동산원 경기고양", region: "경기도", lat: 37.652641, lng: 126.776898, address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573" },
+        { name: "부동산원 경기성남", region: "경기도", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
+        { name: "부동산원 인천", region: "인천광역시", lat: 37.400920, lng: 126.711817, address: "인천시 남동구 논현로 46번길 23", tel: "032-429-7041" },
+        { name: "부동산원 강원", region: "강원도", lat: 37.883457, lng: 127.728608, address: "강원도 춘천시 중앙로 16", tel: "033-244-9793" },
+        { name: "부동산원 세종", region: "세종특별자치시", lat: 36.508129, lng: 127.261088, address: "세종시 한누리대로 499", tel: "044-868-8341" },
+        { name: "부동산원 전북", region: "전라북도", lat: 35.837684, lng: 127.131376, address: "전북 전주시 덕진구 기린대로 405", tel: "063-276-8022" },
+        { name: "부동산원 경북포항", region: "경상북도", lat: 36.030936, lng: 129.366027, address: "경북 포항시 북구 중앙로 201", tel: "054-275-9771" },
+        { name: "부동산원 울산", region: "울산광역시", lat: 35.551720, lng: 129.265367, address: "울산시 남구 북부순환도로 17", tel: "052-224-8872" },
+        { name: "부동산원 경남창원", region: "경상남도", lat: 35.217972, lng: 128.676166, address: "경남 창원시 성산구 중앙대로 32", tel: "055-289-3890" },
+        { name: "LH 충북", region: "충청북도", lat: 36.614228, lng: 127.450818, address: "충북 청주시 서원구 구룡산로52번길 2", tel: "043-905-1784" },
+        { name: "LH 제주", region: "제주특별자치도", lat: 33.505043, lng: 126.525511, address: "제주시 중앙로 150", tel: "064-901-3802" }
+    ];
+
+    function getDistance(lat1, lng1, lat2, lng2) {
+        const r = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLng = (lng2 - lng1) * Math.PI / 180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function findNearest() {
+        const input = document.getElementById('address').value;
+        if (!input) return;
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(input, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const uLat = parseFloat(result[0].y);
+                const uLng = parseFloat(result[0].x);
+                const userRegion = result[0].address_name.split(' ')[0].substring(0,2); // '경기', '서울' 등
+
+                // 1. 도내 기관만 필터링 후 거리 계산 추가
+                let pool = locations.filter(l => l.region.includes(userRegion));
+                if (pool.length === 0) pool = locations; // 해당 도내 기관 없으면 전국 대상
+
+                pool.forEach(l => {
+                    l.dist = getDistance(uLat, uLng, l.lat, l.lng);
+                });
+
+                // 2. 거리순 정렬 후 상위 2개 추출
+                pool.sort((a, b) => a.dist - b.dist);
+                const topTwo = pool.slice(0, 2);
+
+                // 3. 결과 렌더링
+                const resultList = document.getElementById('result-list');
+                resultList.innerHTML = '';
+                
+                const map = new kakao.maps.Map(document.getElementById('map'), { center: new kakao.maps.LatLng(uLat, uLng), level: 8 });
+                const bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(new kakao.maps.LatLng(uLat, uLng));
+
+                topTwo.forEach((loc, index) => {
+                    const isFirst = index === 0;
+                    const card = document.createElement('div');
+                    card.className = `info-box ${isFirst ? 'best' : 'second'}`;
+                    card.innerHTML = `
+                        <span class="rank-badge">${isFirst ? '1순위 추천' : '2순위 추천'}</span>
+                        <h3>${loc.name}</h3>
+                        <p>📍 주소: ${loc.address}</p>
+                        <p>📞 문의: <a href="tel:${loc.tel}">${loc.tel}</a></p>
+                        <p>📏 거리: <span class="distance">약 ${loc.dist.toFixed(2)}km</span></p>
+                        <a href="https://map.kakao.com/link/to/${loc.name},${loc.lat},${loc.lng}" target="_blank" style="font-size:0.9em; color:#007bff; font-weight:bold;">길찾기 바로가기</a>
+                    `;
+                    resultList.appendChild(card);
+
+                    // 지도 마커 표시
+                    const tPos = new kakao.maps.LatLng(loc.lat, loc.lng);
+                    const marker = new kakao.maps.Marker({
+                        position: tPos,
+                        map: map,
+                        image: new kakao.maps.MarkerImage(
+                            isFirst ? "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
+                            new kakao.maps.Size(24, 35)
+                        )
+                    });
+                    bounds.extend(tPos);
+                });
+
+                // 내 위치 표시
+                new kakao.maps.Marker({ position: new kakao.maps.LatLng(uLat, uLng), map: map });
+                map.setBounds(bounds);
+            }
+        });
+    }
+    </script>
+</body>
+</html>
