@@ -210,9 +210,9 @@
         <div class="content-area">
             <div class="search-section">
                 <h1>🔍 임대차 분쟁조정위원회 간편 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 인근 조정위원회를 찾아드립니다.</p>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 조정위원회를 찾아드립니다.</p>
                 <div class="input-group">
-                    <input type="text" id="address" placeholder="예: 분당구" onkeypress="if(event.keyCode==13) findNearest()">
+                    <input type="text" id="address" placeholder="예: 분당구, 성남시, 수원시" onkeypress="if(event.keyCode==13) findNearest()">
                     <button onclick="findNearest()">검색하기</button>
                 </div>
             </div>
@@ -318,12 +318,40 @@
             if (!isOpen) item.classList.add('open');
         }
 
-        /* [검색 로직] */
+        /* [검색 로직 - 관할구역 데이터 추가] */
         const locations = [
-            { name: "한국부동산원 성남지사(경기관할)", region: "경기도", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
-            { name: "서울시청 조정위원회(서울관할)", region: "서울특별시", lat: 37.5641, lng: 126.9752, address: "서울시 중구 덕수궁길 15, 서소문 별관", tel: "02-2133-1200" },
-            { name: "대한법률구조공단 서울지부", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
-            { name: "LH 경기지역본부(경기관할)", region: "경기도", lat: 37.3501, lng: 127.1121, address: "경기도 성남시 분당구 성남대로 54번길 3", tel: "031-250-8350" }
+            { 
+                name: "한국부동산원 성남지사", 
+                region: "경기", 
+                jurisdictions: ["성남시", "하남시", "광주시", "이천시", "여주시", "양평군"], 
+                lat: 37.411177, lng: 127.128236, 
+                address: "경기도 성남시 분당구 야탑로 81번길 16", 
+                tel: "031-8017-8488" 
+            },
+            { 
+                name: "서울시청 조정위원회", 
+                region: "서울", 
+                jurisdictions: ["서울"], 
+                lat: 37.5641, lng: 126.9752, 
+                address: "서울시 중구 덕수궁길 15, 서소문 별관", 
+                tel: "02-2133-1200" 
+            },
+            { 
+                name: "대한법률구조공단 서울지부", 
+                region: "서울", 
+                jurisdictions: ["서울"], 
+                lat: 37.494388, lng: 127.013068, 
+                address: "서울시 서초구 법원로 2길 21", 
+                tel: "02-6941-3430" 
+            },
+            { 
+                name: "LH 경기지역본부", 
+                region: "경기", 
+                jurisdictions: ["수원시", "용인시", "화성시", "오산시", "평택시", "안성시", "안양시", "과천시", "의왕시", "군포시"], 
+                lat: 37.3501, lng: 127.1121, 
+                address: "경기도 성남시 분당구 성남대로 54번길 3", 
+                tel: "031-250-8350" 
+            }
         ];
 
         function getDistance(lat1, lng1, lat2, lng2) {
@@ -336,19 +364,54 @@
         function findNearest() {
             const input = document.getElementById('address').value;
             if (!input) return;
+            
             const geocoder = new kakao.maps.services.Geocoder();
             geocoder.addressSearch(input, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
-                    const uLat = parseFloat(result[0].y); const uLng = parseFloat(result[0].x);
-                    const userRegion = result[0].address_name.split(' ')[0].substring(0,2);
+                    const uLat = parseFloat(result[0].y); 
+                    const uLng = parseFloat(result[0].x);
                     
-                    let pool = locations.filter(l => l.region.includes(userRegion));
-                    if (pool.length === 0) pool = locations;
+                    // 카카오 주소 데이터에서 행정구역 추출
+                    let addressObj = result[0].address || result[0].road_address;
+                    let sido = addressObj.region_1depth_name; // 예: "경기", "서울"
+                    let sigungu = addressObj.region_2depth_name; // 예: "성남시 분당구"
                     
-                    pool.forEach(l => { l.dist = getDistance(uLat, uLng, l.lat, l.lng); });
-                    pool.sort((a, b) => a.dist - b.dist);
-                    const topTwo = pool.slice(0, 2);
+                    // 각 지점까지의 거리 계산
+                    locations.forEach(l => { 
+                        l.dist = getDistance(uLat, uLng, l.lat, l.lng); 
+                    });
+
+                    // 1. 관할 구역이 일치하는 기관 필터링
+                    let matchedLocations = locations.filter(l => {
+                        if (sido.includes("서울") && l.jurisdictions.includes("서울")) return true;
+                        // 검색된 시/군/구가 해당 기관의 관할 구역 배열에 포함되는지 확인 (예: '성남시 분당구'에 '성남시' 포함)
+                        return l.jurisdictions.some(j => sigungu.includes(j));
+                    });
+
+                    let topResults = [];
+
+                    if (matchedLocations.length > 0) {
+                        // 관할 기관이 존재하면 거리순 정렬하여 1순위로 배치
+                        matchedLocations.sort((a, b) => a.dist - b.dist);
+                        topResults = matchedLocations;
+                        
+                        // 관할 기관이 1개뿐이라면, 남은 기관 중 가장 가까운 곳을 2순위로 추가
+                        if (topResults.length < 2) {
+                            let others = locations.filter(l => !topResults.includes(l));
+                            others.sort((a, b) => a.dist - b.dist);
+                            if(others.length > 0) topResults.push(others[0]);
+                        }
+                    } else {
+                        // 관할 기관 데이터가 없는 경우 (예: 데이터에 없는 구역 검색 시) 동일 시/도 내에서 가장 가까운 곳
+                        let fallbackMatches = locations.filter(l => sido.includes(l.region));
+                        if(fallbackMatches.length === 0) fallbackMatches = locations;
+                        fallbackMatches.sort((a, b) => a.dist - b.dist);
+                        topResults = fallbackMatches.slice(0, 2);
+                    }
+
+                    const topTwo = topResults.slice(0, 2);
                     
+                    // 화면 렌더링
                     const resultList = document.getElementById('result-list');
                     resultList.innerHTML = '';
                     const map = new kakao.maps.Map(document.getElementById('map'), { center: new kakao.maps.LatLng(uLat, uLng), level: 8 });
@@ -357,13 +420,27 @@
 
                     topTwo.forEach((loc, index) => {
                         const isFirst = index === 0;
+                        // 현재 카드가 실제 행정 관할을 담당하는지 여부 체크
+                        const isJurisdiction = loc.jurisdictions.some(j => sigungu.includes(j) || (sido.includes("서울") && j === "서울"));
+                        
+                        // 태그 이름 동적 설정
+                        let tagText = "";
+                        if (isFirst && isJurisdiction) tagText = "TOP 1 - 관할 기관 (추천)";
+                        else if (isFirst && !isJurisdiction) tagText = "TOP 1 - 인근 기관";
+                        else if (!isFirst && isJurisdiction) tagText = "TOP 2 - 관할 기관";
+                        else tagText = "TOP 2 - 인근 기관";
+
+                        // 보여주기용 관할 텍스트 포맷팅
+                        const jurisdictionText = loc.jurisdictions[0] === "서울" ? "서울특별시 전역" : loc.jurisdictions.join(", ");
+
                         const card = document.createElement('div');
                         card.className = `info-box ${isFirst ? 'best' : 'second'}`;
                         card.innerHTML = `
-                            <span class="rank-tag">${isFirst ? 'TOP 1 - 인근 추천' : 'TOP 2 - 인근 기관'}</span>
+                            <span class="rank-tag">${tagText}</span>
                             <div style="position:absolute; top:24px; right:24px; font-weight:800; color:#007aff;">${loc.dist.toFixed(1)}km</div>
                             <h3>${loc.name}</h3>
                             <div class="details">
+                                <div style="margin-bottom:6px;"><b>관할</b> <span style="color:#2b6cb0; font-weight:600;">${jurisdictionText}</span></div>
                                 <div><b>주소</b> <span>${loc.address}</span></div>
                                 <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link"><i class="fas fa-phone-alt"></i> ${loc.tel}</a></div>
                             </div>
@@ -374,6 +451,8 @@
                         bounds.extend(tPos);
                     });
                     map.setBounds(bounds);
+                } else {
+                    alert("주소를 찾을 수 없습니다. 정확한 동, 구, 혹은 시 이름을 입력해주세요.");
                 }
             });
         }
