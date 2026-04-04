@@ -93,3 +93,100 @@
             <button onclick="findNearest()">검색</button>
         </div>
     </div>
+    
+    <div id="result-list" class="result-container"></div>
+    <div id="map"></div>
+
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
+
+    <script>
+    const locations = [
+        { name: "서울시청 조정위원회(서울관할)", region: "서울특별시", lat: 37.5641, lng: 126.9752, address: "서울시 중구 덕수궁길 15, 서소문 별관", tel: "02-2133-1200" },
+        { name: "대한법률구조공단 서울지부(서울관할)", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
+        { name: "대한법률구조공단 수원지부(경기관할)", region: "경기도", lat: 37.277502, lng: 127.049498, address: "경기도 수원시 영통구 월드컵로 150번길 10", tel: "031-8007-3430" },
+        { name: "대한법률구조공단 대전지부(대전관할)", region: "대전광역시", lat: 36.356303, lng: 127.387912, address: "대전시 서구 둔산북로 121", tel: "042-721-3430" },
+        { name: "대한법률구조공단 대구지부(대구관할)", region: "대구광역시", lat: 35.859380, lng: 128.631916, address: "대구시 수성구 달구벌대로 2461", tel: "053-710-3430" },
+        { name: "대한법률구조공단 부산지부(부산관할)", region: "부산광역시", lat: 35.190796, lng: 129.074017, address: "부산시 연제구 법원남로 15번길 4", tel: "051-711-3430" },
+        { name: "대한법률구조공단 광주지부(광주관할)", region: "광주광역시", lat: 35.149161, lng: 126.848903, address: "광주시 서구 상무중앙로 28번길 4", tel: "062-710-3430" },
+        { name: "한국부동산원 서울동부지사(서울관할)", region: "서울특별시", lat: 37.557785, lng: 127.078888, address: "서울시 광진구 천호대로 549", tel: "02-3394-9870" },
+        { name: "한국부동산원 고양지사(경기관할)", region: "경기도", lat: 37.652641, lng: 126.776898, address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573" },
+        { name: "한국부동산원 성남지사(경기관할)", region: "경기도", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16", tel: "031-8017-8488" },
+        { name: "한국부동산원 인천지사(인천관할)", region: "인천광역시", lat: 37.400920, lng: 126.711817, address: "인천시 남동구 논현로 46번길 23", tel: "032-429-7041" },
+        { name: "한국부동산원 강원지사(강원관할)", region: "강원도", lat: 37.883457, lng: 127.728608, address: "강원도 춘천시 중앙로 16", tel: "033-244-9793" },
+        { name: "한국부동산원 세종지사(세종관할)", region: "세종특별자치시", lat: 36.508129, lng: 127.261088, address: "세종시 한누리대로 499", tel: "044-868-8341" },
+        { name: "한국부동산원 전북지사(전북관할)", region: "전라북도", lat: 35.837684, lng: 127.131376, address: "전북 전주시 덕진구 기린대로 405", tel: "063-276-8022" },
+        { name: "한국부동산원 포항지사(경북관할)", region: "경상북도", lat: 36.030936, lng: 129.366027, address: "경북 포항시 북구 중앙로 201", tel: "054-275-9771" },
+        { name: "한국부동산원 울산지사(울산관할)", region: "울산광역시", lat: 35.551720, lng: 129.265367, address: "울산시 남구 북부순환도로 17", tel: "052-224-8872" },
+        { name: "한국부동산원 창원지사(경남관할)", region: "경상남도", lat: 35.217972, lng: 128.676166, address: "경남 창원시 성산구 중앙대로 32", tel: "055-289-3890" },
+        { name: "LH 충북지사(충북관할)", region: "충청북도", lat: 36.614228, lng: 127.450818, address: "충북 청주시 서원구 구룡산로 52번길 2", tel: "043-905-1784" },
+        { name: "LH 제주지사(제주관할)", region: "제주특별자치도", lat: 33.505043, lng: 126.525511, address: "제주시 중앙로 150", tel: "064-901-3802" }
+    ];
+
+    function getDistance(lat1, lng1, lat2, lng2) {
+        const r = 6371;
+        const dLat = (lat2-lat1)*Math.PI/180;
+        const dLng = (lng2-lng1)*Math.PI/180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function findNearest() {
+        const input = document.getElementById('address').value;
+        if (!input) return;
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(input, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const uLat = parseFloat(result[0].y);
+                const uLng = parseFloat(result[0].x);
+                const userRegion = result[0].address_name.split(' ')[0].substring(0,2);
+
+                let pool = locations.filter(l => l.region.includes(userRegion));
+                if (pool.length === 0) pool = locations;
+
+                pool.forEach(l => { l.dist = getDistance(uLat, uLng, l.lat, l.lng); });
+                pool.sort((a, b) => a.dist - b.dist);
+                const topTwo = pool.slice(0, 2);
+
+                const resultList = document.getElementById('result-list');
+                resultList.innerHTML = '';
+                
+                const map = new kakao.maps.Map(document.getElementById('map'), { center: new kakao.maps.LatLng(uLat, uLng), level: 8 });
+                const bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(new kakao.maps.LatLng(uLat, uLng));
+
+                topTwo.forEach((loc, index) => {
+                    const isFirst = index === 0;
+                    const card = document.createElement('div');
+                    card.className = `info-box ${isFirst ? 'best' : 'second'}`;
+                    card.innerHTML = `
+                        <span class="rank-tag">${isFirst ? '1순위 최적 기관' : '2순위 인근 기관'}</span>
+                        <div class="distance-val">${loc.dist.toFixed(1)}<span>km</span></div>
+                        <h3>${loc.name}</h3>
+                        <div class="details">
+                            <div><b>주소</b> <span>${loc.address}</span></div>
+                            <div><b>문의</b> <a href="tel:${loc.tel}">${loc.tel}</a></div>
+                        </div>
+                    `;
+                    resultList.appendChild(card);
+
+                    const tPos = new kakao.maps.LatLng(loc.lat, loc.lng);
+                    new kakao.maps.Marker({
+                        position: tPos,
+                        map: map,
+                        image: new kakao.maps.MarkerImage(
+                            isFirst ? "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" : "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
+                            new kakao.maps.Size(24, 35)
+                        )
+                    });
+                    bounds.extend(tPos);
+                });
+
+                new kakao.maps.Marker({ position: new kakao.maps.LatLng(uLat, uLng), map: map });
+                map.setBounds(bounds);
+            }
+        });
+    }
+    </script>
+</body>
+</html>
