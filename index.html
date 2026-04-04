@@ -13,14 +13,20 @@
 
         /* [좌측] 검색 및 결과 영역 */
         .content-area { flex: 1; min-width: 0; max-width: 850px; }
-        .search-section { 
-            background: #ffffff; padding: 35px; border-radius: 24px; margin-bottom: 25px; 
-            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-        }
-        h1 { font-size: 1.7rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
-        .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 25px; }
         
-        /* 검색창 너비 수정 */
+        /* 수정된 부분: 여백(padding)을 줄여 검색 글자에 밀착 */
+        .search-section { 
+            background: #ffffff; 
+            padding: 20px 25px; /* 상하 20px, 좌우 25px로 축소 */
+            border-radius: 24px; 
+            margin-bottom: 25px; 
+            text-align: left; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+        }
+        
+        h1 { font-size: 1.7rem; color: #003366; margin-bottom: 5px; font-weight: 800; }
+        .subtitle { color: #777; font-size: 0.9rem; margin-bottom: 15px; }
+        
         .input-group { display: flex; gap: 10px; max-width: 600px; }
         input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; }
         button { padding: 0 40px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; }
@@ -37,7 +43,6 @@
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #f0f2f5; color: #555; }
         
-        /* 1순위 빨간색 강조 */
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
         .dist-tag { float: right; font-size: 0.95rem; font-weight: 800; color: #444; }
         .dist-priority { color: #e53e3e !important; }
