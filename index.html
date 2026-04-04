@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>임대차 조정위원회 찾기</title>
+    <title>임대차분쟁 조정위원회 간편 찾기</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; background-color: #f8f9fa; }
         .search-section { background: #ffffff; padding: 30px; border-radius: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h1 { font-size: 1.5rem; color: #1a1a1a; margin-bottom: 10px; }
+        h1 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; font-weight: 800; }
         .subtitle { color: #666; font-size: 0.95rem; }
 
         #map { width: 100%; height: 350px; margin-top: 20px; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        /* 상하 배치 결과 리스트 */
         .result-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .info-box { 
             padding: 24px; border-radius: 16px; background: #ffffff; 
@@ -22,26 +21,32 @@
             position: relative; overflow: hidden; transition: 0.3s;
         }
 
-        /* 1순위 추천기관: 파란색(Blue) 포인트 */
+        /* 1순위 추천기관: 파란색 포인트 */
         .info-box.best { border-left: 8px solid #007aff; }
         .best .rank-tag { background: #eaf4ff; color: #007aff; }
 
-        /* 2순위 인근기관: 노란색(Yellow/Amber) 포인트 */
+        /* 2순위 인근기관: 노란색 포인트 */
         .info-box.second { border-left: 8px solid #ffcc00; }
         .second .rank-tag { background: #fff9e6; color: #cc9900; }
 
-        .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; text-transform: uppercase; }
+        .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
 
-        .info-box h3 { margin: 5px 0; font-size: 1.2rem; color: #1a1a1a; word-break: keep-all; }
-        .details { font-size: 0.9rem; color: #444; margin-top: 12px; }
-        .details div { margin-bottom: 6px; display: flex; align-items: flex-start; }
-        .details b { width: 50px; color: #888; font-weight: 500; flex-shrink: 0; }
+        .info-box h3 { margin: 5px 0; font-size: 1.25rem; color: #1a1a1a; word-break: keep-all; font-weight: 700; }
+        .details { font-size: 0.95rem; color: #444; margin-top: 12px; }
+        .details div { margin-bottom: 8px; display: flex; align-items: flex-start; }
+        .details b { width: 55px; color: #888; font-weight: 600; flex-shrink: 0; }
         
+        /* 주소 글씨 조금 키움 */
+        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; }
+        
+        /* 전화번호 스타일: 빨간색 + 아이콘 느낌 */
+        .tel-link { color: #e53935 !important; text-decoration: none; font-weight: 700; font-size: 1.05rem; }
+        .tel-link::before { content: '📞 '; font-size: 0.9rem; }
+
         .distance-val { position: absolute; top: 20px; right: 20px; font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }
 
-        /* 입력창 디자인 */
         .input-group { position: relative; margin-top: 20px; display: flex; gap: 8px; }
-        input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; transition: 0.3s; outline: none; }
+        input { flex: 1; padding: 15px 20px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; }
         input:focus { border-color: #007aff; }
         button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         button:hover { background: #0056b3; transform: translateY(-2px); }
@@ -50,7 +55,7 @@
 <body>
 
     <div class="search-section">
-        <h1>🔍 조정위원회 간편 찾기</h1>
+        <h1>🔍 임대차분쟁 조정위원회 간편 찾기</h1>
         <p class="subtitle">우리 동네 행정구역(시·도) 내 기관을 우선적으로 찾아드립니다.</p>
         <div class="input-group">
             <input type="text" id="address" placeholder="주소를 입력하세요 (예: 가평군, 서초동)" onkeypress="if(event.keyCode==13) findNearest()">
@@ -128,8 +133,8 @@
                         <div class="distance-val">${loc.dist.toFixed(1)}km</div>
                         <h3>${loc.name}</h3>
                         <div class="details">
-                            <div><b>주소</b> <span>${loc.address}</span></div>
-                            <div><b>문의</b> <a href="tel:${loc.tel}" style="color:#007aff; text-decoration:none; font-weight:600;">${loc.tel}</a></div>
+                            <div><b>주소</b> <span class="addr-text">${loc.address}</span></div>
+                            <div><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
                         </div>
                     `;
                     resultList.appendChild(card);
