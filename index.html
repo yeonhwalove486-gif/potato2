@@ -10,7 +10,10 @@
         
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; background-color: #f8f9fa; }
         .search-section { background: #ffffff; padding: 30px; border-radius: 20px; margin-bottom: 25px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        h1 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        /* 타이틀 스타일: 아이콘과 텍스트 정렬 */
+        h1 { font-size: 1.6rem; color: #1a1a1a; margin-bottom: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 12px; }
+        
         .subtitle { color: #666; font-size: 0.95rem; }
 
         #map { width: 100%; height: 350px; margin-top: 20px; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
@@ -32,19 +35,19 @@
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
 
-        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; color: #1a1a1a; word-break: keep-all; font-weight: 700; }
+        .info-box h3 { margin: 5px 0 10px; font-size: 1.25rem; color: #1a1a1a; word-break: keep-all; font-weight: 700; text-align: left; }
         
         .details { font-size: 0.95rem; color: #444; }
         .details div { margin-bottom: 8px; display: flex; align-items: flex-start; }
         
-        /* 주소 및 전화번호 레이블을 숨기고 텍스트를 왼쪽으로 정렬 */
-        .details b { display: none; }
+        /* 주소 및 전화번호 레이블 b 태그 디자인 복원 */
+        .details b { width: 50px; color: #888; font-weight: 500; flex-shrink: 0; text-align: left; }
         
-        /* 주소 글씨 조금 키움 + 왼쪽 정렬 */
-        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; text-align: left; width: 100%; }
+        /* 주소 글씨 스타일 */
+        .addr-text { font-size: 1.05rem; color: #222; font-weight: 500; text-align: left; flex: 1; }
         
-        /* 전화번호 스타일: 빨간색 + 아이콘 + 왼쪽 정렬 */
-        .tel-link { color: #e53935 !important; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 8px; text-align: left; width: 100%; }
+        /* 전화번호 스타일: 빨간색 + 아이콘 느낌 */
+        .tel-link { color: #e53935 !important; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: inline-flex; align-items: center; gap: 6px; }
 
         .distance-val { position: absolute; top: 20px; right: 20px; font-weight: 700; color: #1a1a1a; font-size: 1.1rem; }
 
@@ -136,7 +139,7 @@
                         <div class="distance-val">${loc.dist.toFixed(1)}km</div>
                         <h3>${loc.name}</h3>
                         <div class="details">
-                            <div><b>주소</b> <span class="addr-text"><i class="fas fa-map-marker-alt" style="color:#888; margin-right:5px;"></i> ${loc.address}</span></div>
+                            <div><b>주소</b> <span class="addr-text">${loc.address}</span></div>
                             <div><b>문의</b> <a href="tel:${loc.tel}" class="tel-link"><i class="fas fa-phone-alt"></i> ${loc.tel}</a></div>
                         </div>
                     `;
