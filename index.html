@@ -14,24 +14,25 @@
         /* [좌측] 검색 및 결과 영역 */
         .content-area { flex: 1; min-width: 0; max-width: 850px; }
         
-        /* 흰색 박스 여백을 극한으로 최소화 */
+        /* 흰색 박스 너비를 컨텐츠에 딱 맞게 고정 */
         .search-section { 
             background: #ffffff; 
-            padding: 10px 18px; /* 상하 10px, 좌우 18px로 대폭 축소 */
+            padding: 10px 15px; 
             border-radius: 16px; 
             margin-bottom: 12px; 
             text-align: left; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-            display: inline-block; /* 컨텐츠에 맞게 박스 축소 */
-            min-width: 620px; 
+            display: inline-flex; /* 내부 요소 너비만큼만 박스 크기 생성 */
+            flex-direction: column;
+            min-width: auto; /* 고정 너비 해제 */
         }
         
-        h1 { font-size: 1.35rem; color: #003366; margin-top: 2px; margin-bottom: 4px; font-weight: 800; }
-        .subtitle { color: #777; font-size: 0.8rem; margin-bottom: 10px; }
+        h1 { font-size: 1.25rem; color: #003366; margin: 0 0 2px 0; font-weight: 800; letter-spacing: -0.5px; }
+        .subtitle { color: #777; font-size: 0.78rem; margin: 0 0 8px 0; }
         
-        .input-group { display: flex; gap: 8px; width: 580px; }
-        input { flex: 1; padding: 10px 16px; border: 2px solid #edf2f7; border-radius: 10px; font-size: 0.9rem; outline: none; }
-        button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
+        .input-group { display: flex; gap: 6px; width: 520px; } /* 너비 추가 축소 */
+        input { flex: 1; padding: 10px 14px; border: 2px solid #edf2f7; border-radius: 8px; font-size: 0.88rem; outline: none; }
+        button { padding: 0 20px; background: #007aff; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.88rem; white-space: nowrap; }
 
         /* 결과 카드 */
         .result-container { display: flex; gap: 15px; margin-top: 5px; flex-wrap: wrap; }
@@ -78,11 +79,11 @@
     <div class="main-wrapper">
         <div class="content-area">
             <div class="search-section">
-                <h1>🔍 임대차 분쟁조정위 관할 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 조정위원회를 찾아드립니다.</p>
+                <h1>🔍 임대차 분쟁조정위 검색</h1>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 위원회를 찾아드립니다.</p>
                 <div class="input-group">
                     <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
-                    <button onclick="searchJurisdiction()">검색하기</button>
+                    <button onclick="searchJurisdiction()">검색</button>
                 </div>
             </div>
             <div id="result-list" class="result-container"></div>
@@ -98,23 +99,13 @@
                 <div id="house-law" class="law-list active">
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 국민 주거생활의 안정을 보장함을 목적으로 합니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주택의 인도와 전입신고를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">확정일자를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대차가 끝난 후 보증금을 반환받지 못한 임차인은 법원에 임차권등기명령을 신청할 수 있습니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 봅니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">종료 6개월~2개월 전까지 거절 통지가 없으면 동일 조건으로 묵시적 갱신됩니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인은 1회에 한해 계약갱신을 요구할 수 있으며, 갱신 기간은 2년입니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임 증액 청구는 약정한 금액의 5%를 초과하지 못하며, 증액 후 1년 내에는 다시 하지 못합니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 임차인에게 불리한 것은 그 효력이 없습니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">건물의 인도와 사업자등록을 신청하면 그 다음 날부터 제삼자에 대하여 효력이 생깁니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 1년 미만으로 정한 임대차는 그 기간을 1년으로 봅니다.</div></div></div>
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">전체 임대차기간이 10년을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대인은 종료 6개월 전부터 권리금 회수를 방해해서는 안 되며 위반 시 손해배상 책임이 있습니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임연체액이 3기의 차임액에 달하면 임대인은 계약을 해지할 수 있습니다.</div></div></div>
-                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제11조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">증액청구는 약정한 차임등의 5%의 금액을 초과하지 못합니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
             </div>
