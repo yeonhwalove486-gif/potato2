@@ -8,179 +8,65 @@
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
-        body { 
-            font-family: 'Pretendard', sans-serif; 
-            padding: 20px; 
-            line-height: 1.6; 
-            color: #333; 
-            background-color: #f0f2f5; 
-            margin: 0; 
-        }
-        
-        .main-wrapper { 
-            display: flex; 
-            max-width: 1500px; 
-            margin: 0 auto; 
-            gap: 24px; 
-            align-items: flex-start; 
-        }
+        body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
+        .main-wrapper { display: flex; max-width: 1500px; margin: 0 auto; gap: 24px; align-items: flex-start; }
 
         /* [좌측] 배너 */
         .side-banner-left {
-            width: 170px; 
-            background: linear-gradient(135deg, #004ea2, #007aff);
-            padding: 30px 15px; 
-            border-radius: 24px; 
-            color: white; 
-            text-decoration: none;
-            position: sticky; 
-            top: 20px; 
-            flex-shrink: 0; 
-            text-align: center; 
-            box-shadow: 0 12px 30px rgba(0,78,162,0.2);
-            transition: transform 0.3s ease;
+            width: 170px; background: linear-gradient(135deg, #004ea2, #007aff);
+            padding: 30px 15px; border-radius: 24px; color: white; text-decoration: none;
+            position: sticky; top: 20px; flex-shrink: 0; text-align: center; box-shadow: 0 12px 30px rgba(0,78,162,0.2);
         }
-        .side-banner-left:hover { transform: translateY(-5px); }
-        .side-banner-left i { font-size: 2.2rem; margin-bottom: 15px; display: block; }
-        .side-banner-left strong { display: block; font-size: 1.1rem; line-height: 1.4; margin-bottom: 8px; }
-        .side-banner-left span { font-size: 0.8rem; opacity: 0.8; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 10px; }
 
         /* [중앙] 검색 영역 */
-        .content-area { 
-            flex: 1; 
-            min-width: 0; 
-            max-width: 750px; 
-        }
+        .content-area { flex: 1; min-width: 0; max-width: 750px; }
         .search-section { 
-            background: #ffffff; 
-            padding: 35px; 
-            border-radius: 24px; 
-            margin-bottom: 25px; 
-            text-align: center; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+            background: #ffffff; padding: 35px; border-radius: 24px; margin-bottom: 25px; 
+            text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
         }
-        h1 { font-size: 1.7rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
-        .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 25px; }
-        
         .input-group { display: flex; gap: 10px; }
-        input { 
-            flex: 1; 
-            padding: 18px 25px; 
-            border: 2px solid #edf2f7; 
-            border-radius: 16px; 
-            font-size: 1rem; 
-            outline: none; 
-            transition: border-color 0.3s;
-        }
-        input:focus { border-color: #007aff; }
-        button { 
-            padding: 0 30px; 
-            background: #007aff; 
-            color: white; 
-            border: none; 
-            border-radius: 16px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: background 0.2s;
-        }
-        button:hover { background: #0056b3; }
+        input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; }
+        button { padding: 0 30px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; }
 
         /* 결과 카드 */
         .result-container { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
         .info-box { 
-            flex: 1 1 calc(50% - 15px); 
-            min-width: 280px;
-            padding: 24px; 
-            border-radius: 20px; 
-            background: #ffffff; 
-            border: 1px solid #edf2f7; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04); 
-            border-left: 8px solid #007aff;
-            animation: fadeIn 0.4s ease-out;
+            flex: 1 1 calc(50% - 15px); min-width: 280px; padding: 24px; border-radius: 20px; 
+            background: #ffffff; border: 1px solid #edf2f7; border-left: 8px solid #007aff;
+            position: relative; animation: fadeIn 0.4s ease-out;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .rank-tag { 
-            font-size: 0.75rem; 
-            font-weight: 800; 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            margin-bottom: 12px; 
-            display: inline-block; 
-            background: #eaf4ff; 
-            color: #007aff;
-        }
-        
-        .info-box h3 { margin: 5px 0 12px; font-size: 1.1rem; color: #1a202c; letter-spacing: -0.5px; }
-        .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
+        .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #eaf4ff; color: #007aff; }
+        .dist-tag { float: right; font-size: 0.85rem; color: #007aff; font-weight: 700; }
+        .info-box h3 { margin: 5px 0 12px; font-size: 1.1rem; color: #1a202c; }
         .tel-link { text-decoration: none; font-weight: 700; color: #e53e3e !important; }
 
         /* [우측] 법령 섹션 */
-        .side-law-section { 
-            width: 420px; 
-            position: sticky; 
-            top: 20px; 
-            flex-shrink: 0; 
-        }
-        .law-container { 
-            background: #fff; 
-            border-radius: 24px; 
-            overflow: hidden; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            border: 1px solid #eef2f6; 
-            height: calc(100vh - 60px); 
-            display: flex; 
-            flex-direction: column; 
-        }
-        .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
-        .law-tab { 
-            flex: 1; padding: 18px; text-align: center; cursor: pointer; 
-            font-weight: 700; font-size: 0.95rem; color: #94a3b8; transition: 0.3s;
-        }
+        .side-law-section { width: 400px; position: sticky; top: 20px; flex-shrink: 0; }
+        .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+        .law-tabs { display: flex; background: #f8fafc; }
+        .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; color: #94a3b8; }
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
-
-        .law-list { padding: 10px 20px; overflow-y: auto; display: none; flex: 1; }
+        .law-list { padding: 20px; overflow-y: auto; display: none; flex: 1; }
         .law-list.active { display: block; }
-        .law-item { border-bottom: 1px solid #f1f5f9; }
-        .law-q { 
-            padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; 
-            align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; 
-        }
-        .law-a { 
-            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; 
-            background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; 
-        }
-        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; }
-        .law-item.open .law-a { max-height: 500px; margin-bottom: 15px; }
-        .law-item.open .law-q { color: #007aff; font-weight: 800; }
-        .btn-full-law {
-            display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; 
-            text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0;
-            border: 1px dashed #cbd5e1;
-        }
-
-        @media (max-width: 1200px) {
-            .main-wrapper { flex-direction: column; align-items: center; }
-            .side-banner-left, .side-law-section { width: 100%; max-width: 750px; position: static; }
-            .law-container { height: 500px; }
-        }
+        
+        @media (max-width: 1200px) { .main-wrapper { flex-direction: column; } .side-banner-left, .side-law-section { width: 100%; position: static; } }
     </style>
 </head>
 <body>
 
     <div class="main-wrapper">
         <a href="https://www.reb.or.kr" target="_blank" class="side-banner-left">
-            <i class="fas fa-building"></i>
-            <strong>한국부동산원</strong>
-            <span>홈페이지 이동</span>
+            <i class="fas fa-building"></i><strong>한국부동산원</strong><span>홈페이지 이동</span>
         </a>
 
         <div class="content-area">
             <div class="search-section">
-                <h1>🔍 임대차 분쟁조정위원회 관할 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 해당 지역의 관할 조정위원회를 찾아드립니다.</p>
+                <h1>🔍 내 주변 관할 조정위 찾기</h1>
+                <p>주소를 입력하시면 <b>가장 가까운 관할 지부</b>순으로 추천해 드립니다.</p>
                 <div class="input-group">
-                    <input type="text" id="address" placeholder="예: 고양, 인천 남동구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
+                    <input type="text" id="address" placeholder="예: 고양시, 수원시, 인천 남동구" onkeypress="if(event.keyCode==13) searchJurisdiction()">
                     <button onclick="searchJurisdiction()">검색하기</button>
                 </div>
             </div>
@@ -193,25 +79,11 @@
                     <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
                     <div class="law-tab" onclick="showLaw('store', event)">상가임대차</div>
                 </div>
-
                 <div id="house-law" class="law-list active">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인이 <b>주택의 인도</b>와 <b>전입신고</b>를 마친 다음 날부터 제삼자에 대해 효력이 발생합니다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">임차인은 <b>1회</b>에 한해 계약갱신을 요구할 수 있으며, 기간은 2년입니다.</div></div>
-                    </div>
-                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">법령 전문 보기</a>
+                    <p>중요 법령 가이드가 표시됩니다.</p>
                 </div>
-
                 <div id="store-law" class="law-list">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">전체 임대차 기간이 <b>10년</b>을 초과하지 않는 범위 내에서 요구 가능합니다.</div></div>
-                    </div>
-                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">법령 전문 보기</a>
+                    <p>상가 관련 법령 가이드가 표시됩니다.</p>
                 </div>
             </div>
         </div>
@@ -219,24 +91,33 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
-        // 데이터셋
+        // 지부 데이터 (거리 계산을 위해 좌표 lat, lng 추가)
         const locations = [
-            { name: "서울시청 임대차분쟁조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200" },
-            { name: "대한법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
-            { name: "대한법률구조공단 수원지부", address: "경기도 수원시 영통구 월드컵로 150", tel: "031-8007-3430" },
-            { name: "대한법률구조공단 대구지부", address: "대구시 수성구 달구벌대로 2461", tel: "053-710-3430" },
-            { name: "한국부동산원 동부지사(서울)", address: "서울시 광진구 천호대로 549", tel: "02-3394-9870" },
-            { name: "한국부동산원 고양지사(경기)", address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573" },
-            { name: "한국부동산원 성남지사(경기)", address: "경기도 성남시 분당구 야탑로 81", tel: "031-8017-8488" },
-            { name: "한국부동산원 인천지사(인천)", address: "인천시 남동구 논현로 46", tel: "032-429-7041" }
+            { name: "서울시청 조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200", lat: 37.5665, lng: 126.9780 },
+            { name: "법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430", lat: 37.4925, lng: 127.0122 },
+            { name: "한국부동산원 동부지사", address: "서울시 광진구 천호대로 549", tel: "02-3394-9870", lat: 37.5577, lng: 127.0788 },
+            { name: "한국부동산원 고양지사", address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573", lat: 37.6441, lng: 126.8325 },
+            { name: "한국부동산원 성남지사", address: "경기도 성남시 분당구 야탑로 81", tel: "031-8017-8488", lat: 37.4111, lng: 127.1288 },
+            { name: "법률구조공단 수원지부", address: "경기도 수원시 영통구 월드컵로 150", tel: "031-8007-3430", lat: 37.2844, lng: 127.0444 },
+            { name: "한국부동산원 인천지사", address: "인천시 남동구 논현로 46", tel: "032-429-7041", lat: 37.4042, lng: 126.7225 }
         ];
 
         const jurisdictionMap = {
-            "서울": ["서울시청 임대차분쟁조정위", "대한법률구조공단 서울지부", "한국부동산원 동부지사(서울)"],
-            "경기": ["대한법률구조공단 수원지부", "한국부동산원 고양지사(경기)", "한국부동산원 성남지사(경기)"],
-            "인천": ["한국부동산원 인천지사(인천)"],
-            "대구": ["대한법률구조공단 대구지부"]
+            "서울": ["서울시청 조정위", "법률구조공단 서울지부", "한국부동산원 동부지사"],
+            "경기": ["법률구조공단 수원지부", "한국부동산원 고양지사", "한국부동산원 성남지사"],
+            "인천": ["한국부동산원 인천지사"]
         };
+
+        // 두 좌표 간의 거리 계산 함수 (단위: km)
+        function getDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; 
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLng = (lng2 - lng1) * (Math.PI / 180);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * (Math.PI/180)) * Math.cos(lat2 * (Math.PI/180)) * Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
 
         function searchJurisdiction() {
             const input = document.getElementById('address').value;
@@ -245,30 +126,37 @@
             const geocoder = new kakao.maps.services.Geocoder();
             geocoder.addressSearch(input, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
+                    const userLat = parseFloat(result[0].y);
+                    const userLng = parseFloat(result[0].x);
                     const sidoRaw = result[0].address.region_1depth_name;
-                    let sidoKey = "";
                     
+                    let sidoKey = "";
                     if (sidoRaw.includes("서울")) sidoKey = "서울";
                     else if (sidoRaw.includes("경기")) sidoKey = "경기";
                     else if (sidoRaw.includes("인천")) sidoKey = "인천";
-                    else if (sidoRaw.includes("대구")) sidoKey = "대구";
 
                     const targetNames = jurisdictionMap[sidoKey] || [];
-                    const matched = locations.filter(loc => targetNames.includes(loc.name));
+                    
+                    // 1. 관할 기관 필터링 & 2. 거리 계산 추가
+                    let matched = locations
+                        .filter(loc => targetNames.includes(loc.name))
+                        .map(loc => ({
+                            ...loc,
+                            distance: getDistance(userLat, userLng, loc.lat, loc.lng)
+                        }));
+
+                    // 3. 거리순 정렬 (가까운 순)
+                    matched.sort((a, b) => a.distance - b.distance);
 
                     const resList = document.getElementById('result-list');
                     resList.innerHTML = '';
                     
-                    if(matched.length === 0) {
-                        resList.innerHTML = `<div style="width:100%; text-align:center; padding:20px; background:#fff; border-radius:16px;">관할 기관을 찾을 수 없습니다.</div>`;
-                        return;
-                    }
-
-                    matched.forEach(loc => {
+                    matched.forEach((loc, index) => {
                         const card = document.createElement('div');
                         card.className = "info-box";
                         card.innerHTML = `
-                            <span class="rank-tag">${sidoKey} 관할</span>
+                            <span class="rank-tag">${index === 0 ? '🚀 최단거리 추천' : sidoKey + ' 관할'}</span>
+                            <span class="dist-tag">${loc.distance.toFixed(1)}km</span>
                             <h3>${loc.name}</h3>
                             <div class="details">
                                 <div><b>주소</b> <span>${loc.address}</span></div>
@@ -287,13 +175,6 @@
             document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
             document.getElementById(type + '-law').classList.add('active');
-        }
-
-        function toggleItem(el) {
-            const item = el.parentElement;
-            const isOpen = item.classList.contains('open');
-            document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
-            if (!isOpen) item.classList.add('open');
         }
     </script>
 </body>
