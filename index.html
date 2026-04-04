@@ -3,140 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>가까운 임대차 조정위원회 찾기</title>
+    <title>지역별 조정위원회 거리순 매칭</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; }
-        .search-section { background: #f0f4f8; padding: 25px; border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid #d1d9e0; }
-        #map { width: 100%; height: 450px; margin-top: 20px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        #result { margin-top: 15px; min-height: 50px; }
+        body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; background-color: #f4f7f9; }
+        .search-section { background: #ffffff; padding: 30px; border-radius: 15px; margin-bottom: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        #map { width: 100%; height: 450px; margin-top: 20px; border-radius: 15px; border: 1px solid #ddd; }
         
+        /* 결과 카드 스타일 */
+        .result-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
         .info-box { 
-            padding: 20px; border: none; border-radius: 12px; background: #ffffff; 
-            box-shadow: 0 4px 15px rgba(0,123,255,0.15); border-left: 6px solid #007bff;
-            animation: slideUp 0.4s ease-out;
+            padding: 20px; border-radius: 12px; background: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-top: 5px solid #ccc;
+            transition: transform 0.2s;
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        input { padding: 12px; width: 65%; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-bottom: 10px; }
-        button { padding: 12px 25px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; }
-        button:hover { background: #0056b3; }
-        .distance-tag { color: #eb4d4b; font-weight: bold; }
-        .tel-link { color: #007bff; text-decoration: none; font-weight: bold; }
+        .info-box.best { border-top-color: #28a745; background: #fafffa; }
+        .info-box h3 { margin-top: 0; font-size: 1.1em; color: #333; }
+        .rank-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
+        .best .rank-badge { background: #28a745; color: white; }
+        .second .rank-badge { background: #6c757d; color: white; }
+        
+        input { padding: 12px; width: 60%; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        input:focus { border-color: #28a745; }
+        button { padding: 12px 25px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .distance { color: #eb4d4b; font-weight: bold; }
+        
+        @media (max-width: 600px) { .result-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="search-section">
-        <h1 style="margin-top:0;">📍 우리집 근처 조정위원회 찾기</h1>
-        <p>전국 18개 조정위원회 중 가장 가까운 곳을 안내해 드립니다.</p>
-        <input type="text" id="address" placeholder="예: 서울 강남구, 대구 동구 등" onkeypress="if(event.keyCode==13) findNearest()">
-        <button onclick="findNearest()">지금 찾기</button>
+        <h2 style="margin-top:0;">🏠 우리 지역 임대차 조정위 찾기</h2>
+        <p>행정구역(도내) 기준 가장 가까운 <b>상위 2곳</b>을 안내합니다.</p>
+        <input type="text" id="address" placeholder="예: 경기도 가평군, 서울 광진구 등" onkeypress="if(event.keyCode==13) findNearest()">
+        <button onclick="findNearest()">검색하기</button>
     </div>
     
-    <div id="result">
-        <p style="text-align:center; color:#888;">주소를 입력하시면 결과가 여기에 표시됩니다.</p>
-    </div>
+    <div id="result-list" class="result-container">
+        </div>
     
     <div id="map"></div>
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
 
     <script>
-    // 통합 데이터 (부동산원/LH 12개 + 법률구조공단 6개)
     const locations = [
-        // --- 대한법률구조공단 (대법공) ---
-        { name: "대한법률구조공단 서울지부", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21, 1층", tel: "02-6941-3430" },
-        { name: "대한법률구조공단 수원지부", lat: 37.277502, lng: 127.049498, address: "경기도 수원시 영통구 월드컵로150번길 10, 3층", tel: "031-8007-3430" },
-        { name: "대한법률구조공단 대전지부", lat: 36.356303, lng: 127.387912, address: "대전광역시 서구 둔산북로 121, 1층", tel: "042-721-3430" },
-        { name: "대한법률구조공단 대구지부", lat: 35.859380, lng: 128.631916, address: "대구광역시 수성구 달구벌대로 2461, 3층", tel: "053-710-3430" },
-        { name: "대한법률구조공단 부산지부", lat: 35.190796, lng: 129.074017, address: "부산광역시 연제구 법원남로 15번길 4, 5층", tel: "051-711-3430" },
-        { name: "대한법률구조공단 광주지부", lat: 35.149161, lng: 126.848903, address: "광주광역시 서구 상무중앙로28번길 4, 4층", tel: "062-710-3430" },
-
-        // --- 한국부동산원 / LH ---
-        { name: "한국부동산원 서울동부 분쟁조정위", lat: 37.557785, lng: 127.078888, address: "서울특별시 광진구 천호대로 549 G타워 10층", tel: "02-3394-9870" },
-        { name: "한국부동산원 경기고양 분쟁조정위", lat: 37.652641, lng: 126.776898, address: "경기도 고양시 일산동구 중앙로 1187, 8층", tel: "031-902-3573" },
-        { name: "한국부동산원 경기성남 분쟁조정위", lat: 37.411177, lng: 127.128236, address: "경기도 성남시 분당구 야탑로 81번길 16, 5층", tel: "031-8017-8488" },
-        { name: "한국부동산원 인천 분쟁조정위", lat: 37.400920, lng: 126.711817, address: "인천광역시 남동구 논현로 46번길 23, 7층", tel: "032-429-7041" },
-        { name: "한국부동산원 강원 분쟁조정위", lat: 37.883457, lng: 127.728608, address: "강원도 춘천시 중앙로 16, 7층(무림빌딩)", tel: "033-244-9793" },
-        { name: "한국부동산원 세종 분쟁조정위", lat: 36.508129, lng: 127.261088, address: "세종특별자치시 한누리대로 499, 302호", tel: "044-868-8341" },
-        { name: "한국부동산원 전북 분쟁조정위", lat: 35.837684, lng: 127.131376, address: "전북 전주시 덕진구 기린대로 405, 3층", tel: "063-276-8022" },
-        { name: "한국부동산원 경북포항 분쟁조정위", lat: 36.030936, lng: 129.366027, address: "경북 포항시 북구 중앙로 201, 8층", tel: "054-275-9771" },
-        { name: "한국부동산원 울산 분쟁조정위", lat: 35.551720, lng: 129.265367, address: "울산광역시 남구 북부순환도로 17, 남운프라자 906호", tel: "052-224-8872" },
-        { name: "한국부동산원 경남창원 분쟁조정위", lat: 35.217972, lng: 128.676166, address: "경상남도 창원시 성산구 중앙대로 32, 2층", tel: "055-289-3890" },
-        { name: "LH 충북 분쟁조정위", lat: 36.614228, lng: 127.450818, address: "충청북도 청주시 서원구 구룡산로52번길 2, 303호", tel: "043-905-1784" },
-        { name: "LH 제주 분쟁조정위", lat: 33.505043, lng: 126.525511, address: "제주시 중앙로 150 대한항공제주사옥 3층", tel: "064-901-3802" }
-    ];
-
-    function getDistance(lat1, lng1, lat2, lng2) {
-        const r = 6371; 
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLng = (lng2 - lng1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
-        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
-    function findNearest() {
-        const address = document.getElementById('address').value;
-        if (!address) { alert("주소를 입력해주세요!"); return; }
-
-        const geocoder = new kakao.maps.services.Geocoder();
-
-        geocoder.addressSearch(address, function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                const userLat = parseFloat(result[0].y);
-                const userLng = parseFloat(result[0].x);
-                const userPos = new kakao.maps.LatLng(userLat, userLng);
-
-                let nearest = null;
-                let minDistance = Infinity;
-
-                locations.forEach(loc => {
-                    const dist = getDistance(userLat, userLng, loc.lat, loc.lng);
-                    if (dist < minDistance) {
-                        minDistance = dist;
-                        nearest = loc;
-                    }
-                });
-
-                // 결과 출력
-                document.getElementById('result').innerHTML = `
-                    <div class="info-box">
-                        <h3 style="margin:0 0 10px 0; color:#007bff;">✅ 가장 가까운 곳: ${nearest.name}</h3>
-                        <p>내 위치에서 <span class="distance-tag">약 ${minDistance.toFixed(2)}km</span> 떨어져 있습니다.</p>
-                        <p>📍 <b>주소:</b> ${nearest.address}</p>
-                        <p>📞 <b>문의:</b> <a href="tel:${nearest.tel}" class="tel-link">${nearest.tel}</a></p>
-                        <div style="margin-top:15px;">
-                            <a href="https://map.kakao.com/link/to/${nearest.name},${nearest.lat},${nearest.lng}" target="_blank" 
-                               style="display:inline-block; padding:10px 18px; background:#fee500; color:#3c1e1e; text-decoration:none; border-radius:8px; font-weight:bold; font-size:14px;">
-                               🚕 카카오맵 길찾기
-                            </a>
-                        </div>
-                    </div>
-                `;
-
-                // 지도 업데이트
-                const mapContainer = document.getElementById('map');
-                const map = new kakao.maps.Map(mapContainer, { center: userPos, level: 5 });
-                
-                // 내 위치 마커
-                new kakao.maps.Marker({ position: userPos, map: map });
-
-                // 기관 마커
-                const targetPos = new kakao.maps.LatLng(nearest.lat, nearest.lng);
-                const markerImage = new kakao.maps.MarkerImage("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", new kakao.maps.Size(24, 35));
-                new kakao.maps.Marker({ position: targetPos, map: map, image: markerImage });
-
-                // 범위 조정
-                const bounds = new kakao.maps.LatLngBounds();
-                bounds.extend(userPos);
-                bounds.extend(targetPos);
-                map.setBounds(bounds);
-
-            } else {
-                alert("정확한 주소를 입력해 주세요!");
-            }
-        });
-    }
-    </script>
-</body>
-</html>
+        // 대법공 (대한법률구조공단)
+        { name: "대법공 서울", region: "서울특별시", lat: 37.494388, lng: 127.013068, address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430" },
+        { name: "대법공 수원", region: "경기도", lat: 37.277502, lng: 127.049498, address: "경기도 수원시 영통구 월드컵로150번길 10", tel: "031-8007-3430" },
+        { name: "대법공 대전", region: "대전광역시", lat: 36.356303, lng: 127.387912, address: "대전시 서구 둔산북로 121", tel: "042-721-3430" },
+        { name: "대법공 대구", region: "대구광역시", lat: 35.859380, lng: 128.631916, address: "대구시 수성구 달구벌대로 2461", tel: "053-710-3430" },
+        { name: "대법공 부산", region: "부산광역시", lat: 35.190796, lng: 129.074017, address: "부산시 연제구 법원남로 15번길 4", tel: "051-711-3430" },
+        { name: "대법공 광주", region: "광주광역시", lat: 35.149161, lng: 126.848903, address: "광주시 서구
