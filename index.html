@@ -13,23 +13,17 @@
 
         /* [좌측] 검색 및 결과 영역 */
         .content-area { flex: 1; min-width: 0; max-width: 850px; }
-        
-        /* 여백을 검색 글자 근처까지 최소화한 섹션 */
         .search-section { 
-            background: #ffffff; 
-            padding: 15px 20px; /* 상하 15px, 좌우 20px로 확 줄임 */
-            border-radius: 20px; 
-            margin-bottom: 20px; 
-            text-align: left; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+            background: #ffffff; padding: 35px; border-radius: 24px; margin-bottom: 25px; 
+            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
         }
+        h1 { font-size: 1.7rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
+        .subtitle { color: #777; font-size: 0.95rem; margin-bottom: 25px; }
         
-        h1 { font-size: 1.5rem; color: #003366; margin-top: 0; margin-bottom: 4px; font-weight: 800; }
-        .subtitle { color: #777; font-size: 0.85rem; margin-bottom: 12px; }
-        
+        /* 검색창 너비 수정 */
         .input-group { display: flex; gap: 10px; max-width: 600px; }
-        input { flex: 1; padding: 14px 20px; border: 2px solid #edf2f7; border-radius: 12px; font-size: 0.95rem; outline: none; }
-        button { padding: 0 30px; background: #007aff; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        input { flex: 1; padding: 18px 25px; border: 2px solid #edf2f7; border-radius: 16px; font-size: 1rem; outline: none; }
+        button { padding: 0 40px; background: #007aff; color: white; border: none; border-radius: 16px; font-weight: 700; cursor: pointer; }
 
         /* 결과 카드 */
         .result-container { display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap; }
@@ -42,6 +36,8 @@
         .border-green { border-left: 10px solid #2ecc71; }
 
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #f0f2f5; color: #555; }
+        
+        /* 1순위 빨간색 강조 */
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
         .dist-tag { float: right; font-size: 0.95rem; font-weight: 800; color: #444; }
         .dist-priority { color: #e53e3e !important; }
@@ -77,7 +73,7 @@
         <div class="content-area">
             <div class="search-section">
                 <h1>🔍 임대차 분쟁조정위원회 관할 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 조정위원회를 찾아드립니다.</p>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 해당 지역의 관할 조정위원회를 찾아드립니다.</p>
                 <div class="input-group">
                     <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
                     <button onclick="searchJurisdiction()">검색하기</button>
@@ -95,11 +91,24 @@
 
                 <div id="house-law" class="law-list active">
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관해 국민 주거생활의 안정을 보장함을 목적으로 합니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주택의 인도와 전입신고를 마친 다음 날부터 제삼자에 대해 효력이 생깁니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">확정일자를 갖춘 임차인은 경매 시 후순위권리자보다 우선하여 보증금을 변제받을 권리가 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대차가 끝난 후 보증금을 반환받지 못한 임차인은 법원에 임차권등기명령을 신청할 수 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 2년 미만으로 정한 임대차는 그 기간을 2년으로 봅니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">종료 6개월~2개월 전까지 거절 통지가 없으면 동일 조건으로 묵시적 갱신됩니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인은 1회에 한해 계약갱신을 요구할 수 있으며, 갱신 기간은 2년입니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임 증액 청구는 약정한 금액의 5%를 초과하지 못하며, 증액 후 1년 내에는 다시 하지 못합니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 임차인에게 불리한 것은 그 효력이 없습니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
 
                 <div id="store-law" class="law-list">
                     <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">건물의 인도와 사업자등록을 신청하면 그 다음 날부터 제삼자에 대하여 효력이 생깁니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 않거나 1년 미만으로 정한 임대차는 그 기간을 1년으로 봅니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">전체 임대차기간이 10년을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대인은 종료 6개월 전부터 권리금 회수를 방해해서는 안 되며 위반 시 손해배상 책임이 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임연체액이 3기의 차임액에 달하면 임대인은 계약을 해지할 수 있습니다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제11조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">증액청구는 약정한 차임등의 5%의 금액을 초과하지 못합니다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
             </div>
@@ -108,7 +117,6 @@
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
-        /* JavaScript 로직 동일 */
         const locations = [
             { name: "서울시청 임대차분쟁조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200", lat: 37.5665, lng: 126.9780 },
             { name: "대한법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430", lat: 37.4925, lng: 127.0122 },
@@ -151,12 +159,15 @@
                     const sidoRaw = result[0].address.region_1depth_name;
                     let sidoKey = "";
                     for(let key in jurisdictionMap) { if(sidoRaw.includes(key)) { sidoKey = key; break; } }
+
                     let matched = locations
                         .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
                         .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
                         .sort((a, b) => a.distance - b.distance);
+
                     const resList = document.getElementById('result-list');
                     resList.innerHTML = '';
+                    
                     matched.forEach((loc, i) => {
                         let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
                         let rankClass = i === 0 ? "rank-priority" : "";
