@@ -295,9 +295,18 @@
                 if (status === kakao.maps.services.Status.OK) {
                     const uLat = parseFloat(result[0].y), uLng = parseFloat(result[0].x);
                     const sidoRaw = result[0].address.region_1depth_name;
+                    
+                    // 1. 해당 광역지자체(sido) 키워드 추출
                     let sidoKey = "";
-                    for(let key in jurisdictionMap) { if(sidoRaw.includes(key)) { sidoKey = key; break; } }
+                    for(let key in jurisdictionMap) { 
+                        if(sidoRaw.includes(key)) { 
+                            sidoKey = key; 
+                            break; 
+                        } 
+                    }
 
+                    // 2. 필터링: jurisdictionMap에 정의된 '같은 지역' 기관만 추출
+                    // 거리순 정렬은 유지하되, 대상 자체를 해당 지역으로 한정함
                     let matched = locations
                         .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
                         .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
@@ -306,6 +315,11 @@
                     const resList = document.getElementById('result-list');
                     resList.innerHTML = '';
                     
+                    if (matched.length === 0) {
+                        resList.innerHTML = '<div class="info-box"><p style="text-align:center; color:#888;">해당 지역의 관할 조정위원회를 찾을 수 없습니다.</p></div>';
+                        return;
+                    }
+
                     matched.forEach((loc, i) => {
                         let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
                         let rankClass = i === 0 ? "rank-priority" : "";
@@ -313,7 +327,7 @@
                         const card = document.createElement('div');
                         card.className = `info-box ${colorClass}`;
                         card.innerHTML = `
-                            <span class="rank-tag ${rankClass}">${i+1}순위 추천</span>
+                            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
                             <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
                             <h3>${loc.name}</h3>
                             <div class="details">
@@ -323,10 +337,11 @@
                         `;
                         resList.appendChild(card);
                     });
+                } else {
+                    alert("주소를 정확히 입력해주세요.");
                 }
             });
         }
-
         function showLaw(type, event) {
             document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
