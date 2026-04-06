@@ -1,4 +1,93 @@
-<div class="side-law-section">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>임대차분쟁 조정위원회 & 법령 가이드 시스템</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
+        .main-wrapper { display: flex; max-width: 1500px; margin: 0; gap: 30px; align-items: flex-start; justify-content: flex-start; }
+
+        /* [좌측] 콘텐츠 영역 */
+        .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 600px; }
+        
+        .search-section { 
+            background: #ffffff; padding: 20px; border-radius: 20px; margin-bottom: 15px; 
+            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+            width: 100%; box-sizing: border-box;
+        }
+        
+        h1 { font-size: 1.3rem; color: #003366; margin: 0 0 4px 0; font-weight: 800; letter-spacing: -0.5px; }
+        .subtitle { color: #777; font-size: 0.85rem; margin: 0 0 15px 0; }
+        
+        .input-group { display: flex; gap: 8px; width: 100%; }
+        input { flex: 1; padding: 12px 16px; border: 2px solid #edf2f7; border-radius: 10px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+        input:focus { border-color: #007aff; }
+        button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; white-space: nowrap; }
+
+        .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+        
+        .info-box { 
+            width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; 
+            background: #ffffff; border: 1px solid #edf2f7; position: relative; 
+            animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+        
+        .border-blue { border-left: 10px solid #007aff; }
+        .border-yellow { border-left: 10px solid #ffcc00; }
+        .border-green { border-left: 10px solid #2ecc71; }
+        
+        .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #f0f2f5; color: #555; }
+        .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
+        .dist-tag { float: right; font-size: 1rem; font-weight: 800; color: #444; }
+        .dist-priority { color: #e53e3e !important; }
+
+        .info-box h3 { margin: 5px 0 12px; font-size: 1.15rem; color: #1a202c; }
+        .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
+        .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
+
+        /* [우측] 법령 섹션 */
+        .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
+        .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
+        .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
+        .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: #94a3b8; }
+        .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
+        .law-list { padding: 10px 20px; overflow-y: auto; display: none; flex: 1; }
+        .law-list.active { display: block; }
+        .law-item { border-bottom: 1px solid #f1f5f9; }
+        .law-q { padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
+        
+        .point { color: #e53e3e; font-weight: 700; text-decoration: underline; }
+        
+        .law-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; }
+        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; white-space: pre-wrap; }
+        .law-item.open .law-a { max-height: 2000px; margin-bottom: 15px; }
+        .law-item.open .law-q { color: #007aff; font-weight: 800; }
+        .btn-full-law { display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 1100px) { .main-wrapper { flex-direction: column; align-items: center; } .content-area, .side-law-section { width: 100%; max-width: 600px; } .side-law-section { position: static; } .law-container { height: 600px; } }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="content-area">
+            <div class="search-section">
+                <h1>🔍 임대차 분쟁조정위 검색</h1>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 위원회를 찾아드립니다.</p>
+                <div class="input-group">
+                    <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
+                    <button onclick="searchJurisdiction()">검색</button>
+                </div>
+            </div>
+            <div id="result-list" class="result-container"></div>
+        </div>
+
+        <div class="side-law-section">
             <div class="law-container">
                 <div class="law-tabs">
                     <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
@@ -6,95 +95,121 @@
                 </div>
 
                 <div id="house-law" class="law-list active">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 <span class="point">주거용 건물</span>의 임대차에 관하여 민법에 대한 특례를 규정함으로써 국민 <span class="point">주거생활의 안정</span>을 보장함을 목적으로 한다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 <span class="point">주거용 건물(주택)</span>의 전부 또는 일부의 임대차에 관하여 적용한다. 그 임차주택의 일부가 주거 외의 목적으로 사용되는 경우에도 또한 같다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차는 등기가 없는 경우에도 임차인이 <span class="point">주택의 인도와 주민등록</span>을 마친 때에는 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.
-② 임차주택의 양수인은 임대인의 지위를 승계한 것으로 본다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">② 대항요건과 임대차계약서상의 <span class="point">확정일자</span>를 갖춘 임차인은 경매 시 후순위권리자보다 <span class="point">우선하여 보증금을 변제</span>받을 권리가 있다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차가 끝난 후 <span class="point">보증금을 반환받지 못한 임차인</span>은 법원에 임차권등기명령을 신청할 수 있다. 
-등기 후에는 이사를 가더라도 대항력과 우선변제권이 유지된다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 <span class="point">2년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">2년</span>으로 본다. 임차인은 2년 미만 기간이 유효함을 주장할 수 있다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인이 종료 <span class="point">6개월 전부터 2개월 전까지</span> 거절 통지를 하지 않으면 <span class="point">묵시적 갱신</span>이 된다. 이 경우 기간은 2년이며 임차인은 언제든지 해지 통보가 가능하다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임차인은 계약갱신요구권을 <span class="point">1회에 한하여</span> 행사할 수 있으며 기간은 2년이다.
-② 임대인은 <span class="point">본인이나 직계존비속의 실거주</span> 등 정당한 사유 없이 거절하지 못한다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제7조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">② 증액청구는 약정한 차임이나 보증금의 <span class="point">5%</span>를 초과하지 못하며, 증액 후 1년 이내에는 다시 하지 못한다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제8조 (보증금 중 일정액의 보호) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 소액임차인은 보증금 중 일정액을 다른 담보물권자보다 <span class="point">최우선하여 변제</span>받을 권리가 있다. (지역별 범위 상이)</div></div>
-                    </div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관하여 민법에 대한 특례를 규정함으로써 국민 <span class="point">주거생활의 안정</span>을 보장함을 목적으로 한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">이 법은 <span class="point">주거용 건물(주택)</span>의 전부 또는 일부의 임대차에 관하여 적용한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인이 <span class="point">주택의 인도와 주민등록</span>을 마친 때에는 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner"><span class="point">확정일자</span>를 갖춘 임차인은 경매 시 후순위권리자보다 <span class="point">우선하여 보증금을 변제</span>받을 권리가 있다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대차 종료 후 보증금을 반환받지 못한 임차인은 법원의 명령을 받아 <span class="point">임차권등기</span>를 할 수 있으며, 이후에는 대항력이 유지된다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 아니하거나 <span class="point">2년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">2년</span>으로 본다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인은 <span class="point">1회에 한하여</span> 계약갱신요구권을 행사할 수 있으며, 임대인은 실거주 등 정당한 사유 없이 거절하지 못한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제7조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">증액청구는 약정한 차임이나 보증금의 <span class="point">5%</span>를 초과하지 못한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제8조 (보증금 중 일정액의 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인은 보증금 중 일정액을 다른 담보물권자보다 <span class="point">최우선하여 변제</span>받을 권리가 있다. (<span class="point">최우선변제권</span>)</div></div></div>
                     <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
                 </div>
 
-         <div id="store-law" class="law-list">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 <span class="point">상가건물</span> 임대차에 관하여 민법에 대한 특례를 규정함으로써 국민 <span class="point">경제생활의 안정</span>을 기함을 목적으로 한다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">이 법은 <span class="point">사업자등록의 대상</span>이 되는 상가건물의 임대차에 대하여 적용한다. 다만, 대통령령으로 정하는 <span class="point">보증금액을 초과하는</span> 임대차에는 그러하지 아니하다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대차는 건물의 인도와 <span class="point">사업자등록</span>을 신청하면 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 기간을 정하지 아니하거나 <span class="point">1년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">1년</span>으로 본다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 임차인이 기간 종료 6개월~1개월 전 갱신 요구 시 거절하지 못한다.
-② 전체 임대차기간이 <span class="point">10년을 초과하지 않는 범위</span> 내에서만 행사 가능하다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 보호) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인은 종료 <span class="point">6개월 전부터 종료 시까지</span> 임차인이 주선한 신규임차인으로부터 <span class="point">권리금 회수하는 것을 방해해서는 안 된다.</span></div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임차인의 차임연체액이 <span class="point">3기의 차임액</span>에 달하는 때에는 임대인은 계약을 해지할 수 있다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제11조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 차임 또는 보증금의 증액청구는 약정한 금액의 <span class="point">5%</span>를 초과하지 못한다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제13조 (전대차 관계 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 임대인의 동의를 받고 전대차계약을 체결한 전차인은 임차인의 <span class="point">계약갱신요구권 등을 대위 행사</span>할 수 있다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제14조 (최우선변제권) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">① 상가 건물의 소액임차인도 경매 시 보증금 중 일정액을 다른 권리자보다 <span class="point">최우선하여 변제</span>받을 권리가 있다.</div></div>
-                    </div>
+                <div id="store-law" class="law-list">
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">상가건물 임대차에 관하여 민법에 대한 특례를 규정함으로써 국민 <span class="point">경제생활의 안정</span>을 기함을 목적으로 한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner"><span class="point">사업자등록의 대상</span>이 되는 상가건물에 적용한다. (단, 환산보증금 초과 시 일부 조항 미적용)</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">건물의 인도와 <span class="point">사업자등록</span>을 신청하면 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">기간을 정하지 아니하거나 <span class="point">1년 미만</span>으로 정한 임대차는 그 기간을 <span class="point">1년</span>으로 본다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임차인의 계약갱신요구권은 전체 임대차기간이 <span class="point">10년을 초과하지 아니하는 범위</span>에서만 행사할 수 있다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">임대인은 종료 <span class="point">6개월 전부터 종료 시까지</span> 권리금 지급받는 것을 방해하여서는 아니 된다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임연체액이 <span class="point">3기의 차임액</span>에 달하는 때에는 임대인은 계약을 해지할 수 있다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제11조 (차임 등의 증감청구권) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">차임 또는 보증금의 증액청구는 <span class="point">5%</span>의 비율을 초과하지 못한다.</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제13조 (전대차 관계 등) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">전차인은 임차인의 <span class="point">계약갱신요구권</span> 등을 임차인을 대위하여 행사할 수 있다. (적법한 전대차의 경우)</div></div></div>
+                    <div class="law-item"><div class="law-q" onclick="toggleItem(this)">제14조 (보증금 중 일정액의 보호) <i class="fas fa-chevron-down"></i></div><div class="law-a"><div class="law-a-inner">소액임차인은 보증금 중 일정액을 다른 권리자보다 <span class="point">최우선하여 변제</span>받을 권리가 있다.</div></div></div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
+    <script>
+        const locations = [
+            { name: "서울시청 임대차분쟁조정위", address: "서울시 중구 덕수궁길 15", tel: "02-2133-1200", lat: 37.5665, lng: 126.9780 },
+            { name: "대한법률구조공단 서울지부", address: "서울시 서초구 법원로 2길 21", tel: "02-6941-3430", lat: 37.4925, lng: 127.0122 },
+            { name: "한국부동산원 동부지사", address: "서울시 광진구 천호대로 549", tel: "02-3394-9870", lat: 37.5577, lng: 127.0788 },
+            { name: "한국부동산원 수도권본부(수원)", address: "경기도 수원시 팔달구 경수대로 518", tel: "031-236-4251", lat: 37.2635, lng: 127.0286 },
+            { name: "한국부동산원 고양지사", address: "경기도 고양시 일산동구 중앙로 1187", tel: "031-902-3573", lat: 37.6441, lng: 126.8325 },
+            { name: "한국부동산원 대구지사(경북 관할)", address: "대구시 동구 이노밸리로 291", tel: "053-663-8900", lat: 35.8753, lng: 128.7118 },
+            { name: "대한법률구조공단 대구지부(경북 관할)", address: "대구시 수성구 동대구로 347", tel: "053-755-6364", lat: 35.8624, lng: 128.6250 },
+            { name: "한국부동산원 부산지사", address: "부산시 연제구 중앙대로 1000", tel: "051-464-5151", lat: 35.1798, lng: 129.0750 },
+            { name: "한국부동산원 광주지사", address: "광주시 서구 상무중앙로 110", tel: "062-380-7700", lat: 35.1521, lng: 126.8504 },
+            { name: "한국부동산원 제주지사", address: "제주시 연동 312-1", tel: "064-743-1571", lat: 33.4890, lng: 126.4983 }
+        ];
+
+        const jurisdictionMap = {
+            "서울": ["서울시청 임대차분쟁조정위", "대한법률구조공단 서울지부", "한국부동산원 동부지사"],
+            "경기": ["한국부동산원 수도권본부(수원)", "한국부동산원 고양지사"],
+            "인천": ["한국부동산원 수도권본부(수원)"],
+            "대구": ["한국부동산원 대구지사(경북 관할)", "대한법률구조공단 대구지부(경북 관할)"],
+            "경북": ["한국부동산원 대구지사(경북 관할)", "대한법률구조공단 대구지부(경북 관할)"],
+            "부산": ["한국부동산원 부산지사"],
+            "광주": ["한국부동산원 광주지사"],
+            "제주": ["한국부동산원 제주지사"]
+        };
+
+        function getDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; 
+            const dLat = (lat2-lat1) * Math.PI/180;
+            const dLng = (lng2-lng1) * Math.PI/180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2) * Math.sin(dLng/2);
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function searchJurisdiction() {
+            const input = document.getElementById('address').value;
+            if (!input) return;
+            const geocoder = new kakao.maps.services.Geocoder();
+            geocoder.addressSearch(input, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const uLat = parseFloat(result[0].y), uLng = parseFloat(result[0].x);
+                    const sidoRaw = result[0].address.region_1depth_name;
+                    let sidoKey = "";
+                    for(let key in jurisdictionMap) { if(sidoRaw.includes(key)) { sidoKey = key; break; } }
+
+                    let matched = locations
+                        .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
+                        .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
+                        .sort((a, b) => a.distance - b.distance);
+
+                    const resList = document.getElementById('result-list');
+                    resList.innerHTML = '';
+                    
+                    matched.forEach((loc, i) => {
+                        let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+                        let rankClass = i === 0 ? "rank-priority" : "";
+                        let distClass = i === 0 ? "dist-priority" : "";
+                        const card = document.createElement('div');
+                        card.className = `info-box ${colorClass}`;
+                        card.innerHTML = `
+                            <span class="rank-tag ${rankClass}">${i+1}순위 추천</span>
+                            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+                            <h3>${loc.name}</h3>
+                            <div class="details">
+                                <div><b>주소</b> <span>${loc.address}</span></div>
+                                <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
+                            </div>
+                        `;
+                        resList.appendChild(card);
+                    });
+                }
+            });
+        }
+
+        function showLaw(type, event) {
+            document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(type + '-law').classList.add('active');
+        }
+
+        function toggleItem(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+    </script>
+</body>
+</html>
