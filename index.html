@@ -62,7 +62,7 @@
 .info-box { 
     width: 100%; 
     box-sizing: border-box; 
-    padding: 14px 18px; 
+    padding: 16px 18px; 
     border-radius: 18px; 
     background: #ffffff; 
     border: 1px solid #edf2f7; 
@@ -76,18 +76,32 @@
     letter-spacing: -0.5px;
 }
 
-/* 세로 정렬 구조 (라벨 아래에 내용) */
+/* 한 줄로 시작하되, 길어지면 주소 내용끼리 정렬 */
 .details .detail-item {
-    display: flex;
-    flex-direction: column; /* 세로 방향으로 배치 */
-    margin-top: 8px;
+    display: flex; /* 가로 배치 */
+    align-items: flex-start; /* 상단 기준 정렬 */
+    margin-top: 6px;
+    font-size: 0.88rem;
+    line-height: 1.5; /* 줄간격 확보 */
 }
 
 .details b { 
     color: #a0aec0; 
-    font-size: 0.75rem; /* 라벨은 작게 */
-    margin-bottom: 2px;
+    width: 42px; /* '주소', '문의' 라벨 너비 고정 */
+    flex-shrink: 0; /* 라벨이 찌그러지지 않게 고정 */
     font-weight: 600;
+}
+
+.details span, .details .tel-link {
+    color: #4a5568;
+    flex: 1; /* 남은 공간을 주소 내용이 꽉 채움 */
+    word-break: keep-all; /* 단어 단위 줄바꿈으로 가독성 향상 */
+}
+
+.tel-link {
+    color: #007aff !important;
+    text-decoration: none;
+    font-weight: 700;
 }
 
 .details span, .details .tel-link {
@@ -420,7 +434,7 @@
             <span>${loc.address}</span>
         </div>
         <div class="detail-item">
-            <b>문의처</b> 
+            <b>문의</b> 
             <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a>
         </div>
     </div>
