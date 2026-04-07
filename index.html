@@ -78,12 +78,71 @@ input, button { padding: 8px 12px; font-size: 0.85rem; height: 38px; } /* 입력
         h1 { font-size: 1.3rem; color: #003366; margin: 0 0 4px 0; font-weight: 800; letter-spacing: -0.5px; }
         .subtitle { color: #777; font-size: 0.85rem; margin: 0 0 15px 0; }
         
-        .input-group { display: flex; gap: 8px; width: 100%; }
-        input { flex: 1; padding: 12px 16px; border: 2px solid #edf2f7; border-radius: 10px; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
-        input:focus { border-color: #007aff; }
-        button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; white-space: nowrap; }
+        /* [상단] 입력창 그룹 - 높이를 동일하게 맞춤 (height: 40px로 통일) */
+.input-group { 
+    display: flex; 
+    gap: 0; /* 간격을 없애거나 아주 좁게 설정 */
+    width: 100%; 
+    align-items: stretch; /* 높이를 서로 맞춤 */
+}
 
-        .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+input { 
+    flex: 1; 
+    padding: 0 12px; /* 좌우 여백만 유지 */
+    height: 40px; /* 고정 높이 */
+    border: 2px solid #edf2f7; 
+    border-right: none; /* 버튼과 붙이기 위해 오른쪽 선 제거 */
+    border-radius: 10px 0 0 10px; /* 왼쪽만 둥글게 */
+    font-size: 0.85rem; 
+    outline: none; 
+    box-sizing: border-box;
+}
+
+button { 
+    height: 40px; /* 입력창과 동일한 높이 */
+    padding: 0 20px; 
+    background: #007aff; 
+    color: white; 
+    border: none; 
+    border-radius: 0 10px 10px 0; /* 오른쪽만 둥글게 */
+    font-weight: 700; 
+    cursor: pointer; 
+    font-size: 0.88rem; 
+    white-space: nowrap; 
+    box-sizing: border-box;
+}
+
+/* [하단] 결과 박스 내부 간격 및 높이 축소 */
+.info-box { 
+    padding: 12px 16px; /* 박스 내부 상하 여백 축소 */
+    border-radius: 12px; 
+    margin-bottom: 8px; 
+}
+
+.info-box h3 { 
+    margin: 0 0 4px 0; /* 제목 하단 간격 축소 */
+    font-size: 0.95rem; 
+    line-height: 1.2; /* 줄 간격 축소 */
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* 주소와 문의 사이 간격 최소화 */
+}
+
+.details div { 
+    font-size: 0.82rem; 
+    line-height: 1.4; /* 문단 내 줄 간격 축소 */
+}
+
+.details b { 
+    width: 35px; 
+    font-size: 0.78rem; 
+}
+
+/* 태그 위치 미세 조정 (박스가 작아졌으므로) */
+.rank-tag { margin-bottom: 6px; }
         
         .info-box { 
             width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; 
