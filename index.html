@@ -85,17 +85,19 @@ button {
         .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; width: 100%; }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag { 
+        .dist-tag{ 
     font-size: 0.9rem; 
     font-weight: 800; 
-    color: #000; /* 검정색 통일 */
+    color: #a0aec0; /* 회색 */
     margin-right: 2px; 
 }
-        .dist-priority { color: #e53e3e !important; }
-.priority-tel {
+        .dist-priority {
+    color: #000 !important; /* 검정색 */
+}
+.priority-tel{
     color: #e53e3e !important;
     font-weight: 800;
-    text-decoration: none; /* 밑줄 제거 */
+    text-decoration: none;
 }
         
 /* 가장 가까운 기관명 강조 스타일 */
@@ -409,6 +411,7 @@ button {
     // 첫 번째 결과(가장 추천) 강조 설정
     let titleClass = i === 0 ? "priority-name" : "";
     let telClass = i === 0 ? "priority-tel" : "tel-link"; 
+    let distClass = i === 0 ? "dist-priority" : ""; // 첫 번째만 검정색 클래스 추가
 
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
@@ -418,7 +421,7 @@ button {
     card.innerHTML = `
         <div class="tag-row">
             <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag">${loc.distance.toFixed(1)}km</span>
+            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
         </div>
         <h3 class="${titleClass}">${formattedName}</h3>
         <div class="details">
