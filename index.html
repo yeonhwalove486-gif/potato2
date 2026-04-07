@@ -73,8 +73,14 @@ button {
         .result-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         
         /* 결과 박스 */
-        .info-box { 
-    padding: 8px 14px !important; /* 상하 여백을 10px -> 8px로 축소 */
+        .info-box{ 
+    background: #ffffff; /* 흰색 배경 복구 */
+    padding: 8px 16px; 
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
         
         .border-blue { border-left: 8px solid #007aff; }
@@ -82,13 +88,19 @@ button {
         .border-green { border-left: 8px solid #2ecc71; }
         
         /* 거리 텍스트를 버튼 끝 라인과 맞춤 */
-        .tag-row { 
-    margin-bottom: 0px !important; /* 아래쪽 여백 제거 */
-    line-height: 1.1;
+        .tag-row{ 
+    display: flex; 
+    justify-content: space-between; /* 거리와 태그를 양끝으로 */
+    align-items: center; 
+    margin-bottom: 0px !important; 
+    line-height: 1;
 }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
         .dist-tag {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #a0aec0;
     line-height: 1;
 }
         .dist-priority {
@@ -106,9 +118,9 @@ button {
         
         /* 기관명 크기 확대 및 한 줄 유지 */
         .info-box h3 { 
-    margin: -2px 0 0px 0 !important; /* 위아래 마진을 거의 없애거나 음수값으로 밀착 */
+    margin: 2px 0 1px 0 !important; /* 위아래 간격을 최소화 */
     font-size: 0.95rem; 
-    line-height: 1.2; /* 글자 높이 자체를 줄임 */
+    line-height: 1.2;
     padding: 0 !important;
 }
         .sub-text { 
@@ -120,12 +132,11 @@ button {
         .details { 
     display: flex; 
     flex-direction: column; 
-    gap: -1px !important; /* 행 사이 간격을 완전히 제거 */
-    margin-top: -2px !important; /* 기관명 바로 아래로 붙임 */
+    gap: 0px !important; /* 행 사이 여백 0 */
 }
         .details div { 
     font-size: 0.8rem; 
-    line-height: 1.2; /* 텍스트 상하 간격을 더 좁게 */
+    line-height: 1.2; 
     margin: 0 !important;
     padding: 0 !important;
 }
@@ -444,18 +455,15 @@ function clearResults() {
 
     card.innerHTML = `
         <div class="tag-row">
-            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-        </div>
-        <h3 class="${titleClass}">${formattedName}</h3>
-        <div class="details">
-            <div><b>주소</b> <span>${loc.address}</span></div>
-            <div style="margin-top:2px;">
-                <b>문의</b> 
-                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </div>
-        </div>
-    `;
+        <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+    </div>
+    <h3 class="${titleClass}">${formattedName}</h3>
+    <div class="details">
+        <div><b>주소</b> <span>${loc.address}</span></div>
+        <div><b>문의</b> <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a></div>
+    </div>
+`;
     resList.appendChild(card);
 });
                 } else {
