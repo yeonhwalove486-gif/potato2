@@ -153,6 +153,20 @@ button {
 </head>
 <body>
 
+<audio id="bgm" loop>
+    <source src="your-music-file.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // 사용자가 화면을 클릭하는 순간 음악이 시작되도록 설정
+    window.addEventListener('click', function() {
+        const audio = document.getElementById('bgm');
+        if (audio.paused) {
+            audio.play();
+        }
+    }, { once: true }); // 딱 한 번만 실행
+</script>
+    
     <div class="main-wrapper">
         <div class="content-area">
            <div class="search-section">
@@ -464,5 +478,22 @@ function clearResults() {
             if (!isOpen) item.classList.add('open');
         }
     </script>
+
+<div style="display:none;">
+    <iframe id="yt-player" width="0" height="0" 
+        src="https://www.youtube.com/embed/영상아이디?autoplay=1&mute=1&loop=1&playlist=영상아이디" 
+        frameborder="0" allow="autoplay">
+    </iframe>
+</div>
+
+<script>
+    // 브라우저 정책상 처음엔 음소거(mute)로 시작했다가 클릭 시 소리를 켭니다.
+    window.addEventListener('click', function() {
+        const iframe = document.getElementById('yt-player');
+        // 음소거 해제 로직은 유튜브 API가 필요하지만, 
+        // 간단하게는 클릭 시 '음악 재생 허용' 팝업을 띄우는 방식을 씁니다.
+    }, { once: true });
+</script>
+
 </body>
 </html>
