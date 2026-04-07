@@ -213,8 +213,17 @@ button {
             .main-wrapper { flex-direction: column; align-items: center; } 
             .content-area, .side-law-section { width: 100%; max-width: 525px; } 
             .side-law-section { position: static; } 
-            .law-container { height: 600px; } 
-        }
+            .law-container {{ 
+    background-color: #ffffff !important; /* 배경색 강제 지정 */
+    border-radius: 24px 24px 0 0; 
+    height: calc(100vh - 60px); 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
+    border: 1px solid #eef2f6; 
+    overflow: hidden; /* 내부 요소가 모서리를 튀어나가지 않게 함 */
+    width: 100%;
+}
     </style>
 </head>
 <body>
