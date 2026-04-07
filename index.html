@@ -1,4 +1,20 @@
 
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>임대차분쟁 조정위원회 & 법령 가이드 시스템</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
@@ -142,18 +158,20 @@ button {
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
         /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
-        .law-container { 
-            background: #fff; border-radius: 24px; height: calc(100vh - 120px); 
-            display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-            border: 1px solid #eef2f6; overflow: hidden; position: relative; z-index: 2;
-        }
+        .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
         .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
         .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: #94a3b8; }
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
         .law-list { padding: 10px 20px; overflow-y: auto; display: none; flex: 1; }
         .law-list.active { display: block; }
-        .law-item { border-bottom: 1px solid #f1f5f9; }
-        .law-q { padding: 12px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
+        .law-item{ 
+            border-bottom: 1px solid #f1f5f9; 
+        }
+        .law-q { 
+            padding: 12px 0; cursor: pointer; display: flex; justify-content: space-between; 
+            align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; 
+            transition: all 0.2s;
+        }
         .point { color: #e53e3e; font-weight: 700; }
         
         .law-a  { 
@@ -182,16 +200,10 @@ button {
         .law-item.open .law-q { color: #007aff; font-weight: 800; padding-bottom: 5px; }
         .law-item.open .law-q i { transform: rotate(180deg); color: #007aff; }
 
-        .btn-full-law { display: block; text-align: center; padding: 12px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 15px 0; border: 1px dashed #cbd5e1; }
-
-        /* 캐릭터 이미지 스타일 */
-        .character-wrapper {
-            display: flex; justify-content: flex-end; margin-top: -20px; padding-right: 10px;
-            position: relative; z-index: 10; pointer-events: none;
-        }
-        .sigh-character {
-            width: 130px; height: auto; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-            animation: float 3s ease-in-out infinite;
+        .btn-full-law { 
+            display: block; text-align: center; padding: 12px; background: #f1f5f9; 
+            color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; 
+            font-weight: 700; margin: 15px 0; border: 1px dashed #cbd5e1; 
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -360,10 +372,6 @@ button {
                     </div>
                     <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
                 </div>
-            </div>
-
-            <div class="character-wrapper">
-                <img src="고구마이미지파일.png" alt="한숨 고구마" class="sigh-character">
             </div>
         </div>
     </div>
