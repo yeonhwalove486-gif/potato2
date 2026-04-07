@@ -23,7 +23,7 @@
         }
         
         .aligo-link {
-            position: absolute; top: 12px; right: 15px; text-decoration: none; 
+            position: absolute; top: 12px; right: 16px; text-decoration: none; 
             background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; 
             padding: 3px 8px; border-radius: 50px; display: flex; align-items: center; 
             gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1);
@@ -32,8 +32,7 @@
         .search-section h1 { font-size: 1.05rem; color: #003366; margin: 0 0 2px 0; font-weight: 800; }
         .subtitle { color: #777; font-size: 0.75rem; margin: 0 0 10px 0; }
         
-        /* 상단 입력창과 버튼 높이 38px로 완벽 일치 */
-        .input-group { display: flex; width: 100%; align-items: stretch; gap: 0; }
+        .input-group { display: flex; width: 100%; align-items: stretch; }
         input { 
             flex: 1; height: 38px; padding: 0 12px; border: 2px solid #edf2f7; 
             border-right: none; border-radius: 10px 0 0 10px; font-size: 0.85rem; 
@@ -48,9 +47,9 @@
 
         .result-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         
-        /* 결과 박스 슬림화 */
+        /* 결과 박스 */
         .info-box { 
-            width: 100%; box-sizing: border-box; padding: 14px 16px; border-radius: 12px; 
+            width: 100%; box-sizing: border-box; padding: 16px; border-radius: 12px; 
             background: #ffffff; border: 1px solid #edf2f7; position: relative; 
             animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02);
         }
@@ -59,29 +58,27 @@
         .border-yellow { border-left: 8px solid #ffcc00; }
         .border-green { border-left: 8px solid #2ecc71; }
         
-        /* 태그 전용 라인 분리 */
-        .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        /* 거리 텍스트를 버튼 끝 라인과 맞춤 */
+        .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; width: 100%; }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag { font-size: 0.8rem; font-weight: 800; color: #718096; }
+        .dist-tag { font-size: 0.9rem; font-weight: 800; color: #4a5568; margin-right: 2px; } /* 거리 강조 및 정렬 */
         .dist-priority { color: #e53e3e !important; }
 
-        /* 제목 한 줄 강제 설정 (중요) */
+        /* 기관명 크기 확대 및 한 줄 유지 */
         .info-box h3 { 
-            margin: 0 0 6px 0; font-size: 0.95rem; color: #1a202c; 
-            white-space: nowrap;      /* 줄바꿈 금지 */
-            overflow: hidden;         /* 넘치는 글자 숨김 */
-            text-overflow: ellipsis;  /* 넘치면 ... 표시 */
+            margin: 0 0 8px 0; font-size: 1.1rem; color: #1a202c; letter-spacing: -0.3px;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
             display: block;
         }
-        .sub-text { font-size: 0.78rem; font-weight: 400; color: #888; margin-left: 4px; }
+        .sub-text { font-size: 0.85rem; font-weight: 500; color: #718096; margin-left: 4px; }
 
-        /* 상세 내용 간격 축소 */
-        .details { display: flex; flex-direction: column; gap: 2px; }
-        .details div { font-size: 0.82rem; line-height: 1.4; }
-        .details b { color: #a0aec0; width: 35px; display: inline-block; font-size: 0.78rem; }
+        .details { display: flex; flex-direction: column; gap: 3px; }
+        .details div { font-size: 0.85rem; line-height: 1.4; color: #4a5568; }
+        .details b { color: #a0aec0; width: 35px; display: inline-block; font-size: 0.8rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
-
         /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
         .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
