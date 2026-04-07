@@ -7,6 +7,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -213,24 +214,6 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
-
-        /* 고구마 캐릭터 스타일 */
-.sigh-character {
-    position: fixed;
-    bottom: -20px;
-    right: -10px;
-    width: 280px; /* 캐릭터 크기 */
-    height: auto;
-    z-index: 0;
-    opacity: 0.9; /* 살짝 투명하게 */
-    pointer-events: none; /* 마우스 클릭 방해 금지 */
-    animation: characterFadeIn 1s ease-out;
-}
-
-@keyframes characterFadeIn { 
-    from { opacity: 0; transform: translateY(20px); } 
-    to { opacity: 0.9; transform: translateY(0); } 
-}
     </style>
 </head>
 <body>
@@ -253,23 +236,12 @@ button {
             <div id="result-list" class="result-container"></div>
         </div>
 
-       <div class="side-law-section">
-    <div class="law-container">
-        <div class="law-tabs">
-            <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
-            <div class="law-tab" onclick="showLaw('store', event)">상가임대차</div>
-        </div>
-
-        <div id="house-law" class="law-list active">
-            <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" class="btn-full-law">주택임대차보호법 전문 보기</a>
-        </div>
-
-        <div id="store-law" class="law-list">
-            <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
-        </div>
-    </div>
-    <img src="https://i.imgur.com/r6JjTzL.png" alt="어휴 답답해 고구마" class="sigh-character">
-</div>
+        <div class="side-law-section">
+            <div class="law-container">
+                <div class="law-tabs">
+                    <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
+                    <div class="law-tab" onclick="showLaw('store', event)">상가임대차</div>
+                </div>
 
                 <div id="house-law" class="law-list active">
                     <div class="law-item">
@@ -553,14 +525,8 @@ function clearResults() {
         function toggleItem(el) {
             const item = el.parentElement;
             const isOpen = item.classList.contains('open');
-            
-            // 다른 열려있는 항목들 모두 닫기
             document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
-            
-            // 클릭한 항목이 닫혀있었다면 새로 열기
-            if (!isOpen) {
-                item.classList.add('open');
-            }
+            if (!isOpen) item.classList.add('open');
         }
     </script>
 </body>
