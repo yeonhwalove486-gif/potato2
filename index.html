@@ -6,6 +6,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -156,10 +157,7 @@ button {
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
         /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
-        .law-container { 
-    /* 기존: border-radius: 24px; */
-    border-radius: 24px 24px 0 0; /* 위쪽 좌우만 24px, 아래쪽 좌우는 0(직각) */
-}
+        .law-container { background: #fff; border-radius: 24px; height: calc(100vh - 60px); display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid #eef2f6; overflow: hidden; }
         .law-tabs { display: flex; background: #f8fafc; border-bottom: 1px solid #edf2f7; }
         .law-tab { flex: 1; padding: 18px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.95rem; color: #94a3b8; }
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
@@ -213,17 +211,8 @@ button {
             .main-wrapper { flex-direction: column; align-items: center; } 
             .content-area, .side-law-section { width: 100%; max-width: 525px; } 
             .side-law-section { position: static; } 
-            .law-container {{ 
-    background-color: #ffffff !important; /* 배경색 강제 지정 */
-    border-radius: 24px 24px 0 0; 
-    height: calc(100vh - 60px); 
-    display: flex; 
-    flex-direction: column; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.05); 
-    border: 1px solid #eef2f6; 
-    overflow: hidden; /* 내부 요소가 모서리를 튀어나가지 않게 함 */
-    width: 100%;
-}
+            .law-container { height: 600px; } 
+        }
     </style>
 </head>
 <body>
