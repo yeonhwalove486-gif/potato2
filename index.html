@@ -85,7 +85,7 @@ button {
         .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; width: 100%; }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        ..dist-tag { 
+        .dist-tag { 
     font-size: 0.9rem; 
     font-weight: 800; 
     color: #000; /* 검정색 통일 */
@@ -402,27 +402,29 @@ button {
                     }
 
                     matched.forEach((loc, i) => {
-                      let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+                     let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
     let rankClass = i === 0 ? "rank-priority" : "";
-    let distClass = i === 0 ? "dist-priority" : "";
     
-    // 가장 가까운 결과(첫 번째)인 경우 제목에 강조 클래스 추가
+    // 첫 번째 결과(가장 추천)에만 적용할 클래스들
     let titleClass = i === 0 ? "priority-name" : "";
+    let telClass = i === 0 ? "priority-tel" : "tel-link"; // 추천 기관은 전용 클래스 사용
+
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
-
-    // (괄호) 부분의 폰트만 미세하게 조절하기 위한 처리
+    
     const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
 
     card.innerHTML = `
         <div class="tag-row">
             <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-        </div>
+            <span class="dist-tag">${loc.distance.toFixed(1)}km</span> </div>
         <h3 class="${titleClass}">${formattedName}</h3>
         <div class="details">
             <div><b>주소</b> <span>${loc.address}</span></div>
-            <div style="margin-top:2px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
+            <div style="margin-top:2px;">
+                <b>문의</b> 
+                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
+            </div>
         </div>
     `;
     resList.appendChild(card);
