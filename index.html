@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,34 +13,29 @@
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
         .main-wrapper { display: flex; max-width: 1500px; margin: 0; gap: 30px; align-items: flex-start; justify-content: flex-start; }
 
-        /* [좌측] 콘텐츠 영역 */
+        /* [좌측] 콘텐츠 영역 - 너비를 525px로 조정 */
         .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 525px; }
         
-        /* 알리고 배너 스타일 - 가장 상단에 위치 */
-        .aligo-banner {
-            width: 100%; box-sizing: border-box;
-            display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(135deg, #FF8C00 0%, #FF5E00 100%); /* 알리고 상징색 */
-            padding: 20px 25px; border-radius: 20px; color: white;
-            cursor: pointer; margin-bottom: 15px;
-            box-shadow: 0 8px 20px rgba(255, 94, 0, 0.2);
-            transition: all 0.3s ease;
-            border: none;
-        }
-        .aligo-banner:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 94, 0, 0.3); }
-        .aligo-info { display: flex; align-items: center; gap: 18px; }
-        .aligo-info i { font-size: 1.8rem; }
-        .aligo-text-wrap { display: flex; flex-direction: column; }
-        .aligo-title { font-weight: 800; font-size: 1.1rem; line-height: 1.2; letter-spacing: -0.5px; }
-        .aligo-sub { font-size: 0.85rem; opacity: 0.9; margin-top: 4px; }
-        .aligo-go { font-size: 1.2rem; opacity: 0.8; }
-
         .search-section { 
-            background: #ffffff; padding: 25px; border-radius: 20px; margin-bottom: 15px; 
+            background: #ffffff; padding: 20px; border-radius: 20px; margin-bottom: 15px; 
             text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
             width: 100%; box-sizing: border-box;
         }
 
+        /* 알리고 배너 스타일 */
+        .aligo-banner {
+            width: 100%; box-sizing: border-box;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff5e00 100%);
+            padding: 18px 24px; border-radius: 20px; color: white;
+            cursor: pointer; margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(255, 94, 0, 0.15);
+            transition: transform 0.2s;
+        }
+        .aligo-banner:hover { transform: translateY(-2px); }
+        .aligo-info { display: flex; align-items: center; gap: 15px; }
+        .aligo-title { font-weight: 800; font-size: 1.05rem; display: block; }
+        .aligo-sub { font-size: 0.8rem; opacity: 0.9; }
         h1 { font-size: 1.3rem; color: #003366; margin: 0 0 4px 0; font-weight: 800; letter-spacing: -0.5px; }
         .subtitle { color: #777; font-size: 0.85rem; margin: 0 0 15px 0; }
         
@@ -51,10 +45,24 @@
         button { padding: 0 25px; background: #007aff; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; white-space: nowrap; }
 
         .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .info-box { width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #edf2f7; position: relative; animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02); }
+        
+        .info-box { 
+            width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; 
+            background: #ffffff; border: 1px solid #edf2f7; position: relative; 
+            animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+        
         .border-blue { border-left: 10px solid #007aff; }
+        .border-yellow { border-left: 10px solid #ffcc00; }
+        .border-green { border-left: 10px solid #2ecc71; }
+        
         .rank-tag { font-size: 0.75rem; font-weight: 800; padding: 5px 12px; border-radius: 20px; margin-bottom: 12px; display: inline-block; background: #f0f2f5; color: #555; }
+        .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
+        .dist-tag { float: right; font-size: 1rem; font-weight: 800; color: #444; }
+        .dist-priority { color: #e53e3e !important; }
+
         .info-box h3 { margin: 5px 0 12px; font-size: 1.15rem; color: #1a202c; }
+        .details b { color: #a0aec0; width: 45px; display: inline-block; font-size: 0.9rem; }
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
 
         /* [우측] 법령 섹션 */
@@ -67,99 +75,24 @@
         .law-list.active { display: block; }
         .law-item { border-bottom: 1px solid #f1f5f9; }
         .law-q { padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
+        
+        .point { color: #e53e3e; font-weight: 700; }
+        
         .law-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; }
-        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; white-space: pre-wrap; }
+        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; white-space: pre-wrap; text-align: justify; }
         .law-item.open .law-a { max-height: 2000px; margin-bottom: 15px; }
+        .law-item.open .law-q { color: #007aff; font-weight: 800; }
+        .btn-full-law { display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 1100px) { .main-wrapper { flex-direction: column; align-items: center; } .content-area, .side-law-section { width: 100%; max-width: 525px; } .side-law-section { position: static; } .law-container { height: 600px; } }
+        @media (max-width: 1100px) { 
+            .main-wrapper { flex-direction: column; align-items: center; } 
+            .content-area, .side-law-section { width: 100%; max-width: 525px; } 
+            .side-law-section { position: static; } 
+            .law-container { height: 600px; } 
+        }
     </style>
 </head>
-<body>
-
-    <div class="aligo-banner" onclick="window.open('https://smartsms.aligo.in/main.html', '_blank')">
-    <div class="aligo-info">
-        <i class="fas fa-sms"></i> <div class="aligo-text-wrap">
-            <strong class="aligo-title">ALIGO 알리고 문자 서비스</strong>
-            <span class="aligo-sub">국내 최저가 대량문자 · 알림톡 바로가기</span>
-        </div>
-    </div>
-    <i class="fas fa-chevron-right"></i>
-</div>
-
-            <div class="search-section">
-                <h1>🔍 임대차 분쟁조정위 검색</h1>
-                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 위원회를 찾아드립니다.</p>
-                <div class="input-group">
-                    <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
-                    <button onclick="searchJurisdiction()">검색</button>
-                </div>
-            </div>
-            
-            <div id="result-list" class="result-container"></div>
-        </div>
-
-        <div class="side-law-section">
-            <div class="law-container">
-                <div class="law-tabs">
-                    <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
-                    <div class="law-tab" onclick="showLaw('store', event)">상가임대차</div>
-                </div>
-
-                <div id="house-law" class="law-list active">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">주거용 건물의 임대차에 관한 특례를 규정하여 국민 주거생활의 안정을 보장합니다.</div></div>
-                    </div>
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">주택 인도와 주민등록을 마치면 다음 날부터 제삼자에 대해 대항력이 생깁니다.</div></div>
-                    </div>
-                    <a href="https://www.law.go.kr/법령/주택임대차보호법" target="_blank" style="display:block; text-align:center; padding:15px; background:#f1f5f9; color:#64748b; text-decoration:none; border-radius:12px; font-size:0.85rem; font-weight:700; margin:20px 0; border:1px dashed #cbd5e1;">전문 보기</a>
-                </div>
-
-                <div id="store-law" class="law-list">
-                    <div class="law-item">
-                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                        <div class="law-a"><div class="law-a-inner">전체 임대차 기간이 10년을 초과하지 않는 범위 내에서 갱신 요구가 가능합니다.</div></div>
-                    </div>
-                    <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" style="display:block; text-align:center; padding:15px; background:#f1f5f9; color:#64748b; text-decoration:none; border-radius:12px; font-size:0.85rem; font-weight:700; margin:20px 0; border:1px dashed #cbd5e1;">전문 보기</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
-    <script>
-        // 위치 데이터 및 로직 생략 (기존과 동일)
-        function searchJurisdiction() {
-            const input = document.getElementById('address').value;
-            if (!input) return;
-            const geocoder = new kakao.maps.services.Geocoder();
-            geocoder.addressSearch(input, function(result, status) {
-                if (status === kakao.maps.services.Status.OK) {
-                    // 검색 결과 처리 로직...
-                    const resList = document.getElementById('result-list');
-                    resList.innerHTML = `<div class="info-box border-blue"><h3>${result[0].address_name}</h3> 인근 위원회 검색 결과가 여기에 표시됩니다.</div>`;
-                } else {
-                    alert("주소를 다시 확인해주세요.");
-                }
-            });
-        }
-
-        function showLaw(type, event) {
-            document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            document.getElementById(type + '-law').classList.add('active');
-        }
-
-        function toggleItem(el) {
-            const item = el.parentElement;
-            const isOpen = item.classList.contains('open');
-            document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
-            if (!isOpen) item.classList.add('open');
-        }
-    </script>
 <body>
 
     <div class="main-wrapper">
