@@ -166,55 +166,46 @@ button {
             border-bottom: 1px solid #f1f5f9; 
         }
         .law-q { 
-            padding: 10px 0; /* 16px에서 10px로 축소 */
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-size: 0.92rem; 
-            font-weight: 600; 
-            color: #475569; 
+            padding: 12px 0; cursor: pointer; display: flex; justify-content: space-between; 
+            align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; 
+            transition: all 0.2s;
         }
         .point { color: #e53e3e; font-weight: 700; }
         
-        .law-a { 
+        .law-a  { 
             max-height: 0; 
             overflow: hidden; 
-            transition: max-height 0.3s ease-out; 
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1); 
             background: #f8fafc; 
             border-radius: 12px; 
             font-size: 0.88rem; 
             color: #4a5568; 
+            opacity: 0;
         }
-            padding: 12px 15px; /* 상하 패딩을 15px에서 12px로 축소 */
-            line-height: 1.6; 
-            border-left: 4px solid #007aff; 
-            white-space: pre-wrap; 
-            text-align: justify; 
+        
+        .law-a-inner { 
+            padding: 12px 15px; line-height: 1.6; border-left: 4px solid #007aff; 
+            white-space: pre-wrap; text-align: justify; 
         }
+
+        .law-item.open .law-a { 
             max-height: 2000px; 
-            margin-bottom: 10px; /* 열렸을 때 아래쪽 여백을 15px에서 10px로 축소 */
+            opacity: 1;
+            margin-bottom: 10px;
+            transition: max-height 0.4s ease-in, opacity 0.3s;
         }
-        .law-item.open .law-q { 
-            color: #007aff; 
-            font-weight: 800; 
-            padding-bottom: 5px; /* 열렸을 때 제목과 내용 사이 간격 */
-        }
+        
+        .law-item.open .law-q { color: #007aff; font-weight: 800; padding-bottom: 5px; }
+        .law-item.open .law-q i { transform: rotate(180deg); color: #007aff; }
+
         .btn-full-law { 
-            display: block; 
-            text-align: center; 
-            padding: 12px; 
-            background: #f1f5f9; 
-            color: #64748b; 
-            text-decoration: none; 
-            border-radius: 12px; 
-            font-size: 0.85rem; 
-            font-weight: 700; 
-            margin: 15px 0; /* 20px에서 15px로 축소 */
-            border: 1px dashed #cbd5e1; 
+            display: block; text-align: center; padding: 12px; background: #f1f5f9; 
+            color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; 
+            font-weight: 700; margin: 15px 0; border: 1px dashed #cbd5e1; 
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         @media (max-width: 1100px) { 
             .main-wrapper { flex-direction: column; align-items: center; } 
             .content-area, .side-law-section { width: 100%; max-width: 525px; } 
