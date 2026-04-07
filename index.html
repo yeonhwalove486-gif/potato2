@@ -384,22 +384,26 @@ input, button { padding: 8px 12px; font-size: 0.85rem; height: 38px; } /* 입력
                     }
 
                     matched.forEach((loc, i) => {
-                        let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
-                        let rankClass = i === 0 ? "rank-priority" : "";
-                        let distClass = i === 0 ? "dist-priority" : "";
-                        const card = document.createElement('div');
-                        card.className = `info-box ${colorClass}`;
-                        card.innerHTML = `
-                            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-                            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-                            <h3>${loc.name}</h3>
-                            <div class="details">
-                                <div><b>주소</b> <span>${loc.address}</span></div>
-                                <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
-                            </div>
-                        `;
-                        resList.appendChild(card);
-                    });
+                       let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+    let rankClass = i === 0 ? "rank-priority" : "";
+    let distClass = i === 0 ? "dist-priority" : "";
+    const card = document.createElement('div');
+    card.className = `info-box ${colorClass}`;
+    
+    // 괄호 안의 내용을 <small> 태그로 감싸서 크기를 더 줄임
+    const formattedName = loc.name.replace("(", "<small style='font-size:0.8rem; font-weight:500; color:#718096; margin-left:4px;'>(").replace(")", ")</small>");
+
+    card.innerHTML = `
+        <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+        <h3>${formattedName}</h3>
+        <div class="details">
+            <div><b>주소</b> <span>${loc.address}</span></div>
+            <div style="margin-top:4px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
+        </div>
+    `;
+    resList.appendChild(card);
+});
                 } else {
                     alert("주소를 정확히 입력해주세요.");
                 }
