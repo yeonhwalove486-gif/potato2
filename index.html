@@ -13,15 +13,42 @@
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
         .main-wrapper { display: flex; max-width: 1500px; margin: 0; gap: 30px; align-items: flex-start; justify-content: flex-start; }
 
-        /* [좌측] 콘텐츠 영역 - 너비를 525px로 조정 */
-        .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 525px; }
-        
-        .search-section { 
-            background: #ffffff; padding: 20px; border-radius: 20px; margin-bottom: 15px; 
-            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-            width: 100%; box-sizing: border-box;
-        }
+      /* [좌측] 콘텐츠 영역 너비 유지 */
+.content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 525px; }
 
+/* 1. 검색 섹션 박스 축소 (패딩 20px -> 15px) */
+.search-section { 
+    background: #ffffff; padding: 15px; border-radius: 15px; margin-bottom: 12px; 
+    text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+    width: 100%; box-sizing: border-box;
+}
+
+/* 제목 및 서브타이틀 크기 축소 */
+h1 { font-size: 1.15rem; margin: 0 0 2px 0; }
+.subtitle { font-size: 0.8rem; margin: 0 0 12px 0; }
+
+/* 입력창 및 버튼 높이 축소 */
+input { padding: 10px 14px; font-size: 0.88rem; }
+button { padding: 0 20px; font-size: 0.88rem; }
+
+/* 알리고 바로가기 버튼 축소 */
+.search-section a { top: 12px !important; right: 15px !important; font-size: 0.65rem !important; padding: 3px 8px !important; }
+
+/* 2. 결과 박스(info-box) 축소 (패딩 24px -> 16px) */
+.info-box { 
+    width: 100%; box-sizing: border-box; padding: 16px; border-radius: 15px; 
+    background: #ffffff; border: 1px solid #edf2f7; position: relative; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+}
+
+/* 태그 및 거리 글자 크기 축소 */
+.rank-tag { font-size: 0.68rem; padding: 3px 10px; margin-bottom: 8px; }
+.dist-tag { font-size: 0.85rem; } /* 1rem에서 축소 */
+
+/* 결과 박스 내부 제목 및 상세내용 크기 축소 */
+.info-box h3 { margin: 3px 0 8px; font-size: 1.05rem; } /* 1.15rem에서 축소 */
+.details b { width: 40px; font-size: 0.85rem; }
+.details span, .tel-link { font-size: 0.88rem; }
         /* 알리고 배너 스타일 */
         .aligo-banner {
             width: 100%; box-sizing: border-box;
