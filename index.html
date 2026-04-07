@@ -75,15 +75,13 @@ button {
         
         /* 결과 박스 */
         .info-box { 
-            width: 100%; 
-    box-sizing: border-box; 
-    padding: 12px 16px; /* 상하 패딩 축소 (16px -> 12px) */
-    border-radius: 12px; 
     background: #ffffff; 
-    border: 1px solid #edf2f7; 
-    position: relative; 
-    animation: fadeIn 0.4s ease-out; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    padding: 6px 14px !important; /* 박스 자체의 상하 여백도 줄임 */
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
         
         .border-blue { border-left: 8px solid #007aff; }
@@ -91,22 +89,24 @@ button {
         .border-green { border-left: 8px solid #2ecc71; }
         
         /* 거리 텍스트를 버튼 끝 라인과 맞춤 */
-        .tag-row { 
+        .tag-row{ 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    margin-bottom: 4px; /* 간격 축소 (8px -> 4px) */
-    width: 100%; 
+    margin: 0 0 -2px 0 !important; /* 아래 기관명과 붙이기 위해 음수 마진 사용 */
+    line-height: 1 !important;
+    height: 18px; /* 행 높이 고정 */
 }
         .rank-tag { 
     font-size: 0.6rem; /* 0.65rem -> 0.6rem */
     padding: 1px 6px; 
 }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag { 
-    font-size: 0.8rem; /* 0.9rem -> 0.8rem */
-    font-weight: 800; 
-    color: #a0aec0; 
+        .dist-tag {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #a0aec0;
+    line-height: 1;
 }
         .dist-priority {
     color: #718096 !important; 
@@ -123,13 +123,10 @@ button {
         
         /* 기관명 크기 확대 및 한 줄 유지 */
         .info-box h3 { 
-    margin: 0 0 4px 0; /* 하단 마진 축소 (8px -> 4px) */
-    font-size: 0.95rem; /* 글자 크기 축소 (1.1rem -> 0.95rem) */
-    color: #1a202c; 
-    letter-spacing: -0.3px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    margin: 0 !important; /* 위아래 여백 0 */
+    padding: 0 !important;
+    font-size: 0.95rem; 
+    line-height: 1.1 !important; /* 글자 높이를 바짝 깎음 */
     display: block;
 }
         .sub-text { 
@@ -138,8 +135,18 @@ button {
     color: #718096; /* 이 색상과 동일하게 맞춤 */
     margin-left: 4px; 
 }
-        .details { display: flex; flex-direction: column; gap: 3px; }
-        .details div { font-size: 0.85rem; line-height: 1.4; color: #4a5568; }{ 
+        .details { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0px !important; 
+    margin-top: -1px !important; /* 기관명과 더 붙이기 위해 음수 마진 사용 */
+}
+        .details div { 
+    font-size: 0.8rem; 
+    line-height: 1.1 !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+}{ 
     font-size: 0.8rem; /* 글자 크기 축소 (0.85rem -> 0.8rem) */
     line-height: 1.3; /* 줄 간격 축소 (1.4 -> 1.3) */
     color: #4a5568; 
@@ -459,19 +466,16 @@ function clearResults() {
     const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
 
     card.innerHTML = `
-        <div class="tag-row">
-            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-        </div>
-        <h3 class="${titleClass}">${formattedName}</h3>
-        <div class="details">
-            <div><b>주소</b> <span>${loc.address}</span></div>
-            <div style="margin-top:2px;">
-                <b>문의</b> 
-                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </div>
-        </div>
-    `;
+       <div class="tag-row">
+        <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+    </div>
+    <h3 class="${titleClass}">${formattedName}</h3>
+    <div class="details">
+        <div><b>주소</b> <span>${loc.address}</span></div>
+        <div><b>문의</b> <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a></div>
+    </div>
+`;
     resList.appendChild(card);
 });
                 } else {
