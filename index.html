@@ -58,63 +58,48 @@
 
         .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
         
-        /* 검색 결과 카드 높이 최적화 */
-.info-box { 
-    width: 100%; 
-    box-sizing: border-box; 
-    padding: 16px 20px; /* 좌우 패딩을 20px로 설정 */
-    border-radius: 18px; 
-    background: #ffffff; 
-    border: 1px solid #edf2f7; 
-    margin-bottom: 12px;
-    position: relative; /* 태그 배치를 위한 기준점 */
+      /* 1. 기관명 옆 ( ) 안의 글자 크기 줄이기 */
+.info-box h3 .sub-text {
+    font-size: 0.85rem; /* 기존보다 작게 */
+    color: #718096;    /* 약간 흐리게 해서 시선 분산 방지 */
+    font-weight: 500;
+    margin-left: 4px;
 }
 
-/* 태그 우측 끝 정렬 (right 값을 카드 패딩인 20px에 맞춤) */
-.rank-tag, .dist-tag {
+/* 2. 우측 상단 거리(km) 태그 크기 줄이기 */
+.dist-tag {
     position: absolute;
-    right: 20px; /* 카드 오른쪽 끝 라인에 맞춤 */
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
-    float: none; /* 기존 float 제거 */
+    right: 20px;
+    top: 40px; /* 추천 태그 아래 위치 */
+    font-size: 0.75rem; /* 숫자 크기 축소 */
+    color: #a0aec0;    /* 색상을 연하게 */
+    font-weight: 600;
 }
 
-/* 지역 추천 태그 (위) */
+/* km 단위만 더 작게 */
+.dist-tag .unit {
+    font-size: 0.65rem;
+    margin-left: 1px;
+}
+
+/* 3. 지역 추천 태그 (파란색)도 작고 깔끔하게 */
 .rank-tag {
+    position: absolute;
+    right: 20px;
     top: 15px;
+    font-size: 0.65rem;
+    padding: 2px 8px;
     background: #ebf8ff;
     color: #3182ce;
-    margin-bottom: 0;
+    border-radius: 4px;
+    font-weight: 700;
 }
 
-/* 거리 km 태그 (아래) */
-.dist-tag {
-    top: 42px; /* 추천 태그 아래에 나란히 배치 */
-    background: #f7fafc;
-    color: #718096;
-    border: 1px solid #edf2f7;
+/* 기존 내용(주소, 문의) 위치는 그대로 유지되도록 설정 */
+.info-box {
+    position: relative;
+    padding: 16px 20px;
 }
-
-/* 제목이 태그와 겹치지 않도록 너비 제한 */
-.info-box h3 { 
-    margin: 5px 0 10px; 
-    font-size: 1.05rem; 
-    color: #1a202c; 
-    max-width: 180px; /* 태그 영역 확보 */
-}
-
-/* 한 줄로 시작하되, 길어지면 주소 내용끼리 정렬 */
-.details .detail-item {
-    display: flex; /* 가로 배치 */
-    align-items: flex-start; /* 상단 기준 정렬 */
-    margin-top: 6px;
-    font-size: 0.88rem;
-    line-height: 1.5; /* 줄간격 확보 */
-}
-
 .details b { 
     color: #a0aec0; 
     width: 42px; /* '주소', '문의' 라벨 너비 고정 */
