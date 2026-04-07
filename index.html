@@ -85,9 +85,19 @@ button {
         .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; width: 100%; }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag { font-size: 0.9rem; font-weight: 800; color: #4a5568; margin-right: 2px; } /* 거리 강조 및 정렬 */
+        .dist-tag { 
+    font-size: 0.9rem; 
+    font-weight: 800; 
+    color: #000; /* 검정색 통일 */
+    margin-right: 2px; 
+}
         .dist-priority { color: #e53e3e !important; }
-
+.priority-tel {
+    color: #e53e3e !important; /* 강렬한 빨간색 */
+    font-weight: 800;
+    text-decoration: underline; /* 전화번호임을 강조 */
+}
+        
 /* 가장 가까운 기관명 강조 스타일 */
 .priority-name {
     color: #007aff !important; /* 검색 버튼과 동일한 브랜드 컬러 */
