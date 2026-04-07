@@ -213,6 +213,24 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
+
+        /* 고구마 캐릭터 스타일 */
+.sigh-character {
+    position: fixed;
+    bottom: -20px;
+    right: -10px;
+    width: 280px; /* 캐릭터 크기 */
+    height: auto;
+    z-index: 0;
+    opacity: 0.9; /* 살짝 투명하게 */
+    pointer-events: none; /* 마우스 클릭 방해 금지 */
+    animation: characterFadeIn 1s ease-out;
+}
+
+@keyframes characterFadeIn { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 0.9; transform: translateY(0); } 
+}
     </style>
 </head>
 <body>
@@ -236,6 +254,11 @@ button {
         </div>
 
         <div class="side-law-section">
+            <div class="law-container">
+                </div>
+            
+            <img src="https://i.imgur.com/r6JjTzL.png" alt="어휴 답답해 고구마" class="sigh-character">
+        </div>
             <div class="law-container">
                 <div class="law-tabs">
                     <div class="law-tab active" onclick="showLaw('house', event)">주택임대차</div>
