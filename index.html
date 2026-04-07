@@ -58,11 +58,56 @@
 
         .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
         
-        .info-box { 
-            width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; 
-            background: #ffffff; border: 1px solid #edf2f7; position: relative; 
-            animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02);
-        }
+        /* 검색 결과 카드 높이 최적화 */
+.info-box { 
+    width: 100%; 
+    box-sizing: border-box; 
+    padding: 14px 18px; 
+    border-radius: 18px; 
+    background: #ffffff; 
+    border: 1px solid #edf2f7; 
+    margin-bottom: 12px;
+}
+
+.info-box h3 { 
+    margin: 5px 0 10px; 
+    font-size: 1.05rem; 
+    color: #1a202c; 
+    letter-spacing: -0.5px;
+}
+
+/* 세로 정렬 구조 (라벨 아래에 내용) */
+.details .detail-item {
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    margin-top: 8px;
+}
+
+.details b { 
+    color: #a0aec0; 
+    font-size: 0.75rem; /* 라벨은 작게 */
+    margin-bottom: 2px;
+    font-weight: 600;
+}
+
+.details span, .details .tel-link {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-break: keep-all;
+    padding-left: 2px; /* 살짝 들여쓰기 효과 */
+}
+
+.tel-link {
+    color: #007aff !important;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.details span, .details a {
+    color: #4a5568;
+    word-break: keep-all; /* 단어 단위 줄바꿈으로 깔끔하게 */
+}
         
         .border-blue { border-left: 10px solid #007aff; }
         .border-yellow { border-left: 10px solid #ffcc00; }
@@ -367,13 +412,19 @@
                         card.className = `info-box ${colorClass}`;
                         card.innerHTML = `
                             <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-                            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-                            <h3>${loc.name}</h3>
-                            <div class="details">
-                                <div><b>주소</b> <span>${loc.address}</span></div>
-                                <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
-                            </div>
-                        `;
+    <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+    <h3>${loc.name}</h3>
+    <div class="details">
+        <div class="detail-item">
+            <b>주소</b> 
+            <span>${loc.address}</span>
+        </div>
+        <div class="detail-item">
+            <b>문의처</b> 
+            <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a>
+        </div>
+    </div>
+`;
                         resList.appendChild(card);
                     });
                 } else {
