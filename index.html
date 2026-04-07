@@ -13,27 +13,15 @@
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
         .main-wrapper { display: flex; max-width: 1500px; margin: 0; gap: 30px; align-items: flex-start; justify-content: flex-start; }
 
-        /* [좌측] 콘텐츠 영역 - 너비를 400px로 슬림하게 조정 */
-.content-area { 
-    flex-shrink: 0; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
-    width: 400px; /* 기존 525px에서 400px로 변경 */
-}
+        /* [좌측] 콘텐츠 영역 - 너비를 525px로 조정 */
+        .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 525px; }
+        
+        .search-section { 
+            background: #ffffff; padding: 20px; border-radius: 20px; margin-bottom: 15px; 
+            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+            width: 100%; box-sizing: border-box;
+        }
 
-/* 검색 섹션 패딩 살짝 조절 */
-.search-section { 
-    background: #ffffff; 
-    padding: 24px; /* 여백을 조금 더 줘서 정돈된 느낌 부여 */
-    border-radius: 20px; 
-    margin-bottom: 15px; 
-    text-align: left; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-    width: 100%; 
-    box-sizing: border-box;
-    position: relative;
-}
         /* 알리고 배너 스타일 */
         .aligo-banner {
             width: 100%; box-sizing: border-box;
@@ -58,100 +46,11 @@
 
         .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
         
-        /* 검색 결과 카드 높이 최적화 */
-.info-box { 
-    width: 100%; 
-    box-sizing: border-box; 
-    padding: 16px 20px; /* 좌우 패딩을 20px로 설정 */
-    border-radius: 18px; 
-    background: #ffffff; 
-    border: 1px solid #edf2f7; 
-    margin-bottom: 12px;
-    position: relative; /* 태그 배치를 위한 기준점 */
-}
-
-/* 태그 우측 끝 정렬 (right 값을 카드 패딩인 20px에 맞춤) */
-.rank-tag, .dist-tag {
-    position: absolute;
-    right: 20px; /* 카드 오른쪽 끝 라인에 맞춤 */
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
-    float: none; /* 기존 float 제거 */
-}
-
-/* 지역 추천 태그 (위) */
-.rank-tag {
-    top: 15px;
-    background: #ebf8ff;
-    color: #3182ce;
-    margin-bottom: 0;
-}
-
-/* 거리 km 태그 (아래) */
-.dist-tag {
-    top: 42px; /* 추천 태그 아래에 나란히 배치 */
-    background: #f7fafc;
-    color: #718096;
-    border: 1px solid #edf2f7;
-}
-
-/* 제목이 태그와 겹치지 않도록 너비 제한 */
-.info-box h3 { 
-    margin: 5px 0 10px; 
-    font-size: 1.05rem; 
-    color: #1a202c; 
-    max-width: 180px; /* 태그 영역 확보 */
-}
-
-/* 한 줄로 시작하되, 길어지면 주소 내용끼리 정렬 */
-.details .detail-item {
-    display: flex; /* 가로 배치 */
-    align-items: flex-start; /* 상단 기준 정렬 */
-    margin-top: 6px;
-    font-size: 0.88rem;
-    line-height: 1.5; /* 줄간격 확보 */
-}
-
-.details b { 
-    color: #a0aec0; 
-    width: 42px; /* '주소', '문의' 라벨 너비 고정 */
-    flex-shrink: 0; /* 라벨이 찌그러지지 않게 고정 */
-    font-weight: 600;
-}
-
-.details span, .details .tel-link {
-    color: #4a5568;
-    flex: 1; /* 남은 공간을 주소 내용이 꽉 채움 */
-    word-break: keep-all; /* 단어 단위 줄바꿈으로 가독성 향상 */
-}
-
-.tel-link {
-    color: #007aff !important;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.details span, .details .tel-link {
-    color: #4a5568;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    word-break: keep-all;
-    padding-left: 2px; /* 살짝 들여쓰기 효과 */
-}
-
-.tel-link {
-    color: #007aff !important;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.details span, .details a {
-    color: #4a5568;
-    word-break: keep-all; /* 단어 단위 줄바꿈으로 깔끔하게 */
-}
+        .info-box { 
+            width: 100%; box-sizing: border-box; padding: 24px; border-radius: 20px; 
+            background: #ffffff; border: 1px solid #edf2f7; position: relative; 
+            animation: fadeIn 0.4s ease-out; box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
         
         .border-blue { border-left: 10px solid #007aff; }
         .border-yellow { border-left: 10px solid #ffcc00; }
@@ -197,24 +96,21 @@
 <body>
 
     <div class="main-wrapper">
-       <div class="content-area">
-    <div class="search-section">
-    <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 24px; right: 24px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s; z-index: 10;">
-        <i class="fas fa-paper-plane" style="font-size: 0.6rem;"></i>
+        <div class="content-area">
+           <div class="search-section" style="position: relative; padding-top: 40px; width: 100%; box-sizing: border-box; background: #ffffff; padding: 20px; border-radius: 20px; margin-bottom: 15px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
+    <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 15px; right: 20px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s;">
+        <i class="fas fa-paper-plane" style="font-size: 0.65rem;"></i>
         알리고 바로가기
     </a>
-
-        <h1>🔍 임대차 분쟁조정위 검색</h1>
-        <p class="subtitle">주소를 입력하여 관할 위원회를 찾으세요.</p>
-        
-        <div class="input-group">
-            <input type="text" id="address" placeholder="예: 경주시, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
-            <button onclick="searchJurisdiction()" style="padding: 0 15px;">검색</button>
+                <h1>🔍 임대차 분쟁조정위 검색</h1>
+                <p class="subtitle">지번/도로명 주소를 입력하시면 관할 위원회를 찾아드립니다.</p>
+                <div class="input-group">
+                    <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
+                    <button onclick="searchJurisdiction()">검색</button>
+                </div>
+            </div>
+            <div id="result-list" class="result-container"></div>
         </div>
-    </div>
-
-    <div id="result-list" class="result-container"></div>
-</div>
 
         <div class="side-law-section">
             <div class="law-container">
@@ -450,27 +346,19 @@
 
                     matched.forEach((loc, i) => {
                         let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
-    const card = document.createElement('div');
-    card.className = `info-box ${colorClass}`;
-    
-    // 기관명에서 () 부분을 찾아 작은 글씨 태그로 감쌉니다.
-    const displayName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
-
-    card.innerHTML = `
-        <span class="rank-tag">${sidoKey} 추천</span>
-        <span class="dist-tag">${loc.distance.toFixed(1)}<span class="unit">km</span></span>
-        <h3>${displayName}</h3>
-        <div class="details">
-            <div class="detail-item">
-                <b>주소</b> 
-                <span>${loc.address}</span>
-            </div>
-            <div class="detail-item">
-                <b>문의</b> 
-                <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a>
-            </div>
-        </div>
-    `;
+                        let rankClass = i === 0 ? "rank-priority" : "";
+                        let distClass = i === 0 ? "dist-priority" : "";
+                        const card = document.createElement('div');
+                        card.className = `info-box ${colorClass}`;
+                        card.innerHTML = `
+                            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+                            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+                            <h3>${loc.name}</h3>
+                            <div class="details">
+                                <div><b>주소</b> <span>${loc.address}</span></div>
+                                <div style="margin-top:6px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
+                            </div>
+                        `;
                         resList.appendChild(card);
                     });
                 } else {
