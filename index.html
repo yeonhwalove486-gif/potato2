@@ -76,14 +76,15 @@ button {
         
         /* 결과 박스 */
         .info-box { 
-            width: 100%; 
+    width: 100%; 
     box-sizing: border-box; 
-    padding: 12px 16px; /* 상하 패딩 축소 (16px -> 12px) */
+    padding: 10px 16px; /* 상하 패딩을 더 줄임 */
     border-radius: 12px; 
     background: #ffffff; 
     border: 1px solid #edf2f7; 
     position: relative; 
-    animation: fadeIn 0.4s ease-out; 
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 8px 20px rgba(0,0,0,0.02);
 }
         
@@ -124,10 +125,11 @@ button {
         
         /* 기관명 크기 확대 및 한 줄 유지 */
         .info-box h3 { 
-    margin: 0 0 4px 0; /* 하단 마진 축소 (8px -> 4px) */
-    font-size: 0.95rem; /* 글자 크기 축소 (1.1rem -> 0.95rem) */
+    margin: 0 !important; /* 위아래 마진을 완전히 제거 */
+    padding: 0 !important;
+    font-size: 0.95rem; 
     color: #1a202c; 
-    letter-spacing: -0.3px;
+    line-height: 1.2; /* 줄 높이를 줄여 위아래 여백 제거 */
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
@@ -139,11 +141,18 @@ button {
     color: #718096; /* 이 색상과 동일하게 맞춤 */
     margin-left: 4px; 
 }
-        .details { display: flex; flex-direction: column; gap: 3px; }
-        .details div { font-size: 0.85rem; line-height: 1.4; color: #4a5568; }{ 
-    font-size: 0.8rem; /* 글자 크기 축소 (0.85rem -> 0.8rem) */
-    line-height: 1.3; /* 줄 간격 축소 (1.4 -> 1.3) */
+        .details { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0px !important; /* 내부 줄 간격 제거 */
+    margin-top: 2px !important; /* 기관명 바로 밑으로 밀착 */
+}
+        .details div { 
+    font-size: 0.8rem; 
+    line-height: 1.3; 
     color: #4a5568; 
+    margin: 0 !important;
+    padding: 0 !important;
 }
         .details b { 
     color: #a0aec0; 
@@ -460,19 +469,19 @@ function clearResults() {
     const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
 
     card.innerHTML = `
-        <div class="tag-row">
-            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+       <div class="tag-row">
+        <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+    </div>
+    <h3 class="${titleClass}">${formattedName}</h3>
+    <div class="details">
+        <div><b>주소</b> <span>${loc.address}</span></div>
+        <div>
+            <b>문의</b> 
+            <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
         </div>
-        <h3 class="${titleClass}">${formattedName}</h3>
-        <div class="details">
-            <div><b>주소</b> <span>${loc.address}</span></div>
-            <div style="margin-top:2px;">
-                <b>문의</b> 
-                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </div>
-        </div>
-    `;
+    </div>
+`;
     resList.appendChild(card);
 });
                 } else {
