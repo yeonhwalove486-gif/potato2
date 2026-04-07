@@ -58,37 +58,22 @@
 
         .result-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
         
-       /* 검색 결과 카드 내 태그 정렬 */
+        /* 검색 결과 카드 높이 최적화 */
 .info-box { 
-    position: relative; 
-    padding: 16px 20px; /* 좌우 패딩 20px */
+    width: 100%; 
+    box-sizing: border-box; 
+    padding: 16px 18px; 
+    border-radius: 18px; 
+    background: #ffffff; 
+    border: 1px solid #edf2f7; 
+    margin-bottom: 12px;
 }
 
-/* 두 태그 모두 right: 20px로 설정하여 끝선 정렬 */
-.rank-tag, .dist-tag {
-    position: absolute;
-    right: 20px; /* 카드 오른쪽 패딩 끝에 맞춤 */
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-/* 지역 추천 태그 (상단) */
-.rank-tag {
-    top: 15px;
-    background: #ebf8ff;
-    color: #3182ce;
-}
-
-/* 거리 km 태그 (추천 태그 바로 아래) */
-.dist-tag {
-    top: 42px; 
-    background: #f7fafc;
-    color: #718096;
-    border: 1px solid #edf2f7;
+.info-box h3 { 
+    margin: 5px 0 10px; 
+    font-size: 1.05rem; 
+    color: #1a202c; 
+    letter-spacing: -0.5px;
 }
 
 /* 한 줄로 시작하되, 길어지면 주소 내용끼리 정렬 */
@@ -183,16 +168,14 @@
 
     <div class="main-wrapper">
        <div class="content-area">
-   <div class="search-section" style="position: relative; background: #ffffff; padding: 24px; border-radius: 20px; margin-bottom: 15px; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); width: 100%; box-sizing: border-box;">
-    <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 24px; right: 24px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s; z-index: 10;">
-        <i class="fas fa-paper-plane" style="font-size: 0.6rem;"></i>
-        알리고 바로가기
-    </a>
+    <div class="search-section">
+        <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 18px; right: 20px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; padding: 3px 9px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s;">
+            <i class="fas fa-paper-plane" style="font-size: 0.6rem;"></i>
+            알리고 바로가기
+        </a>
 
-    <h1 style="margin-top: 5px;">🔍 임대차 분쟁조정위 검색</h1>
-    <p class="subtitle">주소를 입력하여 관할 위원회를 찾으세요.</p>
-    ...
-</div>
+        <h1>🔍 임대차 분쟁조정위 검색</h1>
+        <p class="subtitle">주소를 입력하여 관할 위원회를 찾으세요.</p>
         
         <div class="input-group">
             <input type="text" id="address" placeholder="예: 경주시, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
