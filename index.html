@@ -88,6 +88,16 @@ button {
         .dist-tag { font-size: 0.9rem; font-weight: 800; color: #4a5568; margin-right: 2px; } /* 거리 강조 및 정렬 */
         .dist-priority { color: #e53e3e !important; }
 
+/* 가장 가까운 기관명 강조 스타일 */
+.priority-name {
+    color: #007aff !important; /* 검색 버튼과 동일한 브랜드 컬러 */
+    font-weight: 800; /* 더 두껍게 */
+    text-decoration: underline; /* 가벼운 밑줄로 시선 유도 */
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(0, 122, 255, 0.3);
+}
+        
         /* 기관명 크기 확대 및 한 줄 유지 */
         .info-box h3 { 
             margin: 0 0 8px 0; font-size: 1.1rem; color: #1a202c; letter-spacing: -0.3px;
@@ -385,9 +395,12 @@ button {
                       let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
     let rankClass = i === 0 ? "rank-priority" : "";
     let distClass = i === 0 ? "dist-priority" : "";
+    
+    // 가장 가까운 결과(첫 번째)인 경우 제목에 강조 클래스 추가
+    let titleClass = i === 0 ? "priority-name" : "";
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
-    
+
     // (괄호) 부분의 폰트만 미세하게 조절하기 위한 처리
     const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
 
@@ -396,7 +409,7 @@ button {
             <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
             <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
         </div>
-        <h3>${formattedName}</h3>
+        <h3 class="${titleClass}">${formattedName}</h3>
         <div class="details">
             <div><b>주소</b> <span>${loc.address}</span></div>
             <div style="margin-top:2px;"><b>문의</b> <a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></div>
