@@ -62,18 +62,48 @@
 .info-box { 
     width: 100%; 
     box-sizing: border-box; 
-    padding: 16px 18px; 
+    padding: 16px 20px; /* 좌우 패딩을 20px로 설정 */
     border-radius: 18px; 
     background: #ffffff; 
     border: 1px solid #edf2f7; 
     margin-bottom: 12px;
+    position: relative; /* 태그 배치를 위한 기준점 */
 }
 
+/* 태그 우측 끝 정렬 (right 값을 카드 패딩인 20px에 맞춤) */
+.rank-tag, .dist-tag {
+    position: absolute;
+    right: 20px; /* 카드 오른쪽 끝 라인에 맞춤 */
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    float: none; /* 기존 float 제거 */
+}
+
+/* 지역 추천 태그 (위) */
+.rank-tag {
+    top: 15px;
+    background: #ebf8ff;
+    color: #3182ce;
+    margin-bottom: 0;
+}
+
+/* 거리 km 태그 (아래) */
+.dist-tag {
+    top: 42px; /* 추천 태그 아래에 나란히 배치 */
+    background: #f7fafc;
+    color: #718096;
+    border: 1px solid #edf2f7;
+}
+
+/* 제목이 태그와 겹치지 않도록 너비 제한 */
 .info-box h3 { 
     margin: 5px 0 10px; 
     font-size: 1.05rem; 
     color: #1a202c; 
-    letter-spacing: -0.5px;
+    max-width: 180px; /* 태그 영역 확보 */
 }
 
 /* 한 줄로 시작하되, 길어지면 주소 내용끼리 정렬 */
@@ -169,10 +199,10 @@
     <div class="main-wrapper">
        <div class="content-area">
     <div class="search-section">
-        <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 18px; right: 20px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; padding: 3px 9px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s;">
-            <i class="fas fa-paper-plane" style="font-size: 0.6rem;"></i>
-            알리고 바로가기
-        </a>
+    <a href="https://smartsms.aligo.in/shop/" target="_blank" style="position: absolute; top: 24px; right: 24px; text-decoration: none; background: #ff5e00; color: white; font-size: 0.65rem; font-weight: 800; padding: 4px 10px; border-radius: 50px; display: flex; align-items: center; gap: 4px; box-shadow: 0 4px 10px rgba(255, 94, 0, 0.1); transition: 0.2s; z-index: 10;">
+        <i class="fas fa-paper-plane" style="font-size: 0.6rem;"></i>
+        알리고 바로가기
+    </a>
 
         <h1>🔍 임대차 분쟁조정위 검색</h1>
         <p class="subtitle">주소를 입력하여 관할 위원회를 찾으세요.</p>
