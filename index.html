@@ -5,6 +5,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -161,51 +162,17 @@ button {
         .law-tab.active { background: #fff; color: #007aff; border-bottom: 3px solid #007aff; }
         .law-list { padding: 10px 20px; overflow-y: auto; display: none; flex: 1; }
         .law-list.active { display: block; }
-        .law-item { 
-    border-bottom: 1px solid #f1f5f9; 
-    margin: 0 !important; 
-    padding: 0 !important;
-}
-        .law-q { 
-    padding: 10px 0 !important; /* 기존 16px에서 10px로 축소 */
-    cursor: pointer; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    font-size: 0.88rem; /* 글자 크기 살짝 축소 */
-    font-weight: 600; 
-    color: #475569; 
-    line-height: 1.2;
-}
+        .law-item { border-bottom: 1px solid #f1f5f9; }
+        .law-q { padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.92rem; font-weight: 600; color: #475569; }
         
         .point { color: #e53e3e; font-weight: 700; }
         
         .law-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: #f8fafc; border-radius: 12px; font-size: 0.88rem; color: #4a5568; }
-        .law-a-inner { 
-    padding: 12px !important; /* 기존 15px에서 12px로 축소 */
-    line-height: 1.5; 
-    border-left: 3px solid #007aff; 
-    white-space: pre-wrap; 
-    text-align: justify; 
-    font-size: 0.85rem;
-}
-    max-height: 2000px; 
-    margin-bottom: 8px !important; /* 기존 15px에서 8px로 축소 */
-}
+        .law-a-inner { padding: 15px; line-height: 1.7; border-left: 4px solid #007aff; white-space: pre-wrap; text-align: justify; }
+        .law-item.open .law-a { max-height: 2000px; margin-bottom: 15px; }
         .law-item.open .law-q { color: #007aff; font-weight: 800; }
-        .btn-full-law{ 
-    display: block; 
-    text-align: center; 
-    padding: 12px; 
-    background: #f1f5f9; 
-    color: #64748b; 
-    text-decoration: none; 
-    border-radius: 12px; 
-    font-size: 0.8rem; 
-    font-weight: 700; 
-    margin: 10px 0; /* 상하 마진 20px에서 10px로 축소 */
-    border: 1px dashed #cbd5e1; 
-}
+        .btn-full-law { display: block; text-align: center; padding: 15px; background: #f1f5f9; color: #64748b; text-decoration: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; margin: 20px 0; border: 1px dashed #cbd5e1; }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 1100px) { 
             .main-wrapper { flex-direction: column; align-items: center; } 
