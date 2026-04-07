@@ -85,26 +85,19 @@ button {
         .tag-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; width: 100%; }
         .rank-tag { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; background: #f0f2f5; color: #555; }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag{ 
+        .dist-tag { 
     font-size: 0.9rem; 
     font-weight: 800; 
-    color: #a0aec0; /* 회색 */
+    color: #a0aec0; 
     margin-right: 2px; 
 }
         .dist-priority {
-    color: #000 !important; /* 검정색 */
+    color: #718096 !important; 
 }
-.priority-tel{
-    color: #e53e3e !important;
-    font-weight: 800;
-    text-decoration: none;
-}
+.priority-tel { color: #e53e3e !important; font-weight: 800; text-decoration: none; }
         
 /* 가장 가까운 기관명 강조 스타일 */
-.priority-name {
-    color: #007aff !important;
-    font-weight: 800;
-}
+.priority-name { color: #007aff !important; font-weight: 800; }
     text-decoration: underline; /* 가벼운 밑줄로 시선 유도 */
     text-underline-offset: 4px;
     text-decoration-thickness: 2px;
@@ -119,8 +112,12 @@ button {
             text-overflow: ellipsis; 
             display: block;
         }
-        .sub-text { font-size: 0.85rem; font-weight: 500; color: #718096; margin-left: 4px; }
-
+        .sub-text { 
+    font-size: 0.85rem; 
+    font-weight: 500; 
+    color: #718096; /* 이 색상과 동일하게 맞춤 */
+    margin-left: 4px; 
+}
         .details { display: flex; flex-direction: column; gap: 3px; }
         .details div { font-size: 0.85rem; line-height: 1.4; color: #4a5568; }
         .details b { color: #a0aec0; width: 35px; display: inline-block; font-size: 0.8rem; }
