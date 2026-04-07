@@ -403,12 +403,12 @@ button {
                     }
 
                     matched.forEach((loc, i) => {
-                     let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+                    let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
     let rankClass = i === 0 ? "rank-priority" : "";
     
-    // 첫 번째 결과(가장 추천)에만 적용할 클래스들
+    // 첫 번째 결과(가장 추천) 강조 설정
     let titleClass = i === 0 ? "priority-name" : "";
-    let telClass = i === 0 ? "priority-tel" : "tel-link"; // 추천 기관은 전용 클래스 사용
+    let telClass = i === 0 ? "priority-tel" : "tel-link"; 
 
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
@@ -418,7 +418,8 @@ button {
     card.innerHTML = `
         <div class="tag-row">
             <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
-            <span class="dist-tag">${loc.distance.toFixed(1)}km</span> </div>
+            <span class="dist-tag">${loc.distance.toFixed(1)}km</span>
+        </div>
         <h3 class="${titleClass}">${formattedName}</h3>
         <div class="details">
             <div><b>주소</b> <span>${loc.address}</span></div>
