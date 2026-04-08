@@ -259,127 +259,129 @@ button {
             <div id="result-list" class="result-container"></div>
         </div>
 
-        <div class="side-law-section">
-        <div class="law-container">
-            <div class="law-tabs">
-                <div class="law-tab active" onclick="showLaw('house', event)">주택임대차보호법</div>
-                <div class="law-tab" onclick="showLaw('store', event)">상가임대차보호법</div>
-            </div>
-
-            <div id="house-law" class="law-list active">
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner"><span class="point">주거용 건물</span>의 임대차에 관하여 민법 특례를 규정함으로써 국민 <span class="point">주거생활의 안정</span>을 보장함을 목적으로 한다. [cite: 1]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">주택의 전부 또는 일부 임대차에 적용하며, 임차주택 일부가 <span class="point">주거 외 목적</span>으로 사용되는 경우에도 동일하게 적용한다. [cite: 2, 3]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">등기가 없어도 <span class="point">주택의 인도와 주민등록(전입신고)</span>을 마친 때에는 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다. [cite: 4, 5]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">대항요건과 <span class="point">확정일자</span>를 갖춘 임차인은 경·공매 시 환가대금에서 후순위권리자보다 <span class="point">우선하여 보증금을 변제</span>받을 권리가 있다. [cite: 5]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">임대차 종료 후 <span class="point">보증금이 반환되지 아니한 경우</span> 관할 법원에 임차권등기명령을 신청할 수 있다. [cite: 6]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조의6 (정보제공) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">이해관계인은 확정일자부여기관에 해당 주택의 <span class="point">확정일자 부여일, 차임 및 보증금 등 정보</span>의 제공을 요청할 수 있다. [cite: 7, 8]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조의7 (정보 제시 의무) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">계약 체결 시 임대인은 <span class="point">관련 사항을 임차인에게 제시</span>하여야 할 의무가 있다. [cite: 9]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">기간 미정 또는 <span class="point">2년 미만</span>은 <span class="point">2년</span>으로 본다. 임대차 종료 후에도 보증금을 반환받을 때까지는 관계가 존속되는 것으로 본다. [cite: 10, 11, 12]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월~2개월 전</span>까지 거절 통지 없을 시 <span class="point">동일 조건으로 갱신</span>된 것으로 본다(묵시적 갱신). [cite: 13, 14]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제6조의2 (묵시적 갱신 해지) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">묵시적 갱신 시 임차인은 언제든 해지 통지 가능하며, 임대인이 통지를 받은 날부터 <span class="point">3개월이 지나면</span> 효력이 발생한다. [cite: 15, 16]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">임차인은 <span class="point">1회에 한하여 행사</span> 가능하며 기간은 <span class="point">2년</span>이다. <span class="point">2기 차임 연체</span>, <span class="point">실거주 목적</span> 등 정당한 사유 시 거절 가능하다. [cite: 17, 18, 19, 22, 23]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">경제사정 변동 시 증감 청구 가능하며, 증액은 <span class="point">5%(20분의 1)</span>를 초과할 수 없고 증액 후 1년 이내에는 하지 못한다. [cite: 28, 29]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제7조의2 (월차임 전환 산정률) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">보증금 전환 시 은행 대출금리와 한국은행 기준금리에 따른 <span class="point">대통령령 이율</span>을 곱한 범위를 초과할 수 없다. [cite: 31, 32]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 <span class="point">임차인에게 불리한 것</span>은 그 효력이 없다. [cite: 33]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제10조의2 (초과 차임 반환) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">법정 비율을 초과하여 지급된 차임 또는 보증금은 <span class="point">반환을 청구</span>할 수 있다. [cite: 34]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제11조 (일시사용) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner"><span class="point">일시사용</span>임이 명백한 경우에는 이 법을 적용하지 아니한다. [cite: 35]</div></div>
-                </div>
-            </div>
-
-            <div id="store-law" class="law-list">
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">상가건물 임대차 특례를 통해 국민 <span class="point">경제생활의 안정</span>을 보장함을 목적으로 한다. [cite: 36]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner"><span class="point">사업자등록 대상</span> 건물에 적용된다. 단, 대통령령으로 정하는 <span class="point">보증금액 초과</span> 시 일부 제외된다. [cite: 37, 38]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner"><span class="point">건물 인도와 사업자등록</span>을 신청하면 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다. [cite: 39]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제4조 (정보제공) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">관할 세무서장은 확정일자 부여일, 차임, 보증금 등을 기재한 <span class="point">확정일자부</span>를 작성해야 한다. [cite: 40]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">기간 미정 또는 <span class="point">1년 미만</span>은 <span class="point">1년</span>으로 본다. 임차인은 1년 미만 기간의 유효함을 주장할 수 있다. [cite: 41, 42]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월~1개월 전</span>까지 요구 가능하며, 전체 기간 <span class="point">10년</span>을 초과하지 않는 범위에서 행사 가능하다. <span class="point">3기 차임 연체</span> 시 거절 가능하다. [cite: 43, 44, 47]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 보호) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월 전부터 종료 시까지</span> 정당한 사유 없이 임차인의 <span class="point">권리금 수령을 방해</span>해서는 안 된다. [cite: 52]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">연체액이 <span class="point">3기의 차임액</span>에 달하는 때에는 임대인이 <span class="point">계약을 해지</span>할 수 있다. [cite: 54]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제11조/제12조 (차임 증감 및 전환) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">감염병 등 경제사정 변동 시 증감 청구 가능하며, 보증금 전환 시 <span class="point">법정 산정률</span> 범위를 초과할 수 없다. [cite: 55, 58]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제15조/제16조 (강행규정 및 일시사용) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">임차인에게 불리한 약정은 <span class="point">효력이 무효</span>이며, 일시사용 임대차는 적용 제외된다. [cite: 59, 60]</div></div>
-                </div>
-                <div class="law-item">
-                    <div class="law-q" onclick="toggleItem(this)">제19조의2 (관리비 내역 제공) <i class="fas fa-chevron-down"></i></div>
-                    <div class="law-a"><div class="law-a-inner">임차인은 임대인에게 부과된 <span class="point">관리비 내역 제공</span>을 요청할 수 있으며, 임대인은 이에 따라야 한다. [cite: 61]</div></div>
+       <div class="side-law-section">
+            <div class="law-container">
+                <div class="law-tabs">
+                    <div class="law-tab active" onclick="showLaw('house', event)">주택임대차보호법</div>
+                    <div class="law-tab" onclick="showLaw('store', event)">상가임대차보호법</div>
                 </div>
 
-                <a href="https://www.law.go.kr/법령/상가건물임대차보호법" target="_blank" class="btn-full-law">상가임대차보호법 전문 보기</a>
+                <div id="house-law" class="law-list active">
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner"><span class="point">주거용 건물</span>의 임대차에 관하여 민법 특례를 규정함으로써 국민 <span class="point">주거생활의 안정</span>을 보장함을 목적으로 한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">주택의 전부 또는 일부 임대차에 적용하며, 임차주택 일부가 <span class="point">주거 외 목적</span>으로 사용되는 경우에도 동일하게 적용한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">등기가 없어도 <span class="point">주택의 인도와 주민등록(전입신고)</span>을 마친 때에는 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의2 (보증금의 회수) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">대항요건과 <span class="point">확정일자</span>를 갖춘 임차인은 경·공매 시 환가대금에서 후순위권리자보다 <span class="point">우선하여 보증금을 변제</span>받을 권리가 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의3 (임차권등기명령) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임대차 종료 후 <span class="point">보증금이 반환되지 아니한 경우</span> 관할 법원에 임차권등기명령을 신청할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의6 (정보제공) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">이해관계인은 확정일자부여기관에 해당 주택의 <span class="point">확정일자 부여일, 차임 및 보증금 등 정보</span>의 제공을 요청할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조의7 (정보 제시 의무) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">계약 체결 시 임대인은 <span class="point">미납국세, 확정일자 부여현황</span> 등 관련 사항을 임차인에게 제시하여야 할 의무가 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제4조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">기간 미정 또는 <span class="point">2년 미만</span>은 <span class="point">2년</span>으로 본다. 임대차 종료 후에도 보증금을 반환받을 때까지는 관계가 존속되는 것으로 본다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제6조 (계약의 갱신) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월~2개월 전</span>까지 거절 통지 없을 시 <span class="point">동일 조건으로 갱신</span>된 것으로 본다(묵시적 갱신).</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제6조의2 (묵시적 갱신 해지) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">묵시적 갱신 시 임차인은 언제든 해지 통지 가능하며, 임대인이 통지를 받은 날부터 <span class="point">3개월이 지나면</span> 효력이 발생한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제6조의3 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임차인은 <span class="point">1회에 한하여 행사</span> 가능하며 기간은 <span class="point">2년</span>이다. <span class="point">2기 차임 연체</span>, <span class="point">실거주 목적</span> 등 정당한 사유 시 거절 가능하다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제7조 (차임 증감청구권) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">경제사정 변동 시 증감 청구 가능하며, 증액은 <span class="point">5%(20분의 1)</span>를 초과할 수 없고 증액 후 1년 이내에는 하지 못한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제7조의2 (월차임 전환 산정률) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">보증금 전환 시 은행 대출금리와 한국은행 기준금리에 따른 <span class="point">대통령령 이율</span>을 곱한 범위를 초과할 수 없다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조 (강행규정) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">이 법에 위반된 약정으로서 <span class="point">임차인에게 불리한 것</span>은 그 효력이 없다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조의2 (초과 차임 반환) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">법정 비율을 초과하여 지급된 차임 또는 보증금은 <span class="point">반환을 청구</span>할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제11조 (일시사용) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner"><span class="point">일시사용</span>임이 명백한 경우에는 이 법을 적용하지 아니한다.</div></div>
+                    </div>
+                </div>
+
+                <div id="store-law" class="law-list">
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제1조 (목적) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">상가건물 임대차 특례를 통해 국민 <span class="point">경제생활의 안정</span>을 보장함을 목적으로 한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제2조 (적용 범위) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner"><span class="point">사업자등록 대상</span> 건물에 적용된다. 단, 대통령령으로 정하는 <span class="point">보증금액 초과</span> 시 일부 제외된다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제3조 (대항력 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner"><span class="point">건물 인도와 사업자등록</span>을 신청하면 <span class="point">그 다음 날부터</span> 제삼자에 대하여 효력이 생긴다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제4조 (정보제공) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">관할 세무서장은 확정일자 부여일, 차임, 보증금 등을 기재한 <span class="point">확정일자부</span>를 작성해야 한다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제9조 (임대차기간 등) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">기간 미정 또는 <span class="point">1년 미만</span>은 <span class="point">1년</span>으로 본다. 임차인은 1년 미만 기간의 유효함을 주장할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조 (계약갱신 요구) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월~1개월 전</span>까지 요구 가능하며, 전체 기간 <span class="point">10년</span>을 초과하지 않는 범위에서 행사 가능하다. <span class="point">3기 차임 연체</span> 시 거절 가능하다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조의2 (계약갱신의 특례) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">보증금액 초과 임대차의 경우 경제사정 변동을 고려하여 <span class="point">차임과 보증금의 증감</span>을 청구할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조의4 (권리금 회수 보호) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">종료 <span class="point">6개월 전부터 종료 시까지</span> 정당한 사유 없이 임차인의 <span class="point">권리금 수령을 방해</span>해서는 안 된다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제10조의8 (차임연체와 해지) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">연체액이 <span class="point">3기의 차임액</span>에 달하는 때에는 임대인이 <span class="point">계약을 해지</span>할 수 있다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제11조/제12조 (차임 증감 및 전환) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">감염병 등 경제사정 변동 시 증감 청구 가능하며, 보증금 전환 시 <span class="point">법정 산정률</span> 범위를 초과할 수 없다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제15조/제16조 (강행규정 및 일시사용) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임차인에게 불리한 약정은 <span class="point">효력이 무효</span>이며, 일시사용 임대차는 적용 제외된다.</div></div>
+                    </div>
+                    <div class="law-item">
+                        <div class="law-q" onclick="toggleItem(this)">제19조의2 (관리비 내역 제공) <i class="fas fa-chevron-down"></i></div>
+                        <div class="law-a"><div class="law-a-inner">임차인은 임대인에게 부과된 <span class="point">관리비 내역 제공</span>을 요청할 수 있으며, 임대인은 이에 따라야 한다.</div></div>
+                    </div>
                 </div>
             </div>
         </div>
