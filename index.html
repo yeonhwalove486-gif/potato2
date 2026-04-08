@@ -79,16 +79,16 @@ button {
         .result-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         
         /* 결과 박스 */
-        .info-box { 
-            width: 100%; 
+        .info-box{ 
+    width: 100%; 
     box-sizing: border-box; 
-    padding: 12px 16px; /* 상하 패딩 축소 (16px -> 12px) */
-    border-radius: 12px; 
+    padding: 18px 20px; /* 패딩을 넓혀서 박스를 키움 */
+    border-radius: 15px; 
     background: #ffffff; 
     border: 1px solid #edf2f7; 
     position: relative; 
     animation: fadeIn 0.4s ease-out; 
-    box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.04); /* 그림자도 조금 더 선명하게 */
 }
         
         .border-blue { border-left: 8px solid #007aff; }
@@ -104,12 +104,13 @@ button {
     width: 100%; 
 }
         .rank-tag { 
-    font-size: 0.6rem; /* 0.65rem -> 0.6rem */
-    padding: 1px 6px; 
+    font-size: 0.8rem; /* 기존 0.6~0.65rem -> 0.8rem */
+    padding: 4px 10px; 
+    font-weight: 700;
 }
         .rank-priority { background: #fee2e2 !important; color: #e53e3e !important; }
-        .dist-tag { 
-    font-size: 0.8rem; /* 0.9rem -> 0.8rem */
+        .dist-tag{ 
+    font-size: 0.95rem; /* 기존 0.8rem -> 0.95rem */
     font-weight: 800; 
     color: #a0aec0; 
 }
@@ -119,23 +120,21 @@ button {
 .priority-tel { color: #e53e3e !important; font-weight: 800; text-decoration: none; }
         
 /* 가장 가까운 기관명 강조 스타일 */
-.priority-name { color: #007aff !important; font-weight: 800; }
-    text-decoration: underline; /* 가벼운 밑줄로 시선 유도 */
-    text-underline-offset: 4px;
-    text-decoration-thickness: 2px;
-    text-decoration-color: rgba(0, 122, 255, 0.3);
+.priority-name { 
+    color: #007aff !important; 
+    font-size: 1.3rem !important; /* 1순위는 특별히 더 크게 */
+    text-decoration: underline; 
+    text-underline-offset: 5px;
 }
         
         /* 기관명 크기 확대 및 한 줄 유지 */
-        .info-box h3 { 
-    margin: 0 0 4px 0; /* 하단 마진 축소 (8px -> 4px) */
-    font-size: 0.95rem; /* 글자 크기 축소 (1.1rem -> 0.95rem) */
+        .info-box h3{ 
+    margin: 8px 0 10px 0; 
+    font-size: 1.2rem; /* 기존 0.95rem -> 1.2rem (크게 확대) */
     color: #1a202c; 
-    letter-spacing: -0.3px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    display: block;
+    letter-spacing: -0.5px;
+    white-space: normal; /* 이름이 길어도 잘리지 않게 줄바꿈 허용 */
+    line-height: 1.3;
 }
         .sub-text { 
     font-size: 0.85rem; 
@@ -144,16 +143,16 @@ button {
     margin-left: 4px; 
 }
         .details { display: flex; flex-direction: column; gap: 3px; }
-        .details div { font-size: 0.85rem; line-height: 1.4; color: #4a5568; }{ 
-    font-size: 0.8rem; /* 글자 크기 축소 (0.85rem -> 0.8rem) */
-    line-height: 1.3; /* 줄 간격 축소 (1.4 -> 1.3) */
+        .details div { 
+    font-size: 0.95rem; /* 기존 0.8rem -> 0.95rem */
+    line-height: 1.6; 
     color: #4a5568; 
 }
         .details b { 
-    color: #a0aec0; 
-    width: 32px; /* 너비 미세 조정 */
+    color: #718096; 
+    width: 40px; /* 라벨 너비도 글자 크기에 맞춰 조정 */
     display: inline-block; 
-    font-size: 0.75rem; /* 라벨 크기 축소 */
+    font-size: 0.85rem; 
 }
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
         /* [우측] 법령 섹션 */
