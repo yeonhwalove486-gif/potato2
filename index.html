@@ -499,12 +499,12 @@ function clearResults() {
 
                     matched.forEach((loc, i) => {
                     let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
-    let rankClass = i === 0 ? "rank-priority" : "";
+    let rankClass = i === 0 ? "rank-priority" : "rank-normal";
     
     // 첫 번째 결과(가장 추천) 강조 설정
     let titleClass = i === 0 ? "priority-name" : "";
     let telClass = i === 0 ? "priority-tel" : "tel-link"; 
-    let distClass = i === 0 ? "dist-priority" : ""; // 첫 번째만 검정색 클래스 추가
+    let distClass = i === 0 ? "dist-priority" : "";
 
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
@@ -513,20 +513,20 @@ function clearResults() {
 
     card.innerHTML = `
        <div class="tag-row">
-        <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+        <span class="rank-tag ${rankClass}">${i + 1}순위 추천</span>
         <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-    </div>
-    <h3 class="${titleClass}">${formattedName}</h3>
-    <div class="details">
-        <div class="row">
-            <b>주소</b> 
-            <span class="text-content">${loc.address}</span>
         </div>
-        <div class="row">
-            <b>문의</b> 
-            <span class="text-content">
-                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </span>
+        <h3 class="${titleClass}">${formattedName}</h3>
+        <div class="details">
+            <div class="row">
+                <b>주소</b> 
+                <span class="text-content">${loc.address}</span>
+            </div>
+            <div class="row">
+                <b>문의</b> 
+                <span class="text-content">
+                    <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
+                </span>
         </div>
     </div>
 `;
