@@ -83,9 +83,12 @@ button {
     width: 100%; 
     box-sizing: border-box; 
     padding: 16px 20px; 
-    border-radius: 25px; 
+    border-radius: 25px; /* 아주 부드러운 둥근 모서리 */
     background: #ffffff; 
     border: 1px solid #edf2f7; 
+    position: relative; 
+    animation: fadeIn 0.4s ease-out; 
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
     margin-bottom: 15px;
 }
         
@@ -121,7 +124,7 @@ button {
 /* 가장 가까운 기관명 강조 스타일 */
 .priority-name { 
     color: #007aff !important; 
-    font-size: 1.15rem !important; /* 1순위도 비례해서 소폭 축소 */
+    font-size: 1.15rem !important; /* 1순위 비례해서 소폭 축소 */
 }
         
         /* 기관명 크기 확대 및 한 줄 유지 */
@@ -138,12 +141,12 @@ button {
     color: #718096; /* 이 색상과 동일하게 맞춤 */
     margin-left: 4px; 
 }
-        .details { 
+        .details{ 
     display: flex; 
     flex-direction: column; 
     gap: 6px; 
 }
-.details .row {
+.details .row{
     display: flex;         /* 가로 정렬 */
     align-items: flex-start; /* 라벨과 텍스트 상단 맞춤 */
     font-size: 0.88rem;    /* 전체 폰트 크기 살짝 축소 */
