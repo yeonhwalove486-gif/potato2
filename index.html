@@ -1,13 +1,4 @@
 
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -104,20 +95,23 @@ button {
     margin-bottom: 4px; /* 간격 축소 (8px -> 4px) */
     width: 100%; 
 }
-        .rank-tag{ 
+        .rank-tag { 
     font-size: 0.75rem;
-    padding: 3px 12px; 
-    border-radius: 50px; /* 둥근 모양 강제 적용 */
+    padding: 4px 12px;      /* 좌우 패딩을 늘려 캡슐 느낌 강조 */
+    border-radius: 50px;    /* 완전한 둥근 모양 */
     font-weight: 700;
-    display: inline-block;
+    display: inline-flex;   /* 내부 정렬을 위해 flex 사용 */
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
 }
         .rank-priority { 
-    background: #fee2e2 !important; 
+    background-color: #fee2e2 !important; 
     color: #e53e3e !important; 
 }
   /* 2, 3순위용 (차분한 파란색/회색 계열) */
 .rank-normal { 
-    background: #eef2f7 !important; 
+    background-color: #eef2f7 !important; 
     color: #718096 !important; 
 }
          .dist-tag{ 
@@ -153,14 +147,14 @@ button {
         .details{ 
     display: flex; 
     flex-direction: column; 
-    gap: 6px; 
+    gap: 8px; 
+    margin-top: 5px;
 }
-.details .row{
-    display: flex;         /* 가로 정렬 */
-    align-items: flex-start; /* 라벨과 텍스트 상단 맞춤 */
-    font-size: 0.88rem;    /* 전체 폰트 크기 살짝 축소 */
+.details .row {
+    display: flex; 
+    align-items: flex-start; 
+    font-size: 0.88rem; /* 폰트 소폭 축소 */
     line-height: 1.5;
-    color: #4a5568;
 }
 .details div { 
     font-size: 0.95rem; /* 기존 0.8rem -> 0.95rem */
@@ -169,15 +163,15 @@ button {
 }
         .details b { 
     color: #a0aec0; 
-    min-width: 40px;      /* 라벨(주소, 문의) 너비 고정 */
-    flex-shrink: 0;       /* 라벨 크기 유지 */
-    font-size: 0.8rem; 
+    min-width: 40px;   /* '주소', '문의' 글자 너비 고정 */
+    display: inline-block;
+    font-size: 0.8rem;
     font-weight: 700;
-    margin-top: 1px;      /* 텍스트와 높이 맞춤 */
 }
 .details .text-content {
-    flex: 1;              /* 남은 공간 모두 차지 */
-    word-break: keep-all; /* 단어 단위로 줄바꿈 */
+    flex: 1;           /* 남은 공간을 채워 텍스트가 밑으로 안 가게 함 */
+    color: #4a5568;
+    word-break: keep-all;
 }
                
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
