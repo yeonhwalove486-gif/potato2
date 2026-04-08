@@ -92,32 +92,30 @@ button {
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    margin-bottom: 4px; /* 간격 축소 (8px -> 4px) */
-    width: 100%; 
+    margin-bottom: 8px; 
 }
         .rank-tag { 
-    font-size: 0.75rem;
-    padding: 4px 12px;      /* 좌우 패딩을 늘려 캡슐 느낌 강조 */
-    border-radius: 50px;    /* 완전한 둥근 모양 */
-    font-weight: 700;
-    display: inline-flex;   /* 내부 정렬을 위해 flex 사용 */
-    align-items: center;
-    justify-content: center;
-    margin-right: 8px;
+    display: inline-block;  /* 블록 요소로 인지시켜 배경색이 보이게 함 */
+    font-size: 0.72rem;     /* 폰트 크기 살짝 줄임 */
+    padding: 3px 10px;      /* 캡슐 내부 여백 */
+    border-radius: 50px;    /* 완전 둥글게 */
+    font-weight: 800;
+    line-height: 1;         /* 줄높이 고정 */
+    margin-bottom: 2px;
 }
-        .rank-priority { 
+        .rank-priority{ 
     background-color: #fee2e2 !important; 
-    color: #e53e3e !important; 
+    color: #e53e3e !important;
 }
   /* 2, 3순위용 (차분한 파란색/회색 계열) */
-.rank-normal { 
-    background-color: #eef2f7 !important; 
-    color: #718096 !important; 
+.rank-normal{ 
+    background-color: #e8f0fe !important; /* 명확한 연파랑 배경색 부여 */
+    color: #1a73e8 !important;            /* 글자색도 파란색 계열로 변경 */
 }
          .dist-tag{ 
-    font-size: 0.95rem; /* 기존 0.8rem -> 0.95rem */
+    font-size: 0.9rem;
     font-weight: 800; 
-    color: #a0aec0; 
+    color: #cbd5e1; /* 거리 글자는 조금 연하게 */
 }
         .dist-priority {
     color: #718096 !important; 
@@ -518,18 +516,21 @@ function clearResults() {
        <div class="tag-row">
         <span class="rank-tag ${rankClass}">${i + 1}순위 추천</span>
         <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+    </div>
+    
+    <h3 class="${titleClass}">${formattedName}</h3>
+    
+    <div class="details">
+        <div class="row">
+            <b>주소</b> 
+            <span class="text-content">${loc.address}</span>
         </div>
-        <h3 class="${titleClass}">${formattedName}</h3>
-        <div class="details">
-            <div class="row">
-                <b>주소</b> 
-                <span class="text-content">${loc.address}</span>
-            </div>
-            <div class="row">
-                <b>문의</b> 
-                <span class="text-content">
-                    <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-                </span>
+        
+        <div class="row">
+            <b>문의</b> 
+            <span class="text-content">
+                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
+            </span>
         </div>
     </div>
 `;
