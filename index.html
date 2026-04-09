@@ -493,9 +493,8 @@ function clearResults() {
                         .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
                         .sort((a, b) => a.distance - b.distance);
 
-                    const resList =document.getElementById('result-list');
-                resList.innerHTML = '';
-
+                    const resList = document.getElementById('result-list');
+    if (resList) resList.innerHTML = '';
                     
                     if (matched.length === 0) {
                         resList.innerHTML = '<div class="info-box"><p style="text-align:center; color:#888;">해당 지역의 관할 조정위원회를 찾을 수 없습니다.</p></div>';
@@ -504,12 +503,12 @@ function clearResults() {
 
                     matched.forEach((loc, i) => {
                     let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
-    let rankClass = i === 0 ? "rank-priority" : "rank-normal";
+    let rankClass = i === 0 ? "rank-priority" : "";
     
     // 첫 번째 결과(가장 추천) 강조 설정
     let titleClass = i === 0 ? "priority-name" : "";
     let telClass = i === 0 ? "priority-tel" : "tel-link"; 
-    let distClass = i === 0 ? "dist-priority" : "";
+    let distClass = i === 0 ? "dist-priority" : ""; // 첫 번째만 검정색 클래스 추가
 
     const card = document.createElement('div');
     card.className = `info-box ${colorClass}`;
@@ -517,27 +516,19 @@ function clearResults() {
     const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
 
     card.innerHTML = `
-       <div class="tag-row">
-        <span class="rank-tag ${rankClass}">${i + 1}순위 추천</span>
-        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-    </div>
-    
-    <h3 class="${titleClass}">${formattedName}</h3>
-    
-    <div class="details">
-        <div class="row">
-            <b>주소</b> 
-            <span class="text-content">${loc.address}</span>
+        <div class="tag-row">
+            <span class="rank-tag ${rankClass}">${sidoKey} 지역 추천</span>
+            <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
         </div>
-        
-        <div class="row">
-            <b>문의</b> 
-            <span class="text-content">
+        <h3 class="${titleClass}">${formattedName}</h3>
+        <div class="details">
+            <div><b>주소</b> <span>${loc.address}</span></div>
+            <div style="margin-top:2px;">
+                <b>문의</b> 
                 <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </span>
+            </div>
         </div>
-    </div>
-`;
+    `;
     resList.appendChild(card);
 });
                 } else {
@@ -558,5 +549,22 @@ function clearResults() {
             if (!isOpen) item.classList.add('open');
         }
     </script>
+
+<div style="display:none;">
+    <iframe id="yt-player" width="0" height="0" 
+        src="https://www.youtube.com/embed/영상아이디?autoplay=1&mute=1&loop=1&playlist=영상아이디" 
+        frameborder="0" allow="autoplay">
+    </iframe>
+</div>
+
+<script>
+    // 브라우저 정책상 처음엔 음소거(mute)로 시작했다가 클릭 시 소리를 켭니다.
+    window.addEventListener('click', function() {
+        const iframe = document.getElementById('yt-player');
+        // 음소거 해제 로직은 유튜브 API가 필요하지만, 
+        // 간단하게는 클릭 시 '음악 재생 허용' 팝업을 띄우는 방식을 씁니다.
+    }, { once: true });
+</script>
+
 </body>
 </html>
