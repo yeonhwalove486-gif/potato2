@@ -452,46 +452,33 @@ button {
             return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
 
-function clearResults() {
-            // 1. 검색 결과 리스트 비우기
-            const resList = document.getElementById('result-list');
-            if (resList) resList.innerHTML = '';
-            
-            // 2. 입력창 텍스트 비우기 및 포커스
+        function clearResults() {
+            document.getElementById('result-list').innerHTML = '';
             const input = document.getElementById('address');
-            if (input) {
-                input.value = '';
-                input.focus();
-            }
+            input.value = '';
+            input.focus();
         }
-        
+
         function searchJurisdiction() {
-            const input = document.getElementById('address').value;
-            if (!input) return;
+            const inputVal = document.getElementById('address').value;
+            if (!inputVal) return;
+            
             const geocoder = new kakao.maps.services.Geocoder();
-            geocoder.addressSearch(input, function(result, status) {
+            geocoder.addressSearch(inputVal, function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     const uLat = parseFloat(result[0].y), uLng = parseFloat(result[0].x);
                     const sidoRaw = result[0].address.region_1depth_name;
                     
-                    // 1. 해당 광역지자체(sido) 키워드 추출
                     let sidoKey = "";
-                    for(let key in jurisdictionMap) { 
-                        if(sidoRaw.includes(key)) { 
-                            sidoKey = key; 
-                            break; 
-                        } 
-                    }
+                    for(let key in jurisdictionMap) { if(sidoRaw.includes(key)) { sidoKey = key; break; } }
 
-                    // 2. 필터링: jurisdictionMap에 정의된 '같은 지역' 기관만 추출
-                    // 거리순 정렬은 유지하되, 대상 자체를 해당 지역으로 한정함
                     let matched = locations
                         .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
                         .map(loc => ({ ...loc, distance: getDistance(uLat, uLng, loc.lat, loc.lng) }))
                         .sort((a, b) => a.distance - b.distance);
 
                     const resList = document.getElementById('result-list');
-    if (resList) resList.innerHTML = '';
+                    resList.innerHTML = '';
                     
                     if (matched.length === 0) {
                         resList.innerHTML = '<div class="info-box"><p style="text-align:center; color:#888;">해당 지역의 관할 조정위원회를 찾을 수 없습니다.</p></div>';
@@ -499,59 +486,48 @@ function clearResults() {
                     }
 
                     matched.forEach((loc, i) => {
-                    let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
-    let rankClass = i === 0 ? "rank-priority" : "rank-normal";
-    
-    // 첫 번째 결과(가장 추천) 강조 설정
-    let titleClass = i === 0 ? "priority-name" : "";
-    let telClass = i === 0 ? "priority-tel" : "tel-link"; 
-    let distClass = i === 0 ? "dist-priority" : "";
-
-    const card = document.createElement('div');
-    card.className = `info-box ${colorClass}`;
-    
-    const formattedName = loc.name.replace("(", "<span class='sub-text'>(").replace(")", ")</span>");
-
-    card.innerHTML = `
-       <div class="tag-row">
-        <span class="rank-tag ${rankClass}">${i + 1}순위 추천</span>
-        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
-    </div>
-    
-    <h3 class="${titleClass}">${formattedName}</h3>
-    
-    <div class="details">
-        <div class="row">
-            <b>주소</b> 
-            <span class="text-content">${loc.address}</span>
-        </div>
-        
-        <div class="row">
-            <b>문의</b> 
-            <span class="text-content">
-                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
-            </span>
-        </div>
-    </div>
-`;
-    resList.appendChild(card);
-});
+                        const card = document.createElement('div');
+                        card.className = `info-box ${i === 0 ? "border-blue" : "border-normal"}`;
+                        card.innerHTML = `
+                            <div class="tag-row">
+                                <span class="rank-tag ${i===0?'rank-priority':'rank-normal'}">${i+1}순위 추천</span>
+                                <span class="dist-tag">${loc.distance.toFixed(1)}km</span>
+                            </div>
+                            <h3>${loc.name}</h3>
+                            <div class="details">
+                                <div class="row"><b>주소</b> <span class="text-content">${loc.address}</span></div>
+                                <div class="row"><b>문의</b> <span class="text-content"><a href="tel:${loc.tel}" class="tel-link">${loc.tel}</a></span></div>
+                            </div>`;
+                        resList.appendChild(card);
+                    });
+                    // 검색 후 결과창으로 부드럽게 이동
+                    resList.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 } else {
                     alert("주소를 정확히 입력해주세요.");
                 }
             });
         }
+
         function showLaw(type, event) {
             document.querySelectorAll('.law-tab, .law-list').forEach(el => el.classList.remove('active'));
             event.currentTarget.classList.add('active');
-            document.getElementById(type + '-law').classList.add('active');
+            const activeList = document.getElementById(type + '-law');
+            activeList.classList.add('active');
+            activeList.scrollTop = 0; // 탭 변경 시 스크롤 상단 이동
         }
 
+        // [수정된 부분] 아코디언 토글 기능 완성
         function toggleItem(el) {
             const item = el.parentElement;
             const isOpen = item.classList.contains('open');
+            
+            // 다른 모든 항목 닫기 (원치 않으면 이 줄 삭제)
             document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
-            if (!isOpen) item.classList.add('open');
+            
+            // 현재 클릭한 항목 토글
+            if (!isOpen) {
+                item.classList.add('open');
+            }
         }
     </script>
 </body>
