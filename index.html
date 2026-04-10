@@ -234,6 +234,37 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
+/* 안내 섹션 전체 스타일 */
+.guide-section { width: 100%; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+
+/* 상담센터 메인 카드 */
+.guide-card { background: #007aff; color: white; padding: 15px; border-radius: 15px; text-align: center; }
+.guide-card h3 { font-size: 0.9rem; margin: 0 0 8px 0; opacity: 0.9; }
+.guide-card .phone-main { font-size: 1.5rem; font-weight: 800; margin-bottom: 2px; }
+.guide-card .phone-sub { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
+.guide-card .desc-small { font-size: 0.75rem; opacity: 0.8; }
+
+/* 유관기관 리스트 */
+.agency-list { background: white; padding: 12px; border-radius: 15px; border: 1px solid #edf2f7; }
+.agency-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #f8fafc; }
+.agency-item:last-child { border-bottom: none; }
+.agency-item b { color: #007aff; }
+
+/* 신고 가이드 박스 */
+.report-box { background: #fff9e6; padding: 12px; border-radius: 15px; border: 1px solid #ffeeba; }
+.report-header { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #f8e4a5; padding-bottom: 5px; }
+.report-title { font-weight: 800; font-size: 0.85rem; color: #856404; }
+.report-num { font-weight: 800; color: #d9480f; }
+.report-info { font-size: 0.8rem; line-height: 1.5; color: #555; }
+.report-info .highlight { color: #e53e3e; font-weight: 700; }
+
+/* 기타 정보 그리드 */
+.etc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.etc-item { background: white; padding: 10px; border-radius: 10px; font-size: 0.75rem; border: 1px solid #edf2f7; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.etc-item b { display: block; color: #718096; margin-bottom: 2px; font-size: 0.7rem; }
+.etc-item.danger { border-color: #feb2b2; background: #fff5f5; }
+.etc-item.danger b { color: #e53e3e; }
+      
     </style>
 </head>
 <body>
@@ -255,7 +286,43 @@ button {
 </div>
             <div id="result-list" class="result-container"></div>
         </div>
+<div class="guide-section">
+    <div class="guide-card">
+        <h3><i class="fas fa-headset"></i> 임대차 상담센터</h3>
+        <p class="phone-main">1644-5599</p>
+        <p class="phone-sub">1644-2828 (내선 2번)</p>
+        <p class="desc-small">1번: 공시 / 3번: K-APT / 0번: 그 외</p>
+    </div>
 
+    <div class="agency-list">
+        <div class="agency-item"><span>LH 한국토지주택공사</span> <b>1600-1004</b></div>
+        <div class="agency-item"><span>HUG 주택도시보증공사</span> <b>1566-9009</b></div>
+        <div class="agency-item"><span>SH 서울주택도시공사</span> <b>1600-3456</b></div>
+    </div>
+
+    <div class="report-box">
+        <div class="report-header">
+            <span class="report-title">주택임대차신고(전월세)</span>
+            <span class="report-num">1533-2949</span>
+        </div>
+        <div class="report-info">
+            <p>• 1번: 임대차 신고 / 2번: 부동산거래신고</p>
+            <p class="highlight">• 보증금 6,000만원 또는 월세 30만원 초과</p>
+            <p>• 갱신·신규 계약 30일 이내 신고 (주민센터/시스템)</p>
+        </div>
+    </div>
+
+    <div class="etc-grid">
+        <div class="etc-item"><b>부동산 전자계약</b> 1833-4662</div>
+        <div class="etc-item"><b>렌트홈(임대사업자)</b> 1670-8004</div>
+        <div class="etc-item"><b>상생임대인(국세청)</b> 126</div>
+        <div class="etc-item"><b>국토교통부</b> 1599-0001(3번)</div>
+        <div class="etc-item"><b>청약홈</b> 1644-7445</div>
+        <div class="etc-item danger"><b>HUG 전세피해지원</b> 1533-8119</div>
+    </div>
+</div>
+
+        
         <div class="side-law-section">
             <div class="law-container">
                <div class="law-tabs">
