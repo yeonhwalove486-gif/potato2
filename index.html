@@ -174,17 +174,7 @@ button {
     color: #4a5568;
     word-break: keep-all;
 }
-
-/* 자동완성 목록 스타일 */
-#suggestion-list div {
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    border-bottom: 1px solid #f0f0f0;
-}
-#suggestion-list div:last-child { border-bottom: none; }
-#suggestion-list div:hover { background-color: #f8fbff; color: #007aff; }
-        
+               
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
         /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
@@ -248,18 +238,6 @@ button {
 </head>
 <body>
 
-<div class="search-section">
-    <div class="input-group">
-        <div style="position: relative; flex: 1; display: flex;">
-            <input type="text" id="address" placeholder="예: 동구, 경주시, 수원시" 
-                   oninput="handleInput(this.value)" 
-                   onkeypress="if(event.keyCode==13) searchJurisdiction()" autocomplete="off">
-            <div id="suggestion-list" style="display: none; position: absolute; top: 40px; left: 0; width: 100%; background: white; border: 1px solid #ddd; border-radius: 10px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></div>
-        </div>
-        <button onclick="searchJurisdiction()">검색</button>
-    </div>
-</div>
-    
     <div class="main-wrapper">
         <div class="content-area">
            <div class="search-section">
@@ -555,53 +533,6 @@ function clearResults() {
             document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
             if (!isOpen) item.classList.add('open');
         }
-const ps = new kakao.maps.services.Places();
-
-// 입력 시 실시간으로 추천 검색어 표시
-function handleInput(value) {
-    const suggestionList = document.getElementById('suggestion-list');
-    if (!value.trim()) {
-        suggestionList.style.display = 'none';
-        return;
-    }
-
-    // 장소 검색을 통해 '동구'가 포함된 지역 리스트 가져오기
-    ps.keywordSearch(value, (data, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-            suggestionList.innerHTML = '';
-            suggestionList.style.display = 'block';
-
-            // 최대 5개까지만 추천
-            data.slice(0, 5).forEach(item => {
-                const div = document.createElement('div');
-                // 지번 주소 또는 도로명 주소 표시
-                div.innerHTML = `<i class="fas fa-map-marker-alt" style="margin-right:8px; color:#ccc;"></i>${item.address_name}`;
-                div.onclick = () => {
-                    document.getElementById('address').value = item.address_name;
-                    suggestionList.style.display = 'none';
-                    searchJurisdiction(); // 클릭 시 바로 검색 실행
-                };
-                suggestionList.appendChild(div);
-            });
-        } else {
-            suggestionList.style.display = 'none';
-        }
-    });
-}
-
-// 기존 searchJurisdiction 함수 시작 부분에 추천 목록 숨김 처리 추가
-function searchJurisdiction() {
-    document.getElementById('suggestion-list').style.display = 'none';
-    const input = document.getElementById('address').value;
-    // ... 이하 기존 코드와 동일 ...
-}
-
-// 바탕 클릭 시 추천 목록 닫기
-document.addEventListener('click', (e) => {
-    if (e.target.id !== 'address') {
-        document.getElementById('suggestion-list').style.display = 'none';
-    }
-});   
     </script>
 </body>
 </html>
