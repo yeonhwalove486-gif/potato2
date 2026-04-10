@@ -16,7 +16,13 @@
         .main-wrapper { display: flex; max-width: 1500px; margin: 0; gap: 30px; align-items: flex-start; justify-content: flex-start; }
 
         /* [좌측] 콘텐츠 영역 */
-        .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 450px; }
+        .content-areacontent-area { 
+    flex-shrink: 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    width: 270px; /* 450px에서 약 절반으로 축소 */
+}
 
         .search-section { 
             position: relative; width: 100%; box-sizing: border-box; background: #ffffff; 
@@ -235,35 +241,59 @@ button {
             .law-container { height: 600px; } 
         }
 /* 안내 섹션 전체 스타일 */
-.guide-section { width: 100%; margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.guide-section { 
+    width: 100%; 
+    margin-top: 15px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+}
 
 /* 상담센터 메인 카드 */
-.guide-card { background: #007aff; color: white; padding: 15px; border-radius: 15px; text-align: center; }
-.guide-card h3 { font-size: 0.9rem; margin: 0 0 8px 0; opacity: 0.9; }
-.guide-card .phone-main { font-size: 1.5rem; font-weight: 800; margin-bottom: 2px; }
-.guide-card .phone-sub { font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
-.guide-card .desc-small { font-size: 0.75rem; opacity: 0.8; }
+.guide-card { 
+    background: #007aff; 
+    color: white; 
+    padding: 12px 10px; 
+    border-radius: 12px; 
+    text-align: center; 
+}
+.guide-card h3 { font-size: 0.8rem; margin: 0 0 5px 0; opacity: 0.9; }
+.guide-card .phone-main { font-size: 1.25rem; font-weight: 800; margin-bottom: 2px; }
+.guide-card .phone-sub { font-size: 0.95rem; font-weight: 600; margin-bottom: 3px; }
+.guide-card .desc-small { font-size: 0.68rem; opacity: 0.8; line-height: 1.2; }
 
 /* 유관기관 리스트 */
-.agency-list { background: white; padding: 12px; border-radius: 15px; border: 1px solid #edf2f7; }
-.agency-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #f8fafc; }
+.agency-list { background: white; padding: 10px; border-radius: 12px; border: 1px solid #edf2f7; }
+.agency-item { 
+    display: flex; 
+    flex-direction: column; /* 좁은 폭을 위해 세로 배치 */
+    font-size: 0.8rem; 
+    padding: 6px 0; 
+    border-bottom: 1px solid #f8fafc; 
+}
 .agency-item:last-child { border-bottom: none; }
-.agency-item b { color: #007aff; }
+.agency-item span { color: #64748b; font-size: 0.75rem; margin-bottom: 2px; }
+.agency-item b { color: #007aff; font-size: 0.9rem; }
 
-/* 신고 가이드 박스 */
-.report-box { background: #fff9e6; padding: 12px; border-radius: 15px; border: 1px solid #ffeeba; }
-.report-header { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #f8e4a5; padding-bottom: 5px; }
-.report-title { font-weight: 800; font-size: 0.85rem; color: #856404; }
-.report-num { font-weight: 800; color: #d9480f; }
-.report-info { font-size: 0.8rem; line-height: 1.5; color: #555; }
-.report-info .highlight { color: #e53e3e; font-weight: 700; }
+/* 신고 가이드 박스 슬림화 */
+.report-box { background: #fff9e6; padding: 10px; border-radius: 12px; border: 1px solid #ffeeba; }
+.report-title { font-weight: 800; font-size: 0.8rem; color: #856404; display: block; margin-bottom: 4px; }
+.report-num { font-weight: 800; color: #d9480f; font-size: 0.9rem; }
+.report-info { font-size: 0.75rem; line-height: 1.4; color: #555; }
 
-/* 기타 정보 그리드 */
-.etc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.etc-item { background: white; padding: 10px; border-radius: 10px; font-size: 0.75rem; border: 1px solid #edf2f7; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-.etc-item b { display: block; color: #718096; margin-bottom: 2px; font-size: 0.7rem; }
-.etc-item.danger { border-color: #feb2b2; background: #fff5f5; }
-.etc-item.danger b { color: #e53e3e; }
+/* 기타 정보 그리드를 1열로 변경 */
+.etc-grid { display: flex; flex-direction: column; gap: 6px; }
+.etc-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    background: white; 
+    padding: 8px 10px; 
+    border-radius: 8px; 
+    font-size: 0.75rem; 
+    border: 1px solid #edf2f7; 
+}
+.etc-item b { color: #718096; font-size: 0.72rem; margin-bottom: 0; }
       
     </style>
 </head>
