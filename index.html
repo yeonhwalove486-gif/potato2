@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -247,11 +248,9 @@ button {
     <h1 onclick="clearResults()" style="cursor:pointer">🔍 임대차 분쟁조정위 검색</h1>
     
     <p class="subtitle">지역 또는 구를 입력하시면 인근 분쟁조정위원회를 찾아드립니다.</p>
-  <div class="input-group" style="position: relative;"> 
-    <input type="text" id="regionInput" placeholder="지역명을 입력하세요 (예: 동구, 강남구)" oninput="handleSearch(this.value)" autocomplete="off">
-    <button onclick="performSearch()">검색</button>
-    
-    <div id="suggestions" style="display: none; position: absolute; top: 40px; left: 0; width: calc(100% - 70px); background: white; border: 2px solid #007aff; border-top: none; border-radius: 0 0 10px 10px; z-index: 1000; box-shadow: 0 8px 15px rgba(0,0,0,0.1); max-height: 250px; overflow-y: auto;">
+    <div class="input-group">
+        <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
+        <button onclick="searchJurisdiction()">검색</button>
     </div>
 </div>
             <div id="result-list" class="result-container"></div>
