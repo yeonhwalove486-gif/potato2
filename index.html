@@ -457,6 +457,13 @@ function clearResults() {
         function searchJurisdiction() {
     const input = document.getElementById('address').value;
     if (!input) return;
+ 
+    const resList = document.getElementById('result-list');
+    const suggestionBox = document.getElementById('suggestion-list');
+ 
+    // 🔥 이전 검색 결과 + 추천 삭제
+    if (resList) resList.innerHTML = '';
+    if (suggestionBox) suggestionBox.innerHTML = '';
 
     const geocoder = new kakao.maps.services.Geocoder();
 
