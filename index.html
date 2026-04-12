@@ -534,6 +534,94 @@ function clearResults() {
             document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
             if (!isOpen) item.classList.add('open');
         }
+
+    const originalSearch = searchJurisdiction;
+
+searchJurisdiction = function () {
+    const input = document.getElementById('address').value;
+    if (!input) return;
+
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(input, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+
+            const uLat = parseFloat(result[0].y);
+            const uLng = parseFloat(result[0].x);
+            const sidoRaw = result[0].address.region_1depth_name;
+
+            let sidoKey = "";
+            for (let key in jurisdictionMap) {
+                if (sidoRaw.includes(key)) {
+                    sidoKey = key;
+                    break;
+                }
+            }
+
+            let matched = locations
+                .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
+                .map(loc => ({
+                    ...loc,
+                    distance: getDistance(uLat, uLng, loc.lat, loc.lng)
+                }))
+                .sort((a, b) => a.distance - b.distance);
+
+            const resList = document.getElementById('result-list');
+            resList.innerHTML = '';
+
+            if (matched.length === 0) {
+                resList.innerHTML = '<div class="info-box"><p style="text-align:center; color:#888;">해당 지역 결과 없음</p></div>';
+                return;
+            }
+
+            matched.forEach((loc, i) => {
+
+                let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
+                let rankClass = i === 0 ? "rank-priority" : "rank-normal";
+                let titleClass = i === 0 ? "priority-name" : "";
+                let telClass = i === 0 ? "priority-tel" : "tel-link";
+                let distClass = i === 0 ? "dist-priority" : "";
+
+                const card = document.createElement('div');
+                card.className = `info-box ${colorClass}`;
+
+                const formattedName = loc.name
+                    .replace("(", "<span class='sub-text'>(")
+                    .replace(")", ")</span>");
+
+                card.innerHTML = `
+                    <div class="tag-row">
+                        <span class="rank-tag ${rankClass}">${i + 1}순위 추천</span>
+                        <span class="dist-tag ${distClass}">${loc.distance.toFixed(1)}km</span>
+                    </div>
+
+                    <h3 class="${titleClass}">${formattedName}</h3>
+
+                    <div class="details">
+                        <div class="row">
+                            <b>주소</b> 
+                            <span class="text-content">${loc.address}</span>
+                        </div>
+
+                        <div class="row">
+                            <b>문의</b> 
+                            <span class="text-content">
+                                <a href="tel:${loc.tel}" class="${telClass}">${loc.tel}</a>
+                            </span>
+                        </div>
+                    </div>
+                `;
+
+                resList.appendChild(card);
+            });
+
+        } else {
+            alert("주소를 정확히 입력해주세요.");
+        }
+    });
+};
+    
+    
     </script>
 </body>
 </html>
