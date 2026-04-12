@@ -562,13 +562,15 @@ document.getElementById('address').addEventListener('input', function() {
     matched.forEach(item => {
         const div = document.createElement('div');
         div.style.cssText = `
-            padding:8px 10px;
-            background:#fff;
-            border:1px solid #eee;
-            border-radius:8px;
-            margin-bottom:4px;
-            cursor:pointer;
-        `;
+           padding:10px 12px;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:10px;
+    margin-bottom:6px;
+    cursor:pointer;
+    width:100%;
+    box-sizing:border-box;
+`;
         div.innerText = item;
 
         div.onclick = () => {
