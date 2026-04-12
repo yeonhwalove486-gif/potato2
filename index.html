@@ -567,6 +567,11 @@ function clearResults() {
 document.getElementById('address').addEventListener('input', function() {
     const value = this.value.trim();
     const suggestionBox = document.getElementById('suggestion-list');
+    const resList = document.getElementById('result-list');
+
+    // 🔥 핵심: 입력 시작하면 이전 결과 삭제
+    if (resList) resList.innerHTML = '';
+
     suggestionBox.innerHTML = '';
 
     if (value.length < 1) return;
