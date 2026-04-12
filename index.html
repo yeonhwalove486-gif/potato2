@@ -465,39 +465,7 @@ function searchJurisdiction() {
                     }
                 }
 
-                let matched = locations
-                    .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
-                    .map(loc => ({
-                        ...loc,
-                        distance: getDistance(uLat, uLng, loc.lat, loc.lng)
-                    }));
-
-                allResults = allResults.concat(matched);
-            });
-
-            // 👉 중복 제거
-            const unique = {};
-            allResults = allResults.filter(item => {
-                if (unique[item.name]) return false;
-                unique[item.name] = true;
-                return true;
-            });
-
-            // 👉 거리순 정렬
-            allResults.sort((a, b) => a.distance - b.distance);
-
-            renderResults(allResults);
-        });
-
-    } else {
-        // 👉 2. 기존 주소 검색 유지
-        const geocoder = new kakao.maps.services.Geocoder();
-
-        geocoder.addressSearch(input, function(result, status) {
-            if (status !== kakao.maps.services.Status.OK) {
-                alert("주소를 정확히 입력해주세요.");
-                return;
-            }
+               
 
             const uLat = parseFloat(result[0].y);
             const uLng = parseFloat(result[0].x);
