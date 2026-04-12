@@ -241,6 +241,11 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
+.suggestion-item.active {
+    background: #007aff;
+    color: white;
+}
+    
 </style>
 </head>
 
@@ -433,6 +438,8 @@ button {
     "제주": ["한국토지주택공사 제주지역본부(제주 관할)", "대한법률구조공단 광주지부(광주·전남북·제주)"]
 };
 
+        let selectedSuggestionIndex = -1;
+
         function getDistance(lat1, lng1, lat2, lng2) {
             const R = 6371; 
             const dLat = (lat2-lat1) * Math.PI/180;
@@ -571,13 +578,15 @@ document.getElementById('address').addEventListener('input', function() {
 
     // 🔥 핵심: 입력 시작하면 이전 결과 삭제
     if (resList) resList.innerHTML = '';
-
+    selectedSuggestionIndex = -1; // 🔥 초기화
+    
     suggestionBox.innerHTML = '';
 
     if (value.length < 1) return;
     const matched = districtList.filter(d => d.includes(value));
     matched.forEach(item => {
         const div = document.createElement('div');
+      div.className = 'suggestion-item';
         div.style.cssText = `
            padding:10px 12px;
     background:#fff;
