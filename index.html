@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -233,41 +234,6 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
-#suggestion-list {
-    position: absolute;
-    width: calc(100% - 32px);
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    margin-top: 6px;
-    overflow: hidden;
-    z-index: 1000;
-}
-
-.suggestion-item {
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.suggestion-item:hover {
-    background: #f1f5f9;
-}
-
-.suggestion-main {
-    font-weight: 700;
-    color: #1e293b;
-}
-
-.suggestion-sub {
-    font-size: 0.75rem;
-    color: #94a3b8;
-}
-
 </style>
 </head>
 
@@ -591,24 +557,26 @@ document.getElementById('address').addEventListener('input', function() {
 
     if (value.length < 1) return;
     const matched = districtList.filter(d => d.includes(value));
-   matched.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'suggestion-item';
+    matched.forEach(item => {
+        const div = document.createElement('div');
+        div.style.cssText = `
+            padding:8px 10px;
+            background:#fff;
+            border:1px solid #eee;
+            border-radius:8px;
+            margin-bottom:4px;
+            cursor:pointer;
+        `;
+        div.innerText = item;
 
-    const [city, district] = item.split(' ');
+        div.onclick = () => {
+            document.getElementById('address').value = item;
+            suggestionBox.innerHTML = '';
+            searchJurisdiction(); // 바로 검색 실행
+        };
 
-    div.innerHTML = `
-        <span class="suggestion-main">${district || item}</span>
-        <span class="suggestion-sub">${city || ''}</span>
-    `;
-
-    div.onclick = () => {
-        document.getElementById('address').value = item;
-        suggestionBox.innerHTML = '';
-        searchJurisdiction();
-    };
-
-    suggestionBox.appendChild(div);
+        suggestionBox.appendChild(div);
+    });
 });
         
     </script>
