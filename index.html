@@ -456,16 +456,38 @@ function clearResults() {
         }
         
         function searchJurisdiction() {
-    const input = document.getElementById('address').value;
+    const input = document.getElementById('address').value.trim();
     if (!input) return;
  
     const resList = document.getElementById('result-list');
     const suggestionBox = document.getElementById('suggestion-list');
  
-    // 🔥 이전 검색 결과 + 추천 삭제
+     // 초기화
     if (resList) resList.innerHTML = '';
     if (suggestionBox) suggestionBox.innerHTML = '';
 
+            // ✅ 🔥 핵심: "구만 입력된 경우" (기관 검색 중단)
+  const isDistrictOnly = districtList.some(d => {
+    const district = d.split(' ')[1]; // "수성구"
+    return input.includes(district);
+});
+
+    if (isDistrictOnly) {
+        suggestionBox.innerHTML = `
+            <div style="
+                padding:12px;
+                background:#fff;
+                border:1px solid #eee;
+                border-radius:10px;
+                font-weight:700;
+                color:#007aff;
+            ">
+                📍 선택된 지역: ${input} <br>
+                👉 해당 지역은 기관 검색 없이 구 단위 선택 상태입니다.
+            </div>
+        `;
+        return; // 🚨 여기서 종료 (기관 검색 안 함)
+    }
     const geocoder = new kakao.maps.services.Geocoder();
 
     geocoder.addressSearch(input, function(result, status) {
