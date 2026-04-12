@@ -2,6 +2,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,7 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="style.css">
 
-<style>  
+<style>
+#suggestion-list {
+    width: 100%;
+    box-sizing: border-box;
+}
+    
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
@@ -20,20 +26,11 @@
         /* [좌측] 콘텐츠 영역 */
         .content-area { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; width: 450px; }
 
-        .search-section {
-    position: relative;
-}
-
-#suggestion-list {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    z-index: 999;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
+        .search-section { 
+            position: relative; width: 100%; box-sizing: border-box; background: #ffffff; 
+            padding: 15px 16px; border-radius: 15px; margin-bottom: 12px; 
+            text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
+        }
         
         .aligo-link {
             position: absolute; top: 12px; right: 16px; text-decoration: none; 
@@ -245,18 +242,6 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
-/* 추천 리스트 기본 스타일 */
-.suggestion-item {
-    transition: all 0.15s ease;
-}
-     .suggestion-item.active {
-   background: #007aff;
-    color: white;
-    border: 2px solid #005fcc;   /* ⭐ 테두리 강조 */
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25); /* ⭐ 떠 보이는 효과 */
-    transform: scale(1.01); /* ⭐ 살짝 확대 */
-}
-    
 </style>
 </head>
 
@@ -449,8 +434,6 @@ button {
     "제주": ["한국토지주택공사 제주지역본부(제주 관할)", "대한법률구조공단 광주지부(광주·전남북·제주)"]
 };
 
-        let selectedSuggestionIndex = -1;
-
         function getDistance(lat1, lng1, lat2, lng2) {
             const R = 6371; 
             const dLat = (lat2-lat1) * Math.PI/180;
@@ -582,75 +565,42 @@ function clearResults() {
   "서울 중구", "서울 강남구", "서울 송파구",
   "광주 동구", "대전 중구", "울산 남구"
 ];
-document.getElementById('address').addEventListener('keydown', function (e) {
-    const items = document.querySelectorAll('.suggestion-item');
-    if (!items.length) return;
-
-    if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        selectedSuggestionIndex++;
-    }
-
-    if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        selectedSuggestionIndex--;
-    }
-
-    // 범위 보정
-    if (selectedSuggestionIndex >= items.length) selectedSuggestionIndex = 0;
-    if (selectedSuggestionIndex < 0) selectedSuggestionIndex = items.length - 1;
-
-    updateActive(items);
-});
-
-function updateActive(items) {
-    items.forEach(el => el.classList.remove('active'));
-    if (items[selectedSuggestionIndex]) {
-        items[selectedSuggestionIndex].classList.add('active');
-    }
-}
-    const input = document.getElementById('address');
-const suggestionBox = document.getElementById('suggestion-list');
-
-input.addEventListener('input', function () {
+document.getElementById('address').addEventListener('input', function() {
     const value = this.value.trim();
-
+    const suggestionBox = document.getElementById('suggestion-list');
     const resList = document.getElementById('result-list');
 
+    // 🔥 핵심: 입력 시작하면 이전 결과 삭제
     if (resList) resList.innerHTML = '';
+
     suggestionBox.innerHTML = '';
-    selectedSuggestionIndex = -1;
 
     if (value.length < 1) return;
-
     const matched = districtList.filter(d => d.includes(value));
-
     matched.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'suggestion-item';
-
         div.style.cssText = `
-            padding:10px 12px;
-            background:#fff;
-            border:1px solid #eee;
-            border-radius:10px;
-            margin-bottom:6px;
-            cursor:pointer;
-            width:100%;
-            box-sizing:border-box;
-        `;
-
+           padding:10px 12px;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:10px;
+    margin-bottom:6px;
+    cursor:pointer;
+    width:100%;
+    box-sizing:border-box;
+`;
         div.innerText = item;
 
         div.onclick = () => {
-            input.value = item;
+            document.getElementById('address').value = item;
             suggestionBox.innerHTML = '';
-            searchJurisdiction();
+            searchJurisdiction(); // 바로 검색 실행
         };
 
         suggestionBox.appendChild(div);
     });
 });
+        
     </script>
 </body>
 </html>
