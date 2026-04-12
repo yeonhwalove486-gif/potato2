@@ -477,7 +477,16 @@ function clearResults() {
 
             const resList = document.getElementById('result-list');
             resList.innerHTML = '';
-
+          if (matched.length === 0) {
+                resList.innerHTML = `
+                <div class="info-box">
+                    ❗ 해당 지역을 찾을 수 없습니다.<br>
+                    👉 예: 대구 수성구 / 부산 해운대구
+                </div>
+                `;
+                return;
+            }
+            
             matched.forEach((loc, i) => {
                 let colorClass = i === 0 ? "border-blue" : i === 1 ? "border-yellow" : "border-green";
                 let rankClass = i === 0 ? "rank-priority" : "rank-normal";
