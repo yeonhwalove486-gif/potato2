@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -174,24 +175,7 @@ button {
     color: #4a5568;
     word-break: keep-all;
 }
-
-    .suggestion-item {
-    padding: 10px 12px;
-    background: #ffffff;
-    border: 2px solid #edf2f7;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    color: #334155;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-/* hover 효과 */
-.suggestion-item:hover {
-    border-color: #007aff;
-    background: #f8fbff;
-    transform: translateY(-1px);
-}
+               
         .tel-link { text-decoration: none; font-weight: 700; color: #007aff; }
         /* [우측] 법령 섹션 */
         .side-law-section { flex: 1; max-width: 500px; position: sticky; top: 20px; }
@@ -575,17 +559,25 @@ document.getElementById('address').addEventListener('input', function() {
     if (value.length < 1) return;
     const matched = districtList.filter(d => d.includes(value));
     matched.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'suggestion-item';  // ⭐ 이거 추가
-    div.innerText = item;
+        const div = document.createElement('div');
+        div.style.cssText = `
+            padding:8px 10px;
+            background:#fff;
+            border:1px solid #eee;
+            border-radius:8px;
+            margin-bottom:4px;
+            cursor:pointer;
+        `;
+        div.innerText = item;
 
-    div.onclick = () => {
-        document.getElementById('address').value = item;
-        suggestionBox.innerHTML = '';
-        searchJurisdiction();
-    };
+        div.onclick = () => {
+            document.getElementById('address').value = item;
+            suggestionBox.innerHTML = '';
+            searchJurisdiction(); // 바로 검색 실행
+        };
 
-    suggestionBox.appendChild(div);
+        suggestionBox.appendChild(div);
+    });
 });
         
     </script>
