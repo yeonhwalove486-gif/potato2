@@ -585,26 +585,37 @@ document.getElementById('address').addEventListener('keydown', function (e) {
     const items = document.querySelectorAll('.suggestion-item');
     if (!items.length) return;
 
-    if (e.key === 'ArrowDown') {
+   if (e.key === 'ArrowDown') {
         e.preventDefault();
         selectedSuggestionIndex++;
-        if (selectedSuggestionIndex >= items.length) selectedSuggestionIndex = 0;
-        updateActive(items);
     }
 
     if (e.key === 'ArrowUp') {
         e.preventDefault();
         selectedSuggestionIndex--;
-        if (selectedSuggestionIndex < 0) selectedSuggestionIndex = items.length - 1;
-        updateActive(items);
     }
 
-    if (e.key === 'Enter') {
-        if (selectedSuggestionIndex >= 0 && items[selectedSuggestionIndex]) {
-            items[selectedSuggestionIndex].click();
-        }
+    if (selectedSuggestionIndex === -1) {
+        selectedSuggestionIndex = 0;
     }
+
+    if (selectedSuggestionIndex >= items.length) {
+        selectedSuggestionIndex = 0;
+    }
+    if (selectedSuggestionIndex < 0) {
+        selectedSuggestionIndex = items.length - 1;
+    }
+
+    updateActive(items);
 });
+
+function updateActive(items) {
+    items.forEach(el => el.classList.remove('active'));
+
+    if (items[selectedSuggestionIndex]) {
+        items[selectedSuggestionIndex].classList.add('active');
+    }
+}
 
 function updateActive(items) {
     items.forEach(el => el.classList.remove('active'));
