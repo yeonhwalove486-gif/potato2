@@ -496,10 +496,11 @@ function normalizeSido(sidoRaw) {
             const uLat = parseFloat(result[0].y);
             const uLng = parseFloat(result[0].x);
             const sidoRaw = result[0].address.region_1depth_name;
-
+const isGuOnly = /^[가-힣]+구$/.test(value);
+            
 let sidoKey = normalizeSido(sidoRaw);
             // ✅ 핵심: locations 기준으로 필터링
-           let matched = locations
+          let matched = locations
     .filter(loc => {
         const list = sidoKey
             ? jurisdictionMap[sidoKey]
