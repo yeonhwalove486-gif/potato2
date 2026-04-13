@@ -610,30 +610,66 @@ document.getElementById('address').addEventListener('input', function() {
     // ✅ 1. 입력 없으면 종료 (맨 위로 이동)
     if (value.length < 1) return;
     
-const sidoList = ["서울", "대전", "대구", "부산", "인천", "광주", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"];
+ // ✅ 시/도 리스트
+    const sidoList = [
+        "서울", "대전", "대구", "부산", "인천",
+        "광주", "울산", "세종", "경기", "강원",
+        "충북", "충남", "전북", "전남", "경북",
+        "경남", "제주"
+    ];
 
-// 👉 "서울", "서울시", "서울특별시" 다 잡기
-const isOnlySido = sidoList.some(sido => value.startsWith(sido));
+    // ✅ 구 리스트 (핵심🔥)
+    const guList = [
+        "중구", "동구", "서구", "남구", "북구",
+        "강남구", "강북구", "강서구", "강동구",
+        "송파구", "마포구", "영등포구",
+        "수성구", "달서구", "달성군",
+        "해운대구", "연수구"
+    ];
+    
+ // ✅ 1. 시만 입력하면 추천 안 띄움
+    const isOnlySido = sidoList.some(sido => value.startsWith(sido));
+    if (isOnlySido && value.length <= 4) return;
 
-if (isOnlySido && !value.includes(" ")) return;
+     let matched = [];
 
-      // ✅ 3. matched는 한 번만!
-    const matched = districtList.filter(d => d.includes(value));
+    
+ // ✅ 2. "남구", "중구" 같은 구 단독 입력 처리
+   
+    const isGuKeyword = guList.some(gu => gu.startsWith(value));
 
+    if (isGuKeyword) {
+        guList.forEach(gu => {
+            if (gu.includes(value)) {
+                sidoList.forEach(sido => {
+                    matched.push(`${sido} ${gu}`);
+                });
+            }
+        });
+
+        // 중복 제거
+        matched = [...new Set(matched)];
+
+    } else {
+        // 기존 검색
+        matched = districtList.filter(d => d.includes(value));
+    }
+
+    // ✅ 결과 출력
     matched.forEach(item => {
         const div = document.createElement('div');
-      
+
         div.style.cssText = `
-  padding:10px 12px;
-   border:1px solid #eee;
-   border-radius:10px;
-   margin-bottom:6px;
-   cursor:pointer;
-   width:100%;
-   box-sizing:border-box;
-`;
-div.className = 'suggestion-item'; // ✅ 클래스 사용
-        
+            padding:10px 12px;
+            border:1px solid #eee;
+            border-radius:10px;
+            margin-bottom:6px;
+            cursor:pointer;
+            width:100%;
+            box-sizing:border-box;
+        `;
+
+        div.className = 'suggestion-item';
         div.innerText = item;
 
         div.onclick = () => {
@@ -646,6 +682,7 @@ div.className = 'suggestion-item'; // ✅ 클래스 사용
         suggestionBox.appendChild(div);
     });
 });
+    
 document.getElementById('address').addEventListener('keydown', function(e) {
     const items = document.querySelectorAll('#suggestion-list .suggestion-item');
     if (!items.length) return;
