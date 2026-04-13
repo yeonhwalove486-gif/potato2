@@ -603,14 +603,23 @@ document.getElementById('address').addEventListener('input', function() {
     const suggestionBox = document.getElementById('suggestion-list');
     const resList = document.getElementById('result-list');
     
-    // 🔥 핵심: 입력 시작하면 이전 결과 삭제
+       // 🔥 이전 결과 삭제
     if (resList) resList.innerHTML = '';
     suggestionBox.innerHTML = '';
 
+    // ✅ 1. 입력 없으면 종료 (맨 위로 이동)
     if (value.length < 1) return;
-   
+    
+const sidoList = ["서울", "대전", "대구", "부산", "인천", "광주", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"];
+
+// 👉 "서울", "서울시", "서울특별시" 다 잡기
+const isOnlySido = sidoList.some(sido => value.startsWith(sido));
+
+if (isOnlySido && !value.includes(" ")) return;
+
+      // ✅ 3. matched는 한 번만!
     const matched = districtList.filter(d => d.includes(value));
-  
+
     matched.forEach(item => {
         const div = document.createElement('div');
       
