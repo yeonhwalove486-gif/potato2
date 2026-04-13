@@ -468,7 +468,16 @@ function clearResults() {
                 input.focus();
             }
         }
-        
+
+function normalizeSido(sidoRaw) {
+    return sidoRaw
+        .replace("특별시", "")
+        .replace("광역시", "")
+        .replace("특별자치시", "")
+        .replace("특별자치도", "")
+        .trim();
+}
+       
         function searchJurisdiction() {
     const input = document.getElementById('address').value;
     if (!input) return;
@@ -488,24 +497,22 @@ function clearResults() {
             const uLng = parseFloat(result[0].x);
             const sidoRaw = result[0].address.region_1depth_name;
 
-            let sidoKey = "";
-            for (let key in jurisdictionMap) {
-                if (sidoRaw.includes(key)) {
-                    sidoKey = key;
-                    break;
-                }
-            }
-
+let sidoKey = normalizeSido(sidoRaw);
             // ✅ 핵심: locations 기준으로 필터링
-            let matched = locations
-                .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
-                .map(loc => ({
-                    ...loc,
-                    distance: getDistance(uLat, uLng, loc.lat, loc.lng)
-                }))
-                .sort((a, b) => a.distance - b.distance);
+           let matched = locations
+    .filter(loc => {
+        const list = sidoKey
+            ? jurisdictionMap[sidoKey]
+            : Object.values(jurisdictionMap).flat();
 
-            const resList = document.getElementById('result-list');
+        return list.includes(loc.name);
+    })
+    .map(loc => ({
+        ...loc,
+        distance: getDistance(uLat, uLng, loc.lat, loc.lng)
+    }))
+    .sort((a, b) => a.distance - b.distance);
+
             resList.innerHTML = '';
           if (matched.length === 0) {
                 resList.innerHTML = `
@@ -579,6 +586,7 @@ const baseDistrictList = [
   "서울 중구", "서울 강남구", "서울 송파구",
   "광주 동구", "대전 중구", "울산 남구"
 ];
+const districtList = [...new Set(baseDistrictList)];
 
 // ✅ 2. 서울 자동 생성
   const seoulDistrictList = locations
@@ -590,13 +598,6 @@ const baseDistrictList = [
   .filter(Boolean)
   .filter(d => ["서울 중구", "서울 서초구", "서울 광진구"].includes(d));
 
-// ✅ 3. 최종 리스트
-const districtList = [
-  ...new Set([
-    ...baseDistrictList.filter(d => !d.startsWith("서울")),
-    ...seoulDistrictList
-  ])
-];
 document.getElementById('address').addEventListener('input', function () {
     currentIndex = -1;
 
@@ -617,14 +618,8 @@ document.getElementById('address').addEventListener('input', function () {
         "경남", "제주"
     ];
 
-    // ✅ 실제 데이터 (핵심)
-    const districtList = [
-        "서울 중구", "서울 강남구", "서울 송파구", "서울 영등포구",
-        "부산 중구", "부산 동구", "부산 해운대구",
-        "대구 중구", "대구 동구", "대구 수성구",
-        "광주 동구", "대전 중구", "울산 남구"
-    ];
 
+    
     // ✅ 1. 시 단독 입력 차단
     const isOnlySido = sidoList.includes(value);
     if (isOnlySido) return;
