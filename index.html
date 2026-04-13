@@ -466,7 +466,7 @@ function clearResults() {
     // 🔥 이전 검색 결과 + 추천 삭제
     if (resList) resList.innerHTML = '';
     if (suggestionBox) suggestionBox.innerHTML = '';
-currentIndex = -1; 
+
     const geocoder = new kakao.maps.services.Geocoder();
 
     geocoder.addressSearch(input, function(result, status) {
@@ -483,7 +483,6 @@ currentIndex = -1;
                 }
             }
 
-            let currentIndex = -1;
             // ✅ 핵심: locations 기준으로 필터링
             let matched = locations
                 .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
@@ -602,64 +601,6 @@ document.getElementById('address').addEventListener('input', function() {
         suggestionBox.appendChild(div);
     });
 });
-        matched.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'suggestion-item';
-    div.style.cssText = `
-        padding:10px 12px;
-        background:#fff;
-        border:1px solid #eee;
-        border-radius:10px;
-        margin-bottom:6px;
-        cursor:pointer;
-        width:100%;
-        box-sizing:border-box;
-    `;
-
-    div.innerText = item;
-
-    div.onclick = () => {
-        document.getElementById('address').value = item;
-        suggestionBox.innerHTML = '';
-        currentIndex = -1;
-        searchJurisdiction();
-    };
-
-    suggestionBox.appendChild(div);
-});
-        if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        currentIndex = (currentIndex + 1) % items.length;
-        updateActive(items);
-    }
-
-    else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        currentIndex = (currentIndex - 1 + items.length) % items.length;
-        updateActive(items);
-    }
-
-    else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (currentIndex >= 0) {
-            items[currentIndex].click();
-        } else {
-            searchJurisdiction();
-        }
-    }
-});
-
-        function updateActive(items) {
-    items.forEach((el, i) => {
-        if (i === currentIndex) {
-            el.style.background = '#007aff';
-            el.style.color = '#fff';
-        } else {
-            el.style.background = '#fff';
-            el.style.color = '#000';
-        }
-    });
-}
         
     </script>
 </body>
