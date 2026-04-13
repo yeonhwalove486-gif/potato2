@@ -4,7 +4,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,7 +18,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-    
     @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
         body { font-family: 'Pretendard', sans-serif; padding: 20px; line-height: 1.6; color: #333; background-color: #f0f2f5; margin: 0; }
@@ -244,6 +242,16 @@ button {
             .side-law-section { position: static; } 
             .law-container { height: 600px; } 
         }
+.suggestion-item {
+        color: #333;
+        background: #fff;
+    }
+
+    .suggestion-item.active {
+    background: #4da3ff;
+    color: #fff;
+    font-weight: 700;
+}
 </style>
 </head>
 
@@ -260,7 +268,7 @@ button {
     
     <p class="subtitle">지역 또는 구를 입력하시면 인근 분쟁조정위원회를 찾아드립니다.</p>
     <div class="input-group">
-        <input type="text" id="address" placeholder="예: 경주시, 부산 해운대구, 수원시" onkeypress="if(event.keyCode==13) searchJurisdiction()">
+        <input type="text" id="address" placeholder="예: 수원시, 중구, 미추홀" onkeypress="if(event.keyCode==13) searchJurisdiction()">
         <button onclick="searchJurisdiction()">검색</button>
     </div>
 </div>
@@ -387,6 +395,7 @@ button {
 
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4da8cb17ef81b1cbfb11f06b1e77e43f&libraries=services"></script>
     <script>
+let currentIndex = -1;
         const locations = [
     // 한국부동산원 (주택/상가 임대차분쟁조정위원회 운영)
     { name: "한국부동산원 서울 동부지사(서울 관할)", address: "서울특별시 광진구 천호대로 549 G타워 10층", tel: "02-3394-9870~3", lat: 37.557824, lng: 127.078878 },
@@ -467,7 +476,7 @@ function clearResults() {
     // 🔥 이전 검색 결과 + 추천 삭제
     if (resList) resList.innerHTML = '';
     if (suggestionBox) suggestionBox.innerHTML = '';
-currentIndex = -1; 
+
     const geocoder = new kakao.maps.services.Geocoder();
 
     geocoder.addressSearch(input, function(result, status) {
@@ -484,7 +493,6 @@ currentIndex = -1;
                 }
             }
 
-            let currentIndex = -1;
             // ✅ 핵심: locations 기준으로 필터링
             let matched = locations
                 .filter(loc => (jurisdictionMap[sidoKey] || []).includes(loc.name))
@@ -569,6 +577,7 @@ currentIndex = -1;
   "광주 동구", "대전 중구", "울산 남구"
 ];
 document.getElementById('address').addEventListener('input', function() {
+ currentIndex = -1;
     const value = this.value.trim();
     const suggestionBox = document.getElementById('suggestion-list');
     const resList = document.getElementById('result-list');
@@ -579,56 +588,38 @@ document.getElementById('address').addEventListener('input', function() {
     suggestionBox.innerHTML = '';
 
     if (value.length < 1) return;
+   
     const matched = districtList.filter(d => d.includes(value));
     matched.forEach(item => {
         const div = document.createElement('div');
         div.style.cssText = `
-           padding:10px 12px;
-    background:#fff;
-    border:1px solid #eee;
-    border-radius:10px;
-    margin-bottom:6px;
-    cursor:pointer;
-    width:100%;
-    box-sizing:border-box;
+  padding:10px 12px;
+   border:1px solid #eee;
+   border-radius:10px;
+   margin-bottom:6px;
+   cursor:pointer;
+   width:100%;
+   box-sizing:border-box;
 `;
+div.className = 'suggestion-item'; // ✅ 클래스 사용
+        
         div.innerText = item;
 
         div.onclick = () => {
             document.getElementById('address').value = item;
             suggestionBox.innerHTML = '';
-            searchJurisdiction(); // 바로 검색 실행
+            currentIndex = -1;
+            searchJurisdiction();
         };
 
         suggestionBox.appendChild(div);
     });
 });
-        matched.forEach((item, index) => {
-    const div = document.createElement('div');
-    div.className = 'suggestion-item';
-    div.style.cssText = `
-        padding:10px 12px;
-        background:#fff;
-        border:1px solid #eee;
-        border-radius:10px;
-        margin-bottom:6px;
-        cursor:pointer;
-        width:100%;
-        box-sizing:border-box;
-    `;
+document.getElementById('address').addEventListener('keydown', function(e) {
+    const items = document.querySelectorAll('#suggestion-list .suggestion-item');
+    if (!items.length) return;
 
-    div.innerText = item;
-
-    div.onclick = () => {
-        document.getElementById('address').value = item;
-        suggestionBox.innerHTML = '';
-        currentIndex = -1;
-        searchJurisdiction();
-    };
-
-    suggestionBox.appendChild(div);
-});
-        if (e.key === 'ArrowDown') {
+    if (e.key === 'ArrowDown') {
         e.preventDefault();
         currentIndex = (currentIndex + 1) % items.length;
         updateActive(items);
@@ -642,6 +633,7 @@ document.getElementById('address').addEventListener('input', function() {
 
     else if (e.key === 'Enter') {
         e.preventDefault();
+       
         if (currentIndex >= 0) {
             items[currentIndex].click();
         } else {
@@ -650,14 +642,12 @@ document.getElementById('address').addEventListener('input', function() {
     }
 });
 
-        function updateActive(items) {
-    items.forEach((el, i) => {
+function updateActive(items) {
+   items.forEach((el, i) => {
         if (i === currentIndex) {
-            el.style.background = '#007aff';
-            el.style.color = '#fff';
+            el.classList.add('active');
         } else {
-            el.style.background = '#fff';
-            el.style.color = '#000';
+            el.classList.remove('active');
         }
     });
 }
