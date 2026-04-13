@@ -638,22 +638,18 @@ document.getElementById('address').addEventListener('input', function() {
    
     const isGuKeyword = guList.some(gu => gu.startsWith(value));
 
-    if (isGuKeyword) {
-        guList.forEach(gu => {
+   
+if (isGuKeyword) {
+    for (let sido in realDistrictMap) {
+        realDistrictMap[sido].forEach(gu => {
             if (gu.includes(value)) {
-                sidoList.forEach(sido => {
-                    matched.push(`${sido} ${gu}`);
-                });
+                matched.push(`${sido} ${gu}`);
             }
         });
-
-        // 중복 제거
-        matched = [...new Set(matched)];
-
-    } else {
-        // 기존 검색
-        matched = districtList.filter(d => d.includes(value));
     }
+} else {
+    matched = districtList.filter(d => d.includes(value));
+}
 
     // ✅ 결과 출력
     matched.forEach(item => {
