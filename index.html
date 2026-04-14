@@ -570,49 +570,65 @@ function clearResults() {
             document.querySelectorAll('.law-item').forEach(i => i.classList.remove('open'));
             if (!isOpen) item.classList.add('open');
         }
-        const districtList = [
-  "대구 동구", "대구 수성구", "대구 중구", "대구 북구", "대구 달서구",
-  "부산 동구", "부산 중구", "부산 해운대구",
-  "서울 중구", "서울 강남구", "서울 송파구",
-  "광주 동구", "대전 중구", "울산 남구"
-];
-document.getElementById('address').addEventListener('input', function() {
- currentIndex = -1;
-    const value = this.value.trim();
+        const ps = new kakao.maps.services.Places();
+
+document.getElementById('address').addEventListener('input', function () {
+    currentIndex = -1;
+
+    const keyword = this.value.trim();
     const suggestionBox = document.getElementById('suggestion-list');
     const resList = document.getElementById('result-list');
 
-    // 🔥 핵심: 입력 시작하면 이전 결과 삭제
+    // 기존 결과 제거
     if (resList) resList.innerHTML = '';
-
     suggestionBox.innerHTML = '';
 
-    if (value.length < 1) return;
-   
-    const matched = districtList.filter(d => d.includes(value));
-    matched.forEach(item => {
-        const div = document.createElement('div');
-        div.style.cssText = `
-  padding:10px 12px;
-   border:1px solid #eee;
-   border-radius:10px;
-   margin-bottom:6px;
-   cursor:pointer;
-   width:100%;
-   box-sizing:border-box;
-`;
-div.className = 'suggestion-item'; // ✅ 클래스 사용
-        
-        div.innerText = item;
+    if (keyword.length < 1) return;
 
-        div.onclick = () => {
-            document.getElementById('address').value = item;
-            suggestionBox.innerHTML = '';
-            currentIndex = -1;
-            searchJurisdiction();
-        };
+    // 🔥 카카오 키워드 검색
+    ps.keywordSearch(keyword, function (data, status) {
+        if (status !== kakao.maps.services.Status.OK) return;
 
-        suggestionBox.appendChild(div);
+        // 👉 중복 제거용
+        const unique = new Set();
+
+        data.forEach(place => {
+            // 주소 기준 (도로명 or 지번)
+            const addr = place.road_address_name || place.address_name;
+
+            // 👉 "시 + 구"만 추출
+            const parts = addr.split(" ");
+            if (parts.length < 2) return;
+
+            const shortAddr = parts[0] + " " + parts[1];
+
+            if (!unique.has(shortAddr)) {
+                unique.add(shortAddr);
+
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.style.cssText = `
+                    padding:10px 12px;
+                    border:1px solid #eee;
+                    border-radius:10px;
+                    margin-bottom:6px;
+                    cursor:pointer;
+                    width:100%;
+                    box-sizing:border-box;
+                `;
+
+                div.innerText = shortAddr;
+
+                div.onclick = () => {
+                    document.getElementById('address').value = shortAddr;
+                    suggestionBox.innerHTML = '';
+                    currentIndex = -1;
+                    searchJurisdiction();
+                };
+
+                suggestionBox.appendChild(div);
+            }
+        });
     });
 });
 document.getElementById('address').addEventListener('keydown', function(e) {
